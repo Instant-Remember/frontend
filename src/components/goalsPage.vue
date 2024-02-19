@@ -4,7 +4,7 @@
 
         <search>
             <searchLine></searchLine>
-            <button @click="showPopup = true">Создать цель</button>
+            <button @click="showPopup = true">Создать</button>
         </search>
 
         <popup v-if="showPopup" @close="showPopup = false">
