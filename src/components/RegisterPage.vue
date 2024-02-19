@@ -9,12 +9,12 @@
         <component :is="currentStepComponent" @nextStep="nextStep" @registerSuccess="registerSuccess" />
       </section>
 
-      
+
 
       <section class="enter">
-      <button @click="goToAuthPage">Войти</button>
-      <p>После входа вы получите доступ ко всем возможностям</p>
-    </section>
+        <button @click="goToAuthPage">Войти</button>
+        <p>После входа вы получите доступ ко всем возможностям</p>
+      </section>
     </section>
   </div>
 </template>
@@ -71,13 +71,16 @@ export default {
 .RegisterPage {
   display: flex;
 }
+
 .background {
   margin-top: 90px;
   margin-left: 64px;
 }
+
 .container {
   padding-top: 24px;
 }
+
 .registration {
   width: 424px;
   height: 419px;

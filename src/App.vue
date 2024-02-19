@@ -8,7 +8,7 @@
     </aside>
     <friendsMenu v-if="!isAuthWindowOpen" class="friendsMenu"></friendsMenu>
     <section class="main">
-      <component :is="currentPage" @loginSuccess="loginSuccess" @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage" />
+      <component :is="currentPage" @loginSuccess="loginSuccess" @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage" @openPasswordRecovery="openPasswordRecovery" />
     </section>
   </body>
 </template>
@@ -25,9 +25,10 @@ import optionsPage from './components/optionsPage.vue'
 import HeaderPcAuth from './components/headerPcAuth.vue'
 import AuthPage from './components/AuthPage.vue'
 import RegisterPage from './components/RegisterPage.vue'
+import PasswordRecoveryPage from './components/PasswordRecoveryPage.vue'
 
 export default {
-  components: { headerPc, navMenu, friendsMenu, headerPcAuth, userPage, goalsPage, feedPage, optionsPage, HeaderPcAuth, AuthPage, RegisterPage },
+  components: { headerPc, navMenu, friendsMenu, headerPcAuth, userPage, goalsPage, feedPage, optionsPage, HeaderPcAuth, AuthPage, RegisterPage, PasswordRecoveryPage },
   
   data(){
     return{
@@ -76,6 +77,12 @@ export default {
     goToRegisterPage() {
       this.isRegisterMode = true;
       this.currentPage = 'RegisterPage';
+    },
+    openPasswordRecovery() {
+      this.currentPage = 'PasswordRecoveryPage';
+    },
+    recoverPasswordSuccess() {
+      this.goToAuthPage(); // После успешного восстановления пароля возвращаемся к окну авторизации
     },
   },
 };

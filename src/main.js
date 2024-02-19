@@ -20,6 +20,7 @@ import './components/RegisterPage.vue'
 import './components/RegisterStep1.vue'
 import './components/RegisterStep2.vue'
 import './components/RegisterStep3.vue'
+import './components/PasswordRecoveryPage.vue'
 
 import { createApp } from 'vue'
 import App from './App.vue'
