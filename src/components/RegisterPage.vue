@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import RegisterStep1 from './RegisterStep1.vue';
-import RegisterStep2 from './RegisterStep2.vue';
-import RegisterStep3 from './RegisterStep3.vue';
+import RegisterStep1 from './registration/RegisterStep1.vue';
+import RegisterStep2 from './registration/RegisterStep2.vue';
+import RegisterStep3 from './registration/RegisterStep3.vue';
 
 export default {
   components: { RegisterStep1, RegisterStep2, RegisterStep3 },
