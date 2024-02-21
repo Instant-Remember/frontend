@@ -22,7 +22,9 @@
                 <p>Описание:</p>
                 <input type="text" placeholder="миллионер">
             </description>
+
             <div class="line"></div>
+
             <profile>
                 <label for="closeProfile">Закрытый профиль:</label>
                 <select v-model="selectedType" id="closeProfile">
@@ -30,7 +32,9 @@
                     <option value="yes">Да</option>
                 </select>
             </profile>
+
             <div class="line"></div>
+
             <language>
                 <label for="language">Язык:</label>
                 <select v-model="selectedLanguage" id="language">
@@ -38,7 +42,9 @@
                     <option value="en">Английский</option>
                 </select>
             </language>
+
             <div class="line"></div>
+            
             <button>Редактировать</button>
         </div>
 
