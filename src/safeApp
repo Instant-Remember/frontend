@@ -1,17 +1,14 @@
-<!-- app.vue -->
 <template>
   <body>
     <header>
       <component :is="headerComponent"></component>
     </header>
-    <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }">
-      <navMenu  @changePage="changePage"></navMenu>
+    <aside v-if="!isAuthWindowOpen">
+      <navMenu @changePage="changePage"></navMenu>
     </aside>
-    <friendsMenu v-if="!isAuthWindowOpen && !isOptionsPage" class="friendsMenu"></friendsMenu>
-    <navMenuOptions v-else-if="isOptionsPage" :is="navMenuOptions"></navMenuOptions>
+    <friendsMenu v-if="!isAuthWindowOpen" class="friendsMenu"></friendsMenu>
     <section class="main">
-      <component :is="currentPage" @loginSuccess="loginSuccess" @registerSuccess="registerSuccess"
-        @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage" @openPasswordRecovery="openPasswordRecovery" />
+      <component :is="currentPage" @loginSuccess="loginSuccess" @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage" @openPasswordRecovery="openPasswordRecovery" />
     </section>
   </body>
 </template>
@@ -25,38 +22,20 @@ import userPage from './components/userPage.vue'
 import feedPage from './components/feedPage.vue'
 import goalsPage from './components/goalsPage.vue'
 import optionsPage from './components/optionsPage.vue'
-import navMenuOptions from './components/navMenuOptions.vue'
 import HeaderPcAuth from './components/headerPcAuth.vue'
 import AuthPage from './components/AuthPage.vue'
 import RegisterPage from './components/RegisterPage.vue'
 import PasswordRecoveryPage from './components/PasswordRecoveryPage.vue'
-import NavMenuOptions from './components/navMenuOptions.vue'
 
 export default {
-  components: {
-    headerPc,
-    navMenu,
-    friendsMenu,
-    navMenuOptions,
-    headerPcAuth,
-    userPage,
-    goalsPage,
-    feedPage,
-    optionsPage,
-    HeaderPcAuth,
-    AuthPage,
-    RegisterPage,
-    PasswordRecoveryPage,
-    NavMenuOptions
-},
-
-  data() {
-    return {
+  components: { headerPc, navMenu, friendsMenu, headerPcAuth, userPage, goalsPage, feedPage, optionsPage, HeaderPcAuth, AuthPage, RegisterPage, PasswordRecoveryPage },
+  
+  data(){
+    return{
       currentPage: 'AuthPage',
       isAuthenticated: false,
       isRegisterMode: false,
       isAuthWindowOpen: true,
-      isOptionsPage: false,
     };
   },
   computed: {
@@ -64,24 +43,24 @@ export default {
       return this.isAuthenticated ? 'headerPc' : 'headerPcAuth';
     },
   },
-  methods: {
-    changePage(page) {
+  methods:{
+    changePage(page){
       if (this.isAuthWindowOpen) return;
       if (!this.isAuthenticated && !this.isRegisterMode) {
         this.currentPage = 'AuthPage';
       } else {
         this.currentPage = page;
       }
-      this.isOptionsPage = page === 'optionsPage';
     },
     loginSuccess() {
       this.isAuthenticated = true;
       this.isAuthWindowOpen = false;
-      this.currentPage = 'userPage';
+      this.currentPage = 'userPage'; // Или другое имя компонента, отвечающего за профиль
     },
     registerSuccess() {
       this.isRegisterMode = false;
-      this.loginSuccess();
+      // Дополнительная логика после успешной регистрации
+      this.loginSuccess(); // Вызываем метод для корректного отображения после регистрации
     },
     toggleLoginMode() {
       this.isRegisterMode = false;
@@ -94,18 +73,16 @@ export default {
     goToAuthPage() {
       this.isRegisterMode = false;
       this.currentPage = 'AuthPage';
-      this.isOptionsPage = false;
     },
     goToRegisterPage() {
       this.isRegisterMode = true;
       this.currentPage = 'RegisterPage';
-      this.isOptionsPage = false;
     },
     openPasswordRecovery() {
       this.currentPage = 'PasswordRecoveryPage';
     },
     recoverPasswordSuccess() {
-      this.goToAuthPage();
+      this.goToAuthPage(); // После успешного восстановления пароля возвращаемся к окну авторизации
     },
   },
 };
@@ -138,16 +115,5 @@ aside {
   position: fixed;
   margin-top: 94px;
   margin-left: 1174px;
-}
-
-.navMenuOptions{
-  position: fixed;
-  margin-top: 94px;
-  margin-left: 1063px;
-}
-
-/* Скрыть friendsMenu на странице настроек */
-.isOptionsPage .friendsMenu {
-  display: none;
 }
 </style>

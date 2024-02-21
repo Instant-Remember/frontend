@@ -21,6 +21,7 @@ import './components/registration/RegisterStep1.vue'
 import './components/registration/RegisterStep2.vue'
 import './components/registration/RegisterStep3.vue'
 import './components/PasswordRecoveryPage.vue'
+import './components/navMenuOptions.vue'
 
 import { createApp } from 'vue'
 import App from './App.vue'
