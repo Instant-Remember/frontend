@@ -1,17 +1,18 @@
-<!-- app.vue -->
 <template>
   <body>
     <header>
       <component :is="headerComponent"></component>
     </header>
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }">
-      <navMenu  @changePage="changePage"></navMenu>
+      <navMenu @changePage="changePage"></navMenu>
     </aside>
-    <friendsMenu v-if="!isAuthWindowOpen && !isOptionsPage" class="friendsMenu"></friendsMenu>
+    <friendsMenu v-if="!isAuthWindowOpen && !isOptionsPage" @changePage="changePage" class="friendsMenu"></friendsMenu>
     <navMenuOptions v-else-if="isOptionsPage" :is="navMenuOptions"></navMenuOptions>
     <section class="main">
-      <component :is="currentPage" @loginSuccess="loginSuccess" @registerSuccess="registerSuccess"
-        @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage" @openPasswordRecovery="openPasswordRecovery" />
+      <component :is="currentPage" v-if="currentPage !== 'FriendPage'" @loginSuccess="loginSuccess"
+        @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
+        @openPasswordRecovery="openPasswordRecovery" />
+      <friend-page v-else :friendName="friendName"></friend-page>
     </section>
   </body>
 </template>
@@ -26,6 +27,7 @@ import feedPage from './components/feedPage.vue'
 import goalsPage from './components/goalsPage.vue'
 import optionsPage from './components/optionsPage.vue'
 import navMenuOptions from './components/navMenuOptions.vue'
+import FriendPage from './components/FriendPage.vue'
 import HeaderPcAuth from './components/headerPcAuth.vue'
 import AuthPage from './components/AuthPage.vue'
 import RegisterPage from './components/RegisterPage.vue'
@@ -43,12 +45,13 @@ export default {
     goalsPage,
     feedPage,
     optionsPage,
+    FriendPage,
     HeaderPcAuth,
     AuthPage,
     RegisterPage,
     PasswordRecoveryPage,
     NavMenuOptions
-},
+  },
 
   data() {
     return {
@@ -57,6 +60,7 @@ export default {
       isRegisterMode: false,
       isAuthWindowOpen: true,
       isOptionsPage: false,
+      friendName: '',
     };
   },
   computed: {
@@ -65,11 +69,14 @@ export default {
     },
   },
   methods: {
-    changePage(page) {
+    changePage(page, data) {
       if (this.isAuthWindowOpen) return;
       if (!this.isAuthenticated && !this.isRegisterMode) {
         this.currentPage = 'AuthPage';
       } else {
+        if (page === 'FriendPage') {
+          this.friendName = data.friendName;
+        }
         this.currentPage = page;
       }
       this.isOptionsPage = page === 'optionsPage';
@@ -140,7 +147,7 @@ aside {
   margin-left: 1174px;
 }
 
-.navMenuOptions{
+.navMenuOptions {
   position: fixed;
   margin-top: 94px;
   margin-left: 1063px;
