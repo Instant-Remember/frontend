@@ -129,6 +129,7 @@ header {
   margin-right: auto;
   position: fixed;
   opacity: 0.8;
+  top: 0;  
 }
 
 .main {

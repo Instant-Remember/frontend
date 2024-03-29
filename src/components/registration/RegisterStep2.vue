@@ -1,8 +1,7 @@
 <template>
     <div>
-
-        <input v-model="username" placeholder="Имя пользователя" class="username">
-        <input v-model="email" placeholder="Почта" class="email">
+        <input v-model="userData.username" placeholder="Имя пользователя" class="username">
+        <input v-model="userData.email" placeholder="Почта" class="email">
 
         <div class="steps">
             <div class="step1"></div>
@@ -18,17 +17,17 @@
 export default {
     data() {
         return {
-            username: '',
-            email: '',
-            activeStep: 1,
+            userData: {
+                username: '',
+                email: ''
+            }
         };
     },
     methods: {
         nextStep() {
-            // Валидация и переход на следующий шаг
-            if (this.username && this.email) {
-                this.activeStep = 3;
-                this.$emit('nextStep', { username: this.username, email: this.email });
+            // Проверка на заполненность полей и переход на следующий шаг
+            if (this.userData.username && this.userData.email) {
+                this.$emit('nextStep', this.userData);
             } else {
                 alert('Введите имя пользователя и почту');
             }
@@ -134,4 +133,3 @@ button {
     cursor: pointer;
 }
 </style>
-  

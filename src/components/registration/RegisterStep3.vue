@@ -1,8 +1,7 @@
 <template>
     <div>
-       
-        <input type="password" placeholder="Пароль" class="password">
-        <input type="password" placeholder="Повторите пароль" class="repeatPassword">
+        <input type="password" v-model="userData.password" placeholder="Пароль" class="password">
+        <input type="password" v-model="repeatPassword" placeholder="Повторите пароль" class="repeatPassword">
       
         <div class="steps">
             <div class="step1"></div>
@@ -16,12 +15,39 @@
   
 <script>
 export default {
+    data() {
+        return {
+            userData: {
+                password: ''
+            },
+            repeatPassword: ''
+        };
+    },
     methods: {
         register() {
-            // Ваши логика обработки регистрации
+            // Проверка совпадения паролей
+            if (this.userData.password !== this.repeatPassword) {
+                alert('Пароли не совпадают');
+                return;
+            }
+            
+            // Проверка наличия пароля
+            if (!this.userData.password) {
+                alert('Введите пароль');
+                return;
+            }
 
-            // Вместо сравнения паролей, просто вызываем событие registerSuccess
-            this.$emit('registerSuccess');
+            // Собираем данные для отправки на бэкенд
+            const userDataToSend = {
+                ...this.$parent.userData,
+                ...this.userData
+            };
+
+            // Вывод информации в консоль
+            console.log('Отправляются данные на бэкенд:', userDataToSend);
+
+            // Отправляем данные на бэкенд
+            this.$emit('register', userDataToSend);
         },
     },
 };
@@ -124,4 +150,3 @@ button {
     cursor: pointer;
 }
 </style>
-  

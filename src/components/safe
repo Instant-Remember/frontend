@@ -1,0 +1,246 @@
+<template>
+    <div class="RegisterPage">
+        <img src="/src/assets/img/backgroundAuth.svg" alt="" class="background">
+        <section class="container">
+
+            <section class="registration">
+                <img src="/src/assets/img/logo.svg" alt="Лого" class="logo">
+                <p class="registr">Регистрация</p>
+                <component :is="currentStepComponent" @nextStep="nextStep" @registerSuccess="registerSuccess" />
+            </section>
+
+            <form @submit.prevent="signup">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" v-model="userData.username" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" v-model="userData.email" required>
+
+                <label for="first_name">Имя:</label>
+                <input type="text" id="first_name" v-model="userData.first_name" required>
+
+                <label for="last_name">Фамилия:</label>
+                <input type="text" id="last_name" v-model="userData.last_name" required>
+
+                <label for="about">О себе:</label>
+                <input type="text" id="about" v-model="userData.about">
+
+                <label for="role">Роль:</label>
+                <input type="text" id="role" v-model="userData.role" required>
+
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" v-model="userData.password" required>
+
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+
+            <section class="enter">
+                <button @click="goToAuthPage">Войти</button>
+                <p>После входа вы получите доступ ко всем возможностям</p>
+            </section>
+        </section>
+    </div>
+</template>
+
+<script>
+    import axios from 'axios';
+    import RegisterStep1 from './registration/RegisterStep1.vue';
+    import RegisterStep2 from './registration/RegisterStep2.vue';
+    import RegisterStep3 from './registration/RegisterStep3.vue';
+
+    export default {
+        components: { RegisterStep1, RegisterStep2, RegisterStep3 },
+
+        data() {
+            return {
+                currentStep: 1,
+                userData: {
+                    username: '',
+                    email: '',
+                    first_name: '',
+                    last_name: '',
+                    about: '',
+                    status: 0,
+                    role: '',
+                    date_create: '2024-03-28T07:57:27.325Z',
+                    date_modify: '2024-03-28T07:57:27.325Z',
+                    password: ''
+                }
+            };
+        },
+        computed: {
+            currentStepComponent() {
+                switch (this.currentStep) {
+                    case 1:
+                        return 'RegisterStep1';
+                    case 2:
+                        return 'RegisterStep2';
+                    case 3:
+                        return 'RegisterStep3';
+                    default:
+                        return 'RegisterStep1';
+                }
+            },
+        },
+        methods: {
+            signup() {
+                // URL для отправки POST-запроса
+                const url = 'http://51.250.96.55:8000/signup';
+
+                // Отправляем POST-запрос
+                axios.post(url, this.userData)
+                    .then(response => {
+                        // Обработка успешного ответа от сервера
+                        console.log('Успешная регистрация:', response.data);
+                    })
+                    .catch(error => {
+                        // Обработка ошибки
+                        console.error('Ошибка при регистрации:', error);
+                    });
+            },
+            nextStep(data) {
+                this.currentStep++;
+                // Возможно, здесь будет нужна логика сохранения данных между этапами
+            },
+            registerSuccess() {
+                // Логика после успешной регистрации (например, переход на главную страницу)
+                this.$emit('registerSuccess');
+
+
+            },
+            register() {
+                // Логика регистрации
+                this.$emit('registerSuccess');
+            },
+            goToAuthPage() {
+                this.$emit('goToAuthPage');
+            },
+        }
+    }
+</script>
+
+<style scoped>
+    .RegisterPage {
+        display: flex;
+    }
+
+
+    .background {
+        margin-top: 90px;
+        margin-left: 64px;
+    }
+
+
+    .container {
+        padding-top: 24px;
+    }
+
+
+    .registration {
+        width: 424px;
+        height: 419px;
+        background-color: #fff;
+        border-radius: 20px;
+
+
+        padding-top: 24px;
+    }
+
+
+    .logo {
+        width: 62px;
+        height: 47px;
+
+
+        margin-left: 170px;
+    }
+
+
+    .registr {
+        width: 58px;
+        height: 29px;
+
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 29px;
+
+
+        display: flex;
+        align-items: center;
+
+
+        color: #444444;
+
+
+        margin-left: 136px;
+    }
+
+
+    .enter {
+        width: 424px;
+        height: 157px;
+
+
+        border-radius: 20px;
+        background-color: #fff;
+        margin-top: 24px;
+    }
+
+
+    .enter p {
+
+
+        width: 307px;
+        height: 36px;
+
+
+        margin-left: 58px;
+
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+
+        color: #8C8C8C;
+    }
+
+
+    button {
+        width: 312px;
+        height: 49px;
+
+
+        margin-left: 56px;
+        margin-top: 24px;
+
+
+        border-radius: 20px;
+
+
+        border: none;
+        outline: none;
+
+
+        color: #fff;
+        background-color: #6133B4;
+
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+
+
+        cursor: pointer;
+    }
+</style>
