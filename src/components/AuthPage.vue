@@ -6,8 +6,8 @@
       <section class="auth">
         <img src="/src/assets/img/logo.svg" alt="Лого" class="logo">
         <p class="enter">Вход</p>
-        <input type="email" class="email" placeholder="Почта">
-        <input type="password" placeholder="Пароль" class="password">
+        <input type="text" placeholder="Почта" id="username" v-model="username" required>
+        <input type="password" placeholder="Пароль" id="password" v-model="password" required>
         <button @click="login" class="login">Войти</button>
         <p class="forgetPassword" @click="openPasswordRecovery">Забыл пароль</p>
       </section>
@@ -21,21 +21,47 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  data() {
+    return {
+      username: '',
+      password: ''
+    };
+  },
   methods: {
-    login() {
-      // Логика авторизации
-      this.$emit('loginSuccess');
-    },
-    toggleRegisterMode() {
-      this.$emit('toggleRegister');
-    },
     // Новый метод для перехода к странице регистрации
     goToRegisterPage() {
       this.$emit('goToRegisterPage');
     },
     openPasswordRecovery() {
       this.$emit('openPasswordRecovery');
+    },
+    login() {
+      axios.post('http://51.250.6.29:8000/login', {
+        grant_type: '',
+        username: this.username,
+        password: this.password,
+        scope: '',
+        client_id: '',
+        client_secret: ''
+      }, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(response => {
+          // Обработка успешного ответа
+          console.log('Успешный ответ от сервера:', response.data);
+          this.$emit('goToRegisterPage');
+          this.$emit('loginSuccess');
+        })
+        .catch(error => {
+          // Обработка ошибки
+          console.error('Ошибка:', error);
+        });
     },
   },
 };
@@ -106,11 +132,12 @@ input {
   align-items: center;
 
   margin-left: 56px;
+  margin-top: 20px;
 
 }
 
 input::placeholder {
-    text-indent: 20px;
+  text-indent: 20px;
 }
 
 .email {
@@ -162,7 +189,7 @@ button {
   align-items: center;
 
   color: #8C8C8C;
-  
+
   cursor: pointer;
 }
 

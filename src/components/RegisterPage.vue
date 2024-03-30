@@ -89,6 +89,7 @@ export default {
         .then(response => {
           // Обработка успешного ответа от сервера
           console.log('Успешная регистрация:', response.data);
+          this.$emit('goToAuthPage');
         })
         .catch(error => {
           // Обработка ошибки
