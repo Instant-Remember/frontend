@@ -8,8 +8,8 @@
         <p class="registr">Регистрация</p>
 
         <div v-if="step === 1" class="step1">
-          <input type="text" placeholder="Имя" id="first_name" v-model="userData.first_name" required>
-          <input type="text" placeholder="Фамилия" id="last_name" v-model="userData.last_name" required>
+          <input type="text" id="first_name" v-model="userData.first_name" required>
+          <input type="text" id="last_name" v-model="userData.last_name" required>
           <div class="circles">
             <div class="circle" :class="{ 'active': activeCircle === 1 }"></div>
             <div class="circle"></div>
@@ -18,8 +18,8 @@
           <button @click="nextStep">Далее</button>
         </div>
         <div v-else-if="step === 2" class="step2">
-          <input type="text" placeholder="Имя пользователя" id="username" v-model="userData.username" required>
-          <input type="email" placeholder="Почта" id="email" v-model="userData.email" required>
+          <input type="text" id="username" v-model="userData.username" required>
+          <input type="email" id="email" v-model="userData.email" required>
           <div class="circles">
             <div class="circle active"></div>
             <div class="circle active"></div>
@@ -28,7 +28,7 @@
           <button @click="nextStep">Далее</button>
         </div>
         <div v-else class="step3">
-          <input type="password" placeholder="Пароль" id="password" v-model="userData.password" required>
+          <input type="password" id="password" v-model="userData.password" required>
           <input type="password" v-model="repeatPassword" placeholder="Повторите пароль">
           <div class="circles">
             <div class="circle active"></div>
@@ -58,16 +58,16 @@ export default {
     return {
       step: 1,
       userData: {
-        username: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        about: '',
+        username: 'mmmmmmmm',
+        email: 'mmmmmmm@example.com',
+        first_name: 'mmmmmmm',
+        last_name: 'mmmmmmmmmm',
+        about: 'mmmmmmmmm',
         status: 0,
-        role: '',
+        role: 'mmmmmmmmmmm',
         date_create: '2024-03-29T17:13:18.253Z',
         date_modify: '2024-03-29T17:13:18.253Z',
-        password: '',
+        password: 'mmmmmmmm',
       }
     };
   },
@@ -88,7 +88,7 @@ export default {
       axios.post(url, this.userData)
         .then(response => {
           // Обработка успешного ответа от сервера
-          console.log('Успешная регистрация:', response.data);
+          console.log('Успешная регистрация:', response.userData);
         })
         .catch(error => {
           // Обработка ошибки

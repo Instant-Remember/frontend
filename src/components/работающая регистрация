@@ -88,7 +88,7 @@ export default {
       axios.post(url, this.userData)
         .then(response => {
           // Обработка успешного ответа от сервера
-          console.log('Успешная регистрация:', response.data);
+          console.log('Успешная регистрация:', response.userData);
         })
         .catch(error => {
           // Обработка ошибки
