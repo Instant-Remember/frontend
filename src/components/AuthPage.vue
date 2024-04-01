@@ -39,7 +39,7 @@ export default {
       this.$emit('openPasswordRecovery');
     },
     login() {
-      axios.post('http://51.250.6.29:8000/login', {
+      axios.post('http://158.160.108.155:8000/login', {
         grant_type: '',
         username: this.username,
         password: this.password,
@@ -55,7 +55,8 @@ export default {
         .then(response => {
           // Обработка успешного ответа
           console.log('Успешный ответ от сервера:', response.data);
-          this.$emit('goToRegisterPage');
+          localStorage.setItem('accessToken', response.data.access_token);
+
           this.$emit('loginSuccess');
         })
         .catch(error => {

@@ -8,17 +8,49 @@
         </div>
         <div class="user">
             <img src="/src/assets/img/avatar.svg" alt="Me">
-            <p>Иван Глобиков</p>
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
         </div>
     </div>
 </template>
   
 <script>
 import searchLine from './searchLine.vue'
-
+import axios from 'axios';
 
 export default {
-  components: {searchLine}
+  components: {searchLine},
+
+  data() {
+    return {
+      user: {}
+    };
+  },
+  created() {
+    this.fetchUserData();
+  },
+  methods: {
+    fetchUserData() {
+      // Получение токена доступа из локального хранилища
+      const accessToken = localStorage.getItem('accessToken');
+
+      // Выполнение запроса к серверу с токеном доступа
+      axios.get('http://158.160.108.155:8000/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => {
+        // Обработка успешного ответа
+        console.log('Информация о пользователе:', response.data);
+        this.user = response.data;
+      })
+      .catch(error => {
+        // Обработка ошибки
+        console.error('Ошибка:', error);
+        this.error = error.message;
+      });
+    }
+  }
 }
 </script>
 
@@ -78,6 +110,8 @@ p {
     color: #444444;
 
     cursor: pointer;
+
+    white-space: nowrap;
 
 }
 

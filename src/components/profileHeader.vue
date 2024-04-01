@@ -7,15 +7,15 @@
 
         <description>
             <user>
-                <div class="test1">Иван Глобиков</div>
-                <div class="test2">миллионер</div>
+                <div class="test1">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="test2">{{ user.about }}</div>
             </user>
             <target>
                 <div>5</div>
                 <img src="/src/assets/img/navMenu/targetV.svg" alt="">
             </target>
 
-            <div class="nametag">@ivang</div>
+            <div class="nametag">@{{ user.username }}</div>
 
             <subs>
                 <div class="subscribers">10к Подписчиков</div>
@@ -29,9 +29,41 @@
 </template>
 
 <script>
-export default{
+import axios from 'axios';
 
-}
+export default {
+  data() {
+    return {
+      user: {}
+    };
+  },
+  created() {
+    this.fetchUserData();
+  },
+  methods: {
+    fetchUserData() {
+      // Получение токена доступа из локального хранилища
+      const accessToken = localStorage.getItem('accessToken');
+
+      // Выполнение запроса к серверу с токеном доступа
+      axios.get('http://158.160.108.155:8000/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => {
+        // Обработка успешного ответа
+        console.log('Информация о пользователе:', response.data);
+        this.user = response.data;
+      })
+      .catch(error => {
+        // Обработка ошибки
+        console.error('Ошибка:', error);
+        this.error = error.message;
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -87,6 +119,11 @@ user {
     line-height: 19px;
 
     color: #444444;
+
+    height: 19px;
+    width: 550px;
+
+    margin-top: 10px;
 }
 
 .test2 {
@@ -97,7 +134,7 @@ user {
     line-height: 17px;
 
     color: #444444;
-    margin-top: 3px;
+    margin-top: 8px;
 }
 
 target {
@@ -146,6 +183,10 @@ target img {
 
     grid-row: 1;
     grid-column: 3;
+
+    height: 18px;
+    margin-top: 16px;
+    margin-left: -18px;
 }
 
 description button {
