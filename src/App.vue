@@ -55,10 +55,10 @@ export default {
 
   data() {
     return {
-      currentPage: 'AuthPage',
-      isAuthenticated: false,
+      currentPage: 'AuthPage', //поменять на AuthPage
+      isAuthenticated: false, //поменять на false
       isRegisterMode: false,
-      isAuthWindowOpen: true,
+      isAuthWindowOpen: true, //поменять на true 
       isOptionsPage: false,
       friendName: '',
     };

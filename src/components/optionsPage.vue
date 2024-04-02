@@ -12,15 +12,15 @@
 
 
             <name>
-                <input type="text" placeholder="Иван Глобиков" class="username">
-                <input type="text" placeholder="@ivang" class="nametag">
+                <input type="text" placeholder="Иван Глобиков" class="username" v-model="newFirstName">
+                <input type="text" placeholder="@ivang" class="nametag" v-model="newUsername">
             </name>
         </div>
 
         <div class="editor">
             <description>
                 <p>Описание:</p>
-                <input type="text" placeholder="миллионер">
+                <input type="text" placeholder="миллионер" v-model="newAbout">
             </description>
 
             <div class="line"></div>
@@ -44,21 +44,79 @@
             </language>
 
             <div class="line"></div>
-            
-            <button>Редактировать</button>
+
+            <button @click="updateUserData">Редактировать</button>
         </div>
 
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
+            user: {}, // данные пользователя
             selectedLanguage: 'ru', // значение по умолчанию
-            selectedType: 'no'
+            selectedType: 'no',
+            newUsername: '', // добавляемые данные о пользователе
+            newFirstName: '',
+            newLastName: '',
+            newAbout: '',
+            newStatus: 0
         };
     },
+    created() {
+        this.fetchUserData(); // загрузка данных пользователя при создании компонента
+    },
+    methods: {
+        fetchUserData() {
+            // Получение токена доступа из локального хранилища
+            const accessToken = localStorage.getItem('accessToken');
+
+            // Выполнение запроса к серверу с токеном доступа
+            axios.get('http://178.154.221.12:8000/me', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    // Обработка успешного ответа
+                    console.log('Информация о пользователе:', response.data);
+                    this.user = response.data;
+                })
+                .catch(error => {
+                    // Обработка ошибки
+                    console.error('Ошибка:', error);
+                    this.error = error.message;
+                });
+        },
+        updateUserData() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.patch('http://178.154.221.12:8000/me', {
+                username: this.newUsername || this.user.username,
+                first_name: this.newFirstName || this.user.first_name,
+                last_name: this.newLastName || this.user.last_name,
+                about: this.newAbout || this.user.about,
+                status: this.newStatus || this.user.status
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('Данные пользователя обновлены:', response.data);
+                // Можно выполнить дополнительные действия после успешного обновления данных
+            })
+            .catch(error => {
+                console.error('Ошибка при обновлении данных пользователя:', error);
+                // Обработка ошибки при обновлении данных
+            });
+        }
+    }
 };
 </script>
 
@@ -243,7 +301,7 @@ language {
 
 #language:focus {
     border-color: none;
-} 
+}
 
 #closeProfile {
 
@@ -270,7 +328,7 @@ language {
 }
 
 #closeProfile:focus {
-    border-color: none; 
+    border-color: none;
 }
 
 .line {
@@ -310,4 +368,5 @@ button {
 
 button:active {
     background-color: #0056b3;
-}</style>
+}
+</style>
