@@ -82,7 +82,7 @@ export default {
     },
     signup() {
       // URL для отправки POST-запроса
-      const url = 'http://178.154.221.12:8000/signup';
+      const url = 'http://51.250.79.67:8000/signup';
 
       // Отправляем POST-запрос
       axios.post(url, this.userData)

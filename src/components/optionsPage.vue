@@ -76,7 +76,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get('http://178.154.221.12:8000/me', {
+            axios.get('http://51.250.79.67:8000/me', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -95,7 +95,7 @@ export default {
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.patch('http://178.154.221.12:8000/me', {
+            axios.patch('http://51.250.79.67:8000/me', {
                 username: this.newUsername || this.user.username,
                 first_name: this.newFirstName || this.user.first_name,
                 last_name: this.newLastName || this.user.last_name,
