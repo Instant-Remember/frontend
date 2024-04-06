@@ -1,23 +1,62 @@
 <template>
-    <div class="goal">
-
-        <targetname>Кибер монстр</targetname>
-        <description>Сыграть на про сцене в Counter strike</description>
-
-        
-        <progressBar class="progres"></progressBar>
-
+    <div class="goals">
+        <div v-for="(goal, index) in goals" :key="index" class="goal">
+            <div class="targetname">{{ goal.name }}</div>
+            <div class="description">{{ goal.description }}</div>
+            <progressBar class="progres"></progressBar>
+        </div>
     </div>
 </template>
 
 <script>
 import progressBar from './progressBar.vue'
+import axios from 'axios';
+
 export default {
-    components:{progressBar}
+    components: { progressBar },
+
+    data() {
+        return {
+            goals: [] // Массив для хранения целей пользователя
+        };
+    },
+
+    mounted() {
+        this.fetchUserGoals(); // Выполнение запроса на получение целей пользователя при загрузке компонента
+    },
+
+    methods: {
+        fetchUserGoals() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.79.67:8000/me/goals', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            .then(response => {
+                console.log('Цели пользователя:', response.data);
+                this.goals = response.data; // Заполнение массива целями из ответа сервера
+            })
+            .catch(error => {
+                console.error('Ошибка при получении целей:', error);
+            });
+        }
+    }
 }
 </script>
 
 <style scoped>
+.goals {
+    width: 757px;
+
+    background-color: #fff;
+    border-radius: 20px;
+
+    padding-top: 1px;
+    padding-bottom: 16px;
+}
+
 .goal {
     height: 45px;
     width: 724px;
@@ -28,10 +67,10 @@ export default {
 
     margin-left: 16px;
     margin-top: 16px;
-  
+
 }
 
-targetname {
+.targetname {
     grid-row: 1;
     grid-column: 1;
 
@@ -49,7 +88,7 @@ targetname {
     color: #6133B4;
 }
 
-description {
+.description {
     grid-row: 2;
     grid-column: 1 / 2;
 
@@ -69,7 +108,7 @@ description {
     margin-top: 0px;
 }
 
-progres {
+.progres {
     grid-row: 1;
     grid-column: 2;
 
@@ -79,7 +118,7 @@ progres {
     height: 17px;
 }
 
-progres img {
+.progres img {
     width: 410px;
     height: 7px;
 

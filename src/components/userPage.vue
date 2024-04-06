@@ -3,7 +3,6 @@
         <profileHeader></profileHeader>
         <postEditor></postEditor>
         <post></post>
-        <post></post>
     </div>
 </template>
   

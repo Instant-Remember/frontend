@@ -1,23 +1,123 @@
 <template>
   <div class="postEditor">
-    <input placeholder="Чем вы хотите поделиться?">
+    <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?">
     <button class="tbutton" @click="showPopup = true">Добавить пост</button>
 
     <popup v-if="showPopup" @close="showPopup = false" class="popupPost">
       <div class="dropdown-container">
         <button class="chooseGoal" @click="toggleDropdown">{{ selectedGoal }}</button>
         <ul v-if="isDropdownOpen" class="dropdown-menu" :style="{ width: dropdownWidth + 'px' }" @click="selectGoal">
-          <li class="dropdown-item">Кибермонстр</li>
-          <li class="dropdown-item">Мой первый стартап</li>
+          <li class="dropdown-item" v-for="(goal, index) in goals" :key="index">{{ goal.name }}</li>
         </ul>
       </div>
 
-      <input type="text" placeholder="Чем вы хотите поделиться?" class="postDescription">
+      <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?" class="postDescription">
       <progressBar></progressBar>
-      <button @click="$emit('close')" class="createPost">Создать</button>
+      <button @click="createPost" class="createPost">Создать</button>
     </popup>
   </div>
 </template>
+
+<script>
+import Popup from './Popup.vue';
+import progressBar from './progressBar.vue';
+import axios from 'axios';
+
+export default {
+  components: { Popup, progressBar },
+
+  data() {
+    return {
+      showPopup: false,
+      isDropdownOpen: false,
+      selectedGoal: 'Выберите цель',
+      dropdownWidth: 218,
+      goals: [],
+      selectedGoalId: null,
+      postText: ''
+    };
+  },
+
+  methods: {
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    selectGoal(event) {
+      const selectedText = event.target.innerText;
+      this.selectedGoal = selectedText;
+      this.isDropdownOpen = false;
+
+      // Получаем выбранный goal_id
+      const selectedGoalIndex = this.goals.findIndex(goal => goal.name === selectedText);
+      this.selectedGoalId = this.goals[selectedGoalIndex].id;
+    },
+    fetchGoals() {
+      // Получение токена доступа из локального хранилища
+      const accessToken = localStorage.getItem('accessToken');
+
+      // Выполнение запроса к серверу для получения списка целей пользователя
+      axios.get('http://51.250.79.67:8000/me/goals', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        .then(response => {
+          console.log('Цели пользователя:', response.data);
+          this.goals = response.data;
+        })
+        .catch(error => {
+          console.error('Ошибка при получении целей:', error);
+        });
+    },
+    createPost() {
+      // Получаем выбранный goal_id
+      const selectedGoalId = this.selectedGoalId;
+
+      // Получаем текст поста из поля ввода
+      const postText = this.postText;
+
+      // Проверяем, что goal_id и текст поста не пустые
+      if (!selectedGoalId || !postText) {
+        console.error('Goal ID or post text is empty');
+        return;
+      }
+
+      // Формируем объект данных для отправки на сервер
+      const postData = {
+        text: postText,
+        progress: 15,
+        goal_id: selectedGoalId,
+        date_create: new Date().toISOString(),
+        date_modify: new Date().toISOString()
+      };
+
+      // Получаем токен доступа из локального хранилища
+      const accessToken = localStorage.getItem('accessToken');
+
+      // Отправляем запрос на сервер для создания поста
+      axios.post('http://51.250.79.67:8000/post/', postData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          console.log('Пост успешно создан:', response.data);
+          // Дополнительные действия при необходимости, например, обновление списка постов
+          // или закрытие всплывающего окна
+        })
+        .catch(error => {
+          console.error('Ошибка при создании поста:', error);
+        });
+    }
+  },
+  mounted() {
+    // Выполнение запроса на получение списка целей при загрузке компонента
+    this.fetchGoals();
+  }
+};
+</script>
+
 
 <style>
 .postEditor {
@@ -103,8 +203,10 @@ button:active {
 .dropdown-menu {
   list-style: none;
   position: absolute;
-  top: auto; /* Сбросим значение top */
-  bottom: 0%; /* Расположим меню над кнопкой */
+  top: auto;
+  /* Сбросим значение top */
+  bottom: 0%;
+  /* Расположим меню над кнопкой */
   left: 32px;
   width: inherit;
   box-shadow: 0px 4px 20px rgba(224, 230, 239, 0.8);
@@ -112,8 +214,10 @@ button:active {
   border-radius: 20px 20px 10px 10px;
   padding: 8px;
   background-color: #FFF9F9;
-  margin-top: 0; /* Уберем верхний отступ */
-  margin-bottom: 36px; /* Оставим нижний отступ для пункта выбора */
+  margin-top: 0;
+  /* Уберем верхний отступ */
+  margin-bottom: 36px;
+  /* Оставим нижний отступ для пункта выбора */
 }
 
 .dropdown-item {
@@ -127,6 +231,7 @@ button:active {
   display: flex;
   align-items: center;
   color: #444444;
+  cursor: pointer;
 }
 
 .createPost {
@@ -147,32 +252,3 @@ button:active {
   cursor: pointer;
 }
 </style>
-
-<script>
-import Popup from './Popup.vue';
-import progressBar from './progressBar.vue';
-
-export default {
-  components: { Popup, progressBar },
-
-  data() {
-    return {
-      showPopup: false,
-      isDropdownOpen: false,
-      selectedGoal: 'Выберите цель',
-      dropdownWidth: 218,
-    };
-  },
-
-  methods: {
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    },
-    selectGoal(event) {
-      const selectedText = event.target.innerText;
-      this.selectedGoal = selectedText;
-      this.isDropdownOpen = false;
-    },
-  },
-};
-</script>
