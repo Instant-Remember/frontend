@@ -1,36 +1,118 @@
 <template>
-    <div class="post">
-        <user>
-            <img src="/src/assets/img/avatar.svg" alt="">
-            <div class="username">Иван Глобиков</div>
-        </user>
-        <target>
-            <targetname>Мой стартап</targetname>
-            <description>Я создал план действий, начало положено!</description>
-        </target>
-        
+    <div class="posts">
+        <div class="post" v-for="(post, index) in posts" :key="index">
 
-        <progressBar class="progres"></progressBar>
+            <user>
+                <img src="/src/assets/img/avatar.svg" alt="">
+                <div class="username">{{ user.first_name }} {{ user.last_name }}</div>
+            </user>
 
-        <date>Неделю назад</date>
-        <society>
-            <button class="likes">
-                <img src="/src/assets/img/likes.svg" alt="">
-                <span>1K</span>
-            </button>
-            <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
-        </society>
+            <div class="mainpost">
+                <div class="targetname">{{ getGoalName(post.goal_id) }}</div>
+                <div class="description">{{ post.text }}</div>
+            </div>
+
+            <progressBar class="progres"></progressBar>
+
+            <date>Неделю назад</date>
+            <society>
+                <button class="likes">
+                    <img src="/src/assets/img/likes.svg" alt="">
+                    <div class="like">1K</div>
+                </button>
+                <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
+            </society>
+        </div>
     </div>
 </template>
-  
+
 <script>
 import progressBar from './progressBar.vue'
+import axios from 'axios'
 
 export default {
-    components:{progressBar}
+    components: { progressBar },
+
+    data() {
+        return {
+            posts: [], // Массив для хранения постов пользователя
+            goals: [], // Массив для хранения целей пользователя
+            user: {}
+        };
+    },
+
+    mounted() {
+        this.fetchUserPosts(); // Выполнение запроса на получение постов пользователя при загрузке компонента
+        this.fetchUserGoals(); // Выполнение запроса на получение целей пользователя при загрузке компонента
+        this.fetchUserData(); // Выполнение запроса на получение целей пользователя при загрузке компонента
+
+    },
+
+    methods: {
+        fetchUserPosts() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.111.113:8000/me/posts', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    console.log('Посты пользователя:', response.data);
+                    this.posts = response.data; // Заполнение массива постами из ответа сервера
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении постов:', error);
+                });
+        },
+
+        fetchUserGoals() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.111.113:8000/me/goals', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    console.log('Цели пользователя:', response.data);
+                    this.goals = response.data; // Заполнение массива целей из ответа сервера
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении целей:', error);
+                });
+        },
+
+        getGoalName(goalId) { // Новый метод для получения имени цели по её id
+            const goal = this.goals.find(goal => goal.id === goalId);
+            return goal ? goal.name : 'Цель не найдена';
+        },
+
+        fetchUserData() {
+            // Получение токена доступа из локального хранилища
+            const accessToken = localStorage.getItem('accessToken');
+
+            // Выполнение запроса к серверу с токеном доступа
+            axios.get('http://51.250.111.113:8000/me', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    // Обработка успешного ответа
+                    console.log('Информация о пользователе:', response.data);
+                    this.user = response.data;
+                })
+                .catch(error => {
+                    // Обработка ошибки
+                    console.error('Ошибка:', error);
+                    this.error = error.message;
+                });
+        }
+    }
 }
 </script>
-  
+
 <style scoped>
 .post {
     width: 757px;
@@ -42,7 +124,7 @@ export default {
     background-color: #fff;
 
     display: grid;
-    grid-template-columns: 69px auto 133px;
+    grid-template-columns: 69px 555px 133px;
     grid-template-rows: 62px 53px 40px;
 }
 
@@ -78,17 +160,18 @@ user img {
     align-items: center;
 
     color: #444444;
+    width: 550px;
 
 }
 
-target {
+.mainpost {
     grid-row: 2;
     grid-column: 2 / 3;
 
     margin-left: 5px;
 }
 
-targetname {
+.targetname {
 
     width: 95px;
     height: 18px;
@@ -113,7 +196,7 @@ targetname {
 
 }
 
-description {
+.description {
 
     width: 608px;
     height: auto;
@@ -181,7 +264,7 @@ society {
     cursor: pointer;
 }
 
-.likes span {
+.like {
     margin-left: 4px;
 
     width: 18px;

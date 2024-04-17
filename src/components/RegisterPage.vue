@@ -62,11 +62,6 @@ export default {
         email: '',
         first_name: '',
         last_name: '',
-        about: '',
-        status: 0,
-        role: '',
-        date_create: '2024-03-29T17:13:18.253Z',
-        date_modify: '2024-03-29T17:13:18.253Z',
         password: '',
       }
     };
@@ -82,7 +77,7 @@ export default {
     },
     signup() {
       // URL для отправки POST-запроса
-      const url = 'http://51.250.79.67:8000/signup';
+      const url = 'http://51.250.111.113:8000/signup';
 
       // Отправляем POST-запрос
       axios.post(url, this.userData)

@@ -34,7 +34,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get('http://51.250.79.67:8000/me', {
+      axios.get('http://51.250.111.113:8000/me', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
