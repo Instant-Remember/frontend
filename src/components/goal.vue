@@ -58,7 +58,6 @@ export default {
 }
 
 .goal {
-    height: 45px;
     width: 724px;
 
     display: grid;
@@ -92,7 +91,7 @@ export default {
     grid-row: 2;
     grid-column: 1 / 2;
 
-    height: 18px;
+   
 
     font-family: 'Inter';
     font-style: normal;
@@ -105,7 +104,7 @@ export default {
     /* Диплом/Текс */
     color: #444444;
 
-    margin-top: 0px;
+    margin-top: 25px;
 }
 
 .progres {

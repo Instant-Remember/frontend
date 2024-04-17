@@ -173,7 +173,7 @@ user img {
 
 .targetname {
 
-    width: 95px;
+    width: auto;
     height: 18px;
 
     font-family: 'Inter';
@@ -219,6 +219,7 @@ user img {
     display: flex;
 
     width: 533px;
+    margin-top: 15px;
 }
 
 

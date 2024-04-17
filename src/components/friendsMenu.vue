@@ -1,34 +1,43 @@
 <template>
   <div class="friendsMenu">
-    <friend1 @click="openFriendPage('Andrey')">
+    <div class="friend1" v-for="(subscription, index) in subscriptions" :key="index">
       <img src="/src/assets/img/friends/andreyK.svg" alt="">
       <text>Андрей</text>
-    </friend1>
-
-    <friend2 @click="openFriendPage('Andrey')">
-      <img src="/src/assets/img/friends/andrey.svg" alt="">
-      <text>Андрей</text>
-    </friend2>
-
-    <friend3 @click="openFriendPage('Vladislav')">
-      <img src="/src/assets/img/friends/vladislav.svg" alt="">
-      <text>Владислав</text>
-    </friend3>
-
-    <friend4 @click="openFriendPage('Rodion')">
-      <img src="/src/assets/img/friends/rodion.svg" alt="">
-      <text>Родион</text>
-    </friend4>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  data() {
+    return {
+      subscriptions: []
+    };
+  },
+
+  created() {
+    this.fetchUserSubscriptions()
+  },
+
   methods: {
-    openFriendPage(friendName) {
-      this.$emit('changePage', 'FriendPage', { friendName });
+    fetchUserSubscriptions() {
+      const accessToken = localStorage.getItem('accessToken');
+
+      axios.get('http://51.250.111.113:8000/me/subscriptions', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then(response => {
+          console.log('Подписки:', response.data);
+          this.subscriptions = response.data; // Заполнение массива целей из ответа сервера
+        })
+        .catch(error => {
+          console.error('Ошибка при получении подписок:', error);
+        });
     },
-    // Другие методы для других друзей
   }
 }
 </script>
@@ -36,7 +45,6 @@ export default {
 <style scoped>
 .friendsMenu {
   width: 202px;
-  height: 261px;
   background-color: #fff9f9;
   border-radius: 20px;
 
@@ -46,40 +54,16 @@ export default {
 
   display: flex;
   flex-direction: column;
+
+  
+  padding-bottom: 15px;
 }
 
-friend1 {
+.friend1 {
   display: flex;
   align-items: center;
-  margin-top: 0px;
+  margin-top: 20px;
   height: 36px;
-
-  cursor: pointer;
-}
-
-friend2 {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  margin-top: 24px;
-
-  cursor: pointer;
-}
-
-friend3 {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  margin-top: 24px;
-
-  cursor: pointer;
-}
-
-friend4 {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  margin-top: 24px;
 
   cursor: pointer;
 }
@@ -91,4 +75,5 @@ img {
 
 text {
   margin-left: 24px;
-}</style>
+}
+</style>

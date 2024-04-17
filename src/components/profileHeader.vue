@@ -11,15 +11,15 @@
                 <div class="test2">{{ user.about }}</div>
             </user>
             <target>
-                <div>5</div>
+                <div>{{ countGoals() }}</div>
                 <img src="/src/assets/img/navMenu/targetV.svg" alt="">
             </target>
 
             <div class="nametag">@{{ user.username }}</div>
 
             <subs>
-                <div class="subscribers">10к Подписчиков</div>
-                <div class="subscribe">100 Подписок</div>
+                <div class="subscribers">{{ countSubscribers() }} подписчиков</div>
+                <div class="subscribe">{{ countSubscriptions() }} Подписок</div>
             </subs>
 
             <button>Редактировать</button>
@@ -34,11 +34,17 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      goals:[],
+      subscribers: [],
+      subscriptions: []
     };
   },
   created() {
     this.fetchUserData();
+    this.fetchUserGoals();
+    this.fetchUserSubscribers();
+    this.fetchUserSubscriptions();
   },
   methods: {
     fetchUserData() {
@@ -61,7 +67,67 @@ export default {
         console.error('Ошибка:', error);
         this.error = error.message;
       });
-    }
+    },
+
+    fetchUserGoals() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.111.113:8000/me/goals', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    console.log('Цели пользователя:', response.data);
+                    this.goals = response.data; // Заполнение массива целей из ответа сервера
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении целей:', error);
+                });
+        },
+        countGoals() { // Метод для подсчета количества целей пользователя
+            return this.goals.length;
+        },
+
+    fetchUserSubscribers(){
+        const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.111.113:8000/me/subscribers', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    console.log('Подписчики:', response.data);
+                    this.subscribers = response.data; // Заполнение массива целей из ответа сервера
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении подписчиков:', error);
+                });
+    },
+    countSubscribers() { // Метод для подсчета количества целей пользователя
+            return this.subscribers.length;
+        },
+
+        fetchUserSubscriptions(){
+        const accessToken = localStorage.getItem('accessToken');
+
+            axios.get('http://51.250.111.113:8000/me/subscriptions', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    console.log('Подписки:', response.data);
+                    this.subscriptions = response.data; // Заполнение массива целей из ответа сервера
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении подписок:', error);
+                });
+    },
+    countSubscriptions() { // Метод для подсчета количества целей пользователя
+            return this.subscriptions.length;
+        },
   }
 };
 </script>
