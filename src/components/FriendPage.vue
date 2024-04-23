@@ -22,7 +22,7 @@
         <div class="subscribe">{{ countSubscribtions() }} Подписок</div>
       </subs>
 
-      <button>Подписаться</button>
+      <button @click="followUser">{{ isSubscribed ? 'Вы подписаны' : 'Подписаться' }}</button>
 
     </description>
   </div>
@@ -72,14 +72,21 @@ export default {
       friendSubscribers: [],
       friendSubscriptions: [],
       posts: [], // Массив для хранения постов пользователя
+      isSubscribed: false, // Начальное состояние: пользователь не подписан
     };
   },
+  mounted() {
+    this.intervalId = setInterval(() => {
+      this.isSubscription();// ваш код, который будет выполняться через определенные промежутки времени
+    }, 100); // выполнение каждую секунду
+},
   created() {
     this.fetchFriendInfo();
     this.fetchFriendGoals();
     this.fetchFriendSubscribers();
     this.fetchFriendSubscriptions();
     this.fetchUserPosts(); // Выполнение запроса на получение постов пользователя при загрузке компонента
+     // Проверка подписки на друга при загрузке компонента
   },
   methods: {
     fetchFriendInfo() {
@@ -107,9 +114,9 @@ export default {
       return this.friendGoals.length;
     },
     getGoalName(goalId) { // Новый метод для получения имени цели по её id
-            const goal = this.friendGoals.find(goal => goal.id === goalId);
-            return goal ? goal.name : 'Цель не найдена';
-        },
+      const goal = this.friendGoals.find(goal => goal.id === goalId);
+      return goal ? goal.name : 'Цель не найдена';
+    },
     fetchFriendSubscribers() {
       axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/subscribers`)
         .then(response => {
@@ -127,7 +134,7 @@ export default {
       axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/subscriptions`)
         .then(response => {
           console.log('Подписки:', response.data);
-          this.friendSubscribtions = response.data; // Заполнение массива целей из ответа сервера
+          this.friendSubscriptions = response.data; // Заполнение массива целей из ответа сервера
         })
         .catch(error => {
           console.error('Ошибка при получении подписок:', error);
@@ -146,7 +153,51 @@ export default {
           console.error('Ошибка при получении постов:', error);
         });
     },
-  }
+    followUser() {
+      // Получаем access token из localStorage
+      const accessToken = localStorage.getItem('accessToken');
+      // Формируем заголовок авторизации
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      };
+
+      // Выполняем GET запрос к эндпоинту подписки на пользователя
+      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/follow`, config)
+        .then(response => {
+          console.log('Пользователь успешно подписан:', response.data);
+          this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
+          // Дополнительные действия при успешной подписке, если необходимо
+        })
+        .catch(error => {
+          console.error('Ошибка при подписке на пользователя:', error);
+        });
+    },
+    isSubscription() {
+      // Получаем access token из localStorage
+      const accessToken = localStorage.getItem('accessToken');
+      // Формируем заголовок авторизации
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      };
+
+      // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
+      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/is_subscription`, config)
+        .then(response => {
+          if (response.data.status === 'ok') {
+            this.isSubscribed = response.data.result; // Обновляем состояние подписки в соответствии с результатом
+          } else {
+            console.error('Ошибка при проверке подписки:', response.data);
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка при проверке подписки:', error);
+        });
+    },
+  },
 }
 </script>
 
