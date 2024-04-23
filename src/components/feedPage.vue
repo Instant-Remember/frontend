@@ -1,20 +1,15 @@
 <template>
     <div class="feedPage">
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
+        <subPost></subPost>
     </div>
 </template>
 
 <script>
 import post from './post.vue'
+import subPost from './subPost.vue'
 
 export default{
-    components:{post}
+    components:{post, subPost}
 }
 </script>
 

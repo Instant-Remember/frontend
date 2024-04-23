@@ -6,13 +6,12 @@
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }">
       <navMenu @changePage="changePage"></navMenu>
     </aside>
-    <friendsMenu v-if="!isAuthWindowOpen && !isOptionsPage" @changePage="changePage" class="friendsMenu"></friendsMenu>
+    <friendsMenu @friendSelected="friendSelected" v-if="!isAuthWindowOpen && !isOptionsPage" @changePage="changePage" class="friendsMenu"></friendsMenu>
     <navMenuOptions v-else-if="isOptionsPage" :is="navMenuOptions"></navMenuOptions>
     <section class="main">
-      <component :is="currentPage" v-if="currentPage !== 'FriendPage'" @loginSuccess="loginSuccess"
+      <component :is="currentPage" :friendName="friendName" @loginSuccess="loginSuccess"
         @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
-        @openPasswordRecovery="openPasswordRecovery" />
-      <friend-page v-else :friendName="friendName"></friend-page>
+        @openPasswordRecovery="openPasswordRecovery"/>
     </section>
   </body>
 </template>
@@ -27,12 +26,12 @@ import feedPage from './components/feedPage.vue'
 import goalsPage from './components/goalsPage.vue'
 import optionsPage from './components/optionsPage.vue'
 import navMenuOptions from './components/navMenuOptions.vue'
-import FriendPage from './components/FriendPage.vue'
 import HeaderPcAuth from './components/headerPcAuth.vue'
 import AuthPage from './components/AuthPage.vue'
 import RegisterPage from './components/RegisterPage.vue'
 import PasswordRecoveryPage from './components/PasswordRecoveryPage.vue'
 import NavMenuOptions from './components/navMenuOptions.vue'
+import FriendPage from './components/FriendPage.vue'
 
 export default {
   components: {
@@ -45,22 +44,22 @@ export default {
     goalsPage,
     feedPage,
     optionsPage,
-    FriendPage,
     HeaderPcAuth,
     AuthPage,
     RegisterPage,
     PasswordRecoveryPage,
-    NavMenuOptions
+    NavMenuOptions,
+    FriendPage,
   },
 
   data() {
     return {
-      currentPage: 'AuthPage', //поменять на AuthPage
-      isAuthenticated: false, //поменять на false
+      currentPage: 'AuthPage',
+      isAuthenticated: false,
       isRegisterMode: false,
-      isAuthWindowOpen: true, //поменять на true 
+      isAuthWindowOpen: true,
       isOptionsPage: false,
-      friendName: '',
+      friendName: ''
     };
   },
   computed: {
@@ -74,9 +73,6 @@ export default {
       if (!this.isAuthenticated && !this.isRegisterMode) {
         this.currentPage = 'AuthPage';
       } else {
-        if (page === 'FriendPage') {
-          this.friendName = data.friendName;
-        }
         this.currentPage = page;
       }
       this.isOptionsPage = page === 'optionsPage';
@@ -113,6 +109,12 @@ export default {
     },
     recoverPasswordSuccess() {
       this.goToAuthPage();
+    },
+    friendSelected(name) {
+      this.friendName = name;
+    },
+    testFriendName() {
+      console.log(this.friendName);
     },
   },
 };
@@ -154,7 +156,6 @@ aside {
   margin-left: 1063px;
 }
 
-/* Скрыть friendsMenu на странице настроек */
 .isOptionsPage .friendsMenu {
   display: none;
 }

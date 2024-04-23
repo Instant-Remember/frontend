@@ -56,7 +56,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу для получения списка целей пользователя
-      axios.get('http://51.250.111.113:8000/me/goals', {
+      axios.get('http://158.160.88.115:8000/me/goals', {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
@@ -93,7 +93,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Отправляем запрос на сервер для создания поста
-      axios.post('http://51.250.111.113:8000/post/', postData, {
+      axios.post('http://158.160.88.115:8000/post/', postData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json'

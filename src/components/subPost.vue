@@ -1,15 +1,15 @@
 <template>
     <div class="posts">
-        <div class="post" v-for="(post, index) in posts" :key="index">
+        <div class="post">
 
             <user>
                 <img src="/src/assets/img/avatar.svg" alt="">
-                <div class="username">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="username">тест</div>
             </user>
 
             <div class="mainpost">
-                <div class="targetname">{{ getGoalName(post.goal_id) }}</div>
-                <div class="description">{{ post.text }}</div>
+                <div class="targetname">тест</div>
+                <div class="description">тест</div>
             </div>
 
             <progressBar class="progres"></progressBar>
@@ -34,81 +34,97 @@ export default {
     components: { progressBar },
 
     data() {
-        return {
-            posts: [], // Массив для хранения постов пользователя
-            goals: [], // Массив для хранения целей пользователя
-            user: {}
-        };
-    },
+  return {
+    subscriptions: [],
+    posts: [],
+    userProfile: {}, // Добавляем объект для хранения информации о пользователе
+    userGoals: [], // Инициализируем массив для хранения данных о целях пользователя
+    userProfiles: [] // Инициализируем массив для хранения данных о пользователях
+  };
+},
 
     mounted() {
-        this.fetchUserPosts(); // Выполнение запроса на получение постов пользователя при загрузке компонента
-        this.fetchUserGoals(); // Выполнение запроса на получение целей пользователя при загрузке компонента
-        this.fetchUserData(); // Выполнение запроса на получение целей пользователя при загрузке компонента
-
+        this.fetchSubscriptions();
     },
 
     methods: {
-        fetchUserPosts() {
+        fetchSubscriptions() {
             const accessToken = localStorage.getItem('accessToken');
-
-            axios.get('http://158.160.88.115:8000/me/posts', {
+            axios.get('http://158.160.90.122:8000/me/subscriptions', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    console.log('Посты пользователя:', response.data);
-                    this.posts = response.data; // Заполнение массива постами из ответа сервера
+                    console.log('Подписки:', response.data);
+                    this.subscriptions = response.data;
+                    this.fetchPostsForSubscriptions();
+                    this.fetchGoalsForSubscriptions();
+                    this.fetchUserProfiles(); // Получаем информацию о пользователях
                 })
                 .catch(error => {
-                    console.error('Ошибка при получении постов:', error);
+                    console.error('Ошибка при получении подписок:', error);
                 });
         },
 
-        fetchUserGoals() {
+        fetchPostsForSubscriptions() {
             const accessToken = localStorage.getItem('accessToken');
-
-            axios.get('http://158.160.88.115:8000/me/goals', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-                .then(response => {
-                    console.log('Цели пользователя:', response.data);
-                    this.goals = response.data; // Заполнение массива целей из ответа сервера
+            this.subscriptions.forEach(subscription => {
+                const publisherId = subscription.publisher_id;
+                axios.get(`http://158.160.90.122:8000/profile/${publisherId}/posts`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
                 })
-                .catch(error => {
-                    console.error('Ошибка при получении целей:', error);
-                });
+                    .then(response => {
+                        console.log(`Посты пользователя с ID ${publisherId}:`, response.data);
+                        this.posts = this.posts.concat(response.data);
+                    })
+                    .catch(error => {
+                        console.error(`Ошибка при получении постов пользователя с ID ${publisherId}:`, error);
+                    });
+            });
         },
 
-        getGoalName(goalId) { // Новый метод для получения имени цели по её id
-            const goal = this.goals.find(goal => goal.id === goalId);
-            return goal ? goal.name : 'Цель не найдена';
-        },
-
-        fetchUserData() {
-            // Получение токена доступа из локального хранилища
-            const accessToken = localStorage.getItem('accessToken');
-
-            // Выполнение запроса к серверу с токеном доступа
-            axios.get('http://158.160.88.115:8000/me', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-                .then(response => {
-                    // Обработка успешного ответа
-                    console.log('Информация о пользователе:', response.data);
-                    this.user = response.data;
-                })
-                .catch(error => {
-                    // Обработка ошибки
-                    console.error('Ошибка:', error);
-                    this.error = error.message;
-                });
+        fetchGoalsForSubscriptions() {
+    const accessToken = localStorage.getItem('accessToken');
+    this.subscriptions.forEach(subscription => {
+      const publisherId = subscription.publisher_id;
+      axios.get(`http://158.160.90.122:8000/profile/${publisherId}/goals?user_id=${publisherId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
         }
+      })
+      .then(response => {
+        console.log(`Цели пользователя с ID ${publisherId}:`, response.data);
+        // Сохраняем цели пользователя
+        this.userGoals.push(response.data);
+      })
+      .catch(error => {
+        console.error(`Ошибка при получении целей пользователя с ID ${publisherId}:`, error);
+      });
+    });
+  },
+
+  fetchUserProfiles() {
+    const accessToken = localStorage.getItem('accessToken');
+    this.subscriptions.forEach(subscription => {
+      const publisherId = subscription.publisher_id;
+      axios.get(`http://158.160.90.122:8000/profile/${publisherId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => {
+        console.log(`Информация о пользователе с ID ${publisherId}:`, response.data);
+        // Сохраняем информацию о пользователе
+        this.userProfiles.push(response.data);
+      })
+      .catch(error => {
+        console.error(`Ошибка при получении информации о пользователе с ID ${publisherId}:`, error);
+      });
+    });
+  }
     }
 }
 </script>

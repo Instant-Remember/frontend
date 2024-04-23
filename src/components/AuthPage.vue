@@ -39,7 +39,7 @@ export default {
       this.$emit('openPasswordRecovery');
     },
     login() {
-      axios.post('http://51.250.111.113:8000/login', {
+      axios.post('http://158.160.88.115:8000/login', {
         grant_type: '',
         username: this.username,
         password: this.password,

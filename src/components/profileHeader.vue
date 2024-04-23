@@ -52,7 +52,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get('http://51.250.111.113:8000/me', {
+      axios.get('http://158.160.88.115:8000/me', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -72,7 +72,7 @@ export default {
     fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://51.250.111.113:8000/me/goals', {
+            axios.get('http://158.160.88.115:8000/me/goals', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -92,7 +92,7 @@ export default {
     fetchUserSubscribers(){
         const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://51.250.111.113:8000/me/subscribers', {
+            axios.get('http://158.160.88.115:8000/me/subscribers', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -112,7 +112,7 @@ export default {
         fetchUserSubscriptions(){
         const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://51.250.111.113:8000/me/subscriptions', {
+            axios.get('http://158.160.88.115:8000/me/subscriptions', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
