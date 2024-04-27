@@ -31,6 +31,10 @@ import progressBar from './progressBar.vue'
 import axios from 'axios'
 
 export default {
+    props: {
+        backendURL: String
+    },
+
     components: { progressBar },
 
     data() {
@@ -52,7 +56,7 @@ export default {
         fetchUserPosts() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://158.160.88.115:8000/me/posts', {
+            axios.get(`${this.backendURL}/me/posts`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -69,7 +73,7 @@ export default {
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://158.160.88.115:8000/me/goals', {
+            axios.get(`${this.backendURL}/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -93,7 +97,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get('http://158.160.88.115:8000/me', {
+            axios.get(`${this.backendURL}/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

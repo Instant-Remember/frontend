@@ -34,6 +34,10 @@ import progressBar from './progressBar.vue'
 import axios from 'axios';
 
 export default {
+  props: {
+    backendURL: String
+  },
+
   components: { searchLine, goal, Popup, profileHeader, progressBar },
 
   data() {
@@ -44,28 +48,28 @@ export default {
       goalDescription: ''
     };
   },
-  
+
   methods: {
     fetchUserData() {
       // Получение токена доступа из локального хранилища
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get('http://158.160.88.115:8000/me', {
+      axios.get(`${this.backendURL}/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
-      .then(response => {
-        // Обработка успешного ответа
-        console.log('Информация о пользователе:', response.data);
-        this.user = response.data;
-      })
-      .catch(error => {
-        // Обработка ошибки
-        console.error('Ошибка:', error);
-        this.error = error.message;
-      });
+        .then(response => {
+          // Обработка успешного ответа
+          console.log('Информация о пользователе:', response.data);
+          this.user = response.data;
+        })
+        .catch(error => {
+          // Обработка ошибки
+          console.error('Ошибка:', error);
+          this.error = error.message;
+        });
     },
 
     createGoal() {
@@ -78,23 +82,23 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса на создание цели
-      axios.post('http://158.160.88.115:8000/goal/', goalData, {
+      axios.post(`${this.backendURL}/goal/`, goalData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
         }
       })
-      .then(response => {
-        // Обработка успешного ответа
-        console.log('Цель успешно создана:', response.data);
-        // Дополнительные действия при необходимости, например, обновление списка целей
-        // или закрытие всплывающего окна
-        this.showPopup = false;
-      })
-      .catch(error => {
-        // Обработка ошибки
-        console.error('Ошибка при создании цели:', error);
-      });
+        .then(response => {
+          // Обработка успешного ответа
+          console.log('Цель успешно создана:', response.data);
+          // Дополнительные действия при необходимости, например, обновление списка целей
+          // или закрытие всплывающего окна
+          this.showPopup = false;
+        })
+        .catch(error => {
+          // Обработка ошибки
+          console.error('Ошибка при создании цели:', error);
+        });
     }
   },
 
@@ -171,43 +175,43 @@ section {
 
 .goalName {
 
-width: 609px;
-height: 36px;
-margin-top: 15px;
-margin-left: 36px;
+  width: 609px;
+  height: 36px;
+  margin-top: 15px;
+  margin-left: 36px;
 }
 
 .goalDescription {
 
-width: 609px;
-height: 118px;
-margin-left: 36px;
+  width: 609px;
+  height: 118px;
+  margin-left: 36px;
 
 }
 
 goalCreate button {
-margin-top: 12px;
-margin-left: 220px;
+  margin-top: 12px;
+  margin-left: 220px;
 
-width: 246px;
-height: 49px;
+  width: 246px;
+  height: 49px;
 
-background: #6133B4;
-border-radius: 20px;
+  background: #6133B4;
+  border-radius: 20px;
 
 
-border: none;
-outline: none;
+  border: none;
+  outline: none;
 
-color: #fff;
-background-color: #6133B4;
+  color: #fff;
+  background-color: #6133B4;
 
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 17px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
 
-cursor: pointer;
+  cursor: pointer;
 }
 </style>

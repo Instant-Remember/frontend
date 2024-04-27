@@ -32,47 +32,51 @@
 import axios from 'axios';
 
 export default {
-  data() {
-    return {
-      user: {},
-      goals:[],
-      subscribers: [],
-      subscriptions: []
-    };
-  },
-  created() {
-    this.fetchUserData();
-    this.fetchUserGoals();
-    this.fetchUserSubscribers();
-    this.fetchUserSubscriptions();
-  },
-  methods: {
-    fetchUserData() {
-      // Получение токена доступа из локального хранилища
-      const accessToken = localStorage.getItem('accessToken');
-
-      // Выполнение запроса к серверу с токеном доступа
-      axios.get('http://158.160.88.115:8000/me', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .then(response => {
-        // Обработка успешного ответа
-        console.log('Информация о пользователе:', response.data);
-        this.user = response.data;
-      })
-      .catch(error => {
-        // Обработка ошибки
-        console.error('Ошибка:', error);
-        this.error = error.message;
-      });
+    props: {
+        backendURL: String
     },
 
-    fetchUserGoals() {
+    data() {
+        return {
+            user: {},
+            goals: [],
+            subscribers: [],
+            subscriptions: []
+        };
+    },
+    created() {
+        this.fetchUserData();
+        this.fetchUserGoals();
+        this.fetchUserSubscribers();
+        this.fetchUserSubscriptions();
+    },
+    methods: {
+        fetchUserData() {
+            // Получение токена доступа из локального хранилища
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://158.160.88.115:8000/me/goals', {
+            // Выполнение запроса к серверу с токеном доступа
+            axios.get(`${this.backendURL}/me`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    // Обработка успешного ответа
+                    console.log('Информация о пользователе:', response.data);
+                    this.user = response.data;
+                })
+                .catch(error => {
+                    // Обработка ошибки
+                    console.error('Ошибка:', error);
+                    this.error = error.message;
+                });
+        },
+
+        fetchUserGoals() {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get(`${this.backendURL}/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -89,10 +93,10 @@ export default {
             return this.goals.length;
         },
 
-    fetchUserSubscribers(){
-        const accessToken = localStorage.getItem('accessToken');
+        fetchUserSubscribers() {
+            const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://158.160.88.115:8000/me/subscribers', {
+            axios.get(`${this.backendURL}/me/subscribers`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -104,15 +108,15 @@ export default {
                 .catch(error => {
                     console.error('Ошибка при получении подписчиков:', error);
                 });
-    },
-    countSubscribers() { // Метод для подсчета количества целей пользователя
+        },
+        countSubscribers() { // Метод для подсчета количества целей пользователя
             return this.subscribers.length;
         },
 
-        fetchUserSubscriptions(){
-        const accessToken = localStorage.getItem('accessToken');
+        fetchUserSubscriptions() {
+            const accessToken = localStorage.getItem('accessToken');
 
-            axios.get('http://158.160.88.115:8000/me/subscriptions', {
+            axios.get(`${this.backendURL}/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -124,11 +128,11 @@ export default {
                 .catch(error => {
                     console.error('Ошибка при получении подписок:', error);
                 });
-    },
-    countSubscriptions() { // Метод для подсчета количества целей пользователя
+        },
+        countSubscriptions() { // Метод для подсчета количества целей пользователя
             return this.subscriptions.length;
         },
-  }
+    }
 };
 </script>
 
@@ -284,7 +288,7 @@ subs {
     margin-left: 24px;
 }
 
-button{
+button {
     width: 135px;
     height: 41px;
 
@@ -298,6 +302,4 @@ button{
     margin-top: 14px;
     cursor: pointer;
 }
-
-
 </style>

@@ -54,6 +54,10 @@
 import axios from 'axios';
 
 export default {
+  props: {
+    backendURL: String
+  },
+
   data() {
     return {
       step: 1,
@@ -77,7 +81,7 @@ export default {
     },
     signup() {
       // URL для отправки POST-запроса
-      const url = 'http://158.160.88.115:8000/signup';
+      const url = `${this.backendURL}/signup`;
 
       // Отправляем POST-запрос
       axios.post(url, this.userData)

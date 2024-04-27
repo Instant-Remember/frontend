@@ -55,6 +55,10 @@
 import axios from 'axios';
 
 export default {
+    props: {
+        backendURL: String
+    },
+
     data() {
         return {
             user: {}, // данные пользователя
@@ -76,7 +80,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get('http://158.160.88.115:8000/me', {
+            axios.get(`${this.backendURL}/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -95,7 +99,7 @@ export default {
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.patch('http://158.160.88.115:8000/me', {
+            axios.patch(`${this.backendURL}/me`, {
                 username: this.newUsername || this.user.username,
                 first_name: this.newFirstName || this.user.first_name,
                 last_name: this.newLastName || this.user.last_name,
@@ -107,14 +111,14 @@ export default {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                console.log('Данные пользователя обновлены:', response.data);
-                // Можно выполнить дополнительные действия после успешного обновления данных
-            })
-            .catch(error => {
-                console.error('Ошибка при обновлении данных пользователя:', error);
-                // Обработка ошибки при обновлении данных
-            });
+                .then(response => {
+                    console.log('Данные пользователя обновлены:', response.data);
+                    // Можно выполнить дополнительные действия после успешного обновления данных
+                })
+                .catch(error => {
+                    console.error('Ошибка при обновлении данных пользователя:', error);
+                    // Обработка ошибки при обновлении данных
+                });
         }
     }
 };

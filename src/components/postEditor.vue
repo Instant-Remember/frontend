@@ -24,6 +24,10 @@ import progressBar from './progressBar.vue';
 import axios from 'axios';
 
 export default {
+  props: {
+    backendURL: String
+  },
+
   components: { Popup, progressBar },
 
   data() {
@@ -56,11 +60,11 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу для получения списка целей пользователя
-      axios.get('http://158.160.88.115:8000/me/goals', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
+      axios.get(`${this.backendURL}/me/goals`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
         .then(response => {
           console.log('Цели пользователя:', response.data);
           this.goals = response.data;
@@ -93,12 +97,12 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Отправляем запрос на сервер для создания поста
-      axios.post('http://158.160.88.115:8000/post/', postData, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-          }
-        })
+      axios.post(`${this.backendURL}/post/`, postData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
           console.log('Пост успешно создан:', response.data);
           // Дополнительные действия при необходимости, например, обновление списка постов

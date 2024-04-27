@@ -31,17 +31,21 @@ import progressBar from './progressBar.vue'
 import axios from 'axios'
 
 export default {
+    props: {
+        backendURL: String
+    },
+
     components: { progressBar },
 
     data() {
-  return {
-    subscriptions: [],
-    posts: [],
-    userProfile: {}, // Добавляем объект для хранения информации о пользователе
-    userGoals: [], // Инициализируем массив для хранения данных о целях пользователя
-    userProfiles: [] // Инициализируем массив для хранения данных о пользователях
-  };
-},
+        return {
+            subscriptions: [],
+            posts: [],
+            userProfile: {}, // Добавляем объект для хранения информации о пользователе
+            userGoals: [], // Инициализируем массив для хранения данных о целях пользователя
+            userProfiles: [] // Инициализируем массив для хранения данных о пользователях
+        };
+    },
 
     mounted() {
         this.fetchSubscriptions();
@@ -50,7 +54,7 @@ export default {
     methods: {
         fetchSubscriptions() {
             const accessToken = localStorage.getItem('accessToken');
-            axios.get('http://158.160.90.122:8000/me/subscriptions', {
+            axios.get(`${this.backendURL}/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -71,7 +75,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             this.subscriptions.forEach(subscription => {
                 const publisherId = subscription.publisher_id;
-                axios.get(`http://158.160.90.122:8000/profile/${publisherId}/posts`, {
+                axios.get(`${this.backendURL}/profile/${publisherId}/posts`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -87,44 +91,44 @@ export default {
         },
 
         fetchGoalsForSubscriptions() {
-    const accessToken = localStorage.getItem('accessToken');
-    this.subscriptions.forEach(subscription => {
-      const publisherId = subscription.publisher_id;
-      axios.get(`http://158.160.90.122:8000/profile/${publisherId}/goals?user_id=${publisherId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .then(response => {
-        console.log(`Цели пользователя с ID ${publisherId}:`, response.data);
-        // Сохраняем цели пользователя
-        this.userGoals.push(response.data);
-      })
-      .catch(error => {
-        console.error(`Ошибка при получении целей пользователя с ID ${publisherId}:`, error);
-      });
-    });
-  },
+            const accessToken = localStorage.getItem('accessToken');
+            this.subscriptions.forEach(subscription => {
+                const publisherId = subscription.publisher_id;
+                axios.get(`${this.backendURL}/profile/${publisherId}/goals?user_id=${publisherId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => {
+                        console.log(`Цели пользователя с ID ${publisherId}:`, response.data);
+                        // Сохраняем цели пользователя
+                        this.userGoals.push(response.data);
+                    })
+                    .catch(error => {
+                        console.error(`Ошибка при получении целей пользователя с ID ${publisherId}:`, error);
+                    });
+            });
+        },
 
-  fetchUserProfiles() {
-    const accessToken = localStorage.getItem('accessToken');
-    this.subscriptions.forEach(subscription => {
-      const publisherId = subscription.publisher_id;
-      axios.get(`http://158.160.90.122:8000/profile/${publisherId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+        fetchUserProfiles() {
+            const accessToken = localStorage.getItem('accessToken');
+            this.subscriptions.forEach(subscription => {
+                const publisherId = subscription.publisher_id;
+                axios.get(`${this.backendURL}/profile/${publisherId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => {
+                        console.log(`Информация о пользователе с ID ${publisherId}:`, response.data);
+                        // Сохраняем информацию о пользователе
+                        this.userProfiles.push(response.data);
+                    })
+                    .catch(error => {
+                        console.error(`Ошибка при получении информации о пользователе с ID ${publisherId}:`, error);
+                    });
+            });
         }
-      })
-      .then(response => {
-        console.log(`Информация о пользователе с ID ${publisherId}:`, response.data);
-        // Сохраняем информацию о пользователе
-        this.userProfiles.push(response.data);
-      })
-      .catch(error => {
-        console.error(`Ошибка при получении информации о пользователе с ID ${publisherId}:`, error);
-      });
-    });
-  }
     }
 }
 </script>

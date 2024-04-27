@@ -20,6 +20,10 @@
 import axios from 'axios';
 
 export default {
+  props: {
+    backendURL: String
+  },
+
   data() {
     return {
       user: {}
@@ -34,7 +38,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get('http://158.160.88.115:8000/me', {
+      axios.get(`${this.backendURL}/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -139,29 +143,30 @@ p {
   height: 19px;
   font-size: 16px;
 }
-.searchLine input {
-    width: 77%;
-    background-color: #E0E6EF;
-    border: none;
-    padding-left: 12px;
 
-    font-size: 14px;
-    outline: none;
+.searchLine input {
+  width: 77%;
+  background-color: #E0E6EF;
+  border: none;
+  padding-left: 12px;
+
+  font-size: 14px;
+  outline: none;
 }
 
 .searchLine img {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 
-    margin-top: 9px;
-    margin-left: 12px;
+  margin-top: 9px;
+  margin-left: 12px;
 }
 
-.searchLine{
-    height: 41px;
-    display: flex;
-    background-color: #E0E6EF;
+.searchLine {
+  height: 41px;
+  display: flex;
+  background-color: #E0E6EF;
 
-    border-radius: 20px;
+  border-radius: 20px;
 }
 </style>

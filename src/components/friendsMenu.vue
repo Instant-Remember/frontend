@@ -1,6 +1,7 @@
 <template>
-  <div class="friendsMenu"  >
-    <div class="friend1" v-for="(subscription, index) in subscriptions" :key="index" @click="showFriendName(subscription)">
+  <div class="friendsMenu">
+    <div class="friend1" v-for="(subscription, index) in subscriptions" :key="index"
+      @click="showFriendName(subscription)">
       <img src="/src/assets/img/friends/andreyK.svg" alt="">
       <span>{{ subscription.user_info ? subscription.user_info.first_name : 'Пользователь' }}</span>
     </div>
@@ -11,6 +12,10 @@
 import axios from 'axios';
 
 export default {
+  props: {
+    backendURL: String
+  },
+
   data() {
     return {
       subscriptions: []
@@ -25,7 +30,7 @@ export default {
     fetchUserSubscriptions() {
       const accessToken = localStorage.getItem('accessToken');
 
-      axios.get('http://158.160.88.115:8000/me/subscriptions', {
+      axios.get(`${this.backendURL}/me/subscriptions`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -36,7 +41,7 @@ export default {
 
           // Получаем информацию о каждом пользователе, на которого мы подписаны
           this.subscriptions.forEach(subscription => {
-            axios.get(`http://158.160.88.115:8000/profile/${subscription.publisher_id}`, {
+            axios.get(`${this.backendURL}/profile/${subscription.publisher_id}`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }

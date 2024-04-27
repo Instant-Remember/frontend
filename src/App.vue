@@ -1,17 +1,19 @@
 <template>
+
   <body>
     <header>
-      <component :is="headerComponent"></component>
+      <component :is="headerComponent" :backendURL="backendURL"></component>
     </header>
-    <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }">
-      <navMenu @changePage="changePage"></navMenu>
+    <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }" :backendURL="backendURL">
+      <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>
     </aside>
-    <friendsMenu @friendSelected="friendSelected" v-if="!isAuthWindowOpen && !isOptionsPage" @changePage="changePage" class="friendsMenu"></friendsMenu>
+    <friendsMenu :backendURL="backendURL" @friendSelected="friendSelected" v-if="!isAuthWindowOpen && !isOptionsPage"
+      @changePage="changePage" class="friendsMenu"></friendsMenu>
     <navMenuOptions v-else-if="isOptionsPage" :is="navMenuOptions"></navMenuOptions>
     <section class="main">
-      <component :is="currentPage" :friendName="friendName" @loginSuccess="loginSuccess"
+      <component :is="currentPage" :friendName="friendName" :backendURL="backendURL" @loginSuccess="loginSuccess"
         @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
-        @openPasswordRecovery="openPasswordRecovery"/>
+        @openPasswordRecovery="openPasswordRecovery" />
     </section>
   </body>
 </template>
@@ -59,7 +61,8 @@ export default {
       isRegisterMode: false,
       isAuthWindowOpen: true,
       isOptionsPage: false,
-      friendName: ''
+      friendName: '',
+      backendURL: 'http://158.160.18.182:8000'
     };
   },
   computed: {
@@ -131,7 +134,7 @@ header {
   margin-right: auto;
   position: fixed;
   opacity: 0.8;
-  top: 0;  
+  top: 0;
 }
 
 .main {

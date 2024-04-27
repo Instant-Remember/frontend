@@ -44,9 +44,9 @@
 
       <date>Неделю назад</date>
       <society>
-        <button class="likes">
+        <button class="likes" @click="likePost(post.id)">
           <img src="/src/assets/img/likes.svg" alt="">
-          <div class="like">1K</div>
+          <div class="like">{{ post.id }}</div>
         </button>
         <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
       </society>
@@ -63,7 +63,8 @@ export default {
   components: { progressBar },
 
   props: {
-    friendName: String
+    friendName: String,
+    backendURL: String
   },
   data() {
     return {
@@ -75,23 +76,18 @@ export default {
       isSubscribed: false, // Начальное состояние: пользователь не подписан
     };
   },
-  mounted() {
-    this.intervalId = setInterval(() => {
-      this.isSubscription();// ваш код, который будет выполняться через определенные промежутки времени
-    }, 100); // выполнение каждую секунду
-},
   created() {
     this.fetchFriendInfo();
     this.fetchFriendGoals();
     this.fetchFriendSubscribers();
     this.fetchFriendSubscriptions();
     this.fetchUserPosts(); // Выполнение запроса на получение постов пользователя при загрузке компонента
-     // Проверка подписки на друга при загрузке компонента
+    this.isSubscription();// Проверка подписки на друга при загрузке компонента
   },
   methods: {
     fetchFriendInfo() {
       // Отправляем запрос на бэкенд для получения данных о друге по его ID
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}`)
         .then(response => {
           this.friendInfo = response.data;
         })
@@ -101,7 +97,7 @@ export default {
     },
     fetchFriendGoals() {
       // Отправляем запрос на бэкенд для получения целей друга
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/goals?user_id=${this.friendName}`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/goals?user_id=${this.friendName}`)
         .then(response => {
           console.log('Цели друга:', response.data);
           this.friendGoals = response.data;
@@ -118,7 +114,7 @@ export default {
       return goal ? goal.name : 'Цель не найдена';
     },
     fetchFriendSubscribers() {
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/subscribers`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/subscribers`)
         .then(response => {
           console.log('Подписчики:', response.data);
           this.friendSubscribers = response.data; // Заполнение массива целей из ответа сервера
@@ -131,7 +127,7 @@ export default {
       return this.friendSubscribers.length;
     },
     fetchFriendSubscriptions() {
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/subscriptions`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/subscriptions`)
         .then(response => {
           console.log('Подписки:', response.data);
           this.friendSubscriptions = response.data; // Заполнение массива целей из ответа сервера
@@ -144,7 +140,7 @@ export default {
       return this.friendSubscriptions.length;
     },
     fetchUserPosts() {
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/posts`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/posts`)
         .then(response => {
           console.log('Посты друга:', response.data);
           this.posts = response.data; // Заполнение массива постами из ответа сервера
@@ -164,7 +160,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту подписки на пользователя
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/follow`, config)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/follow`, config)
         .then(response => {
           console.log('Пользователь успешно подписан:', response.data);
           this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
@@ -185,7 +181,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
-      axios.get(`http://158.160.88.115:8000/profile/${this.friendName}/is_subscription`, config)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/is_subscription`, config)
         .then(response => {
           if (response.data.status === 'ok') {
             this.isSubscribed = response.data.result; // Обновляем состояние подписки в соответствии с результатом
@@ -197,6 +193,34 @@ export default {
           console.error('Ошибка при проверке подписки:', error);
         });
     },
+    likePost(postId) {
+      // Получаем access token из localStorage
+      const accessToken = localStorage.getItem('accessToken');
+      // Формируем заголовок авторизации
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      };
+
+      // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
+      axios.get(`${this.backendURL}/post/${postId}/like`)
+        .then(response => {
+          console.log('Поставлен лайк', response.data);
+        })
+        .catch(error => {
+          console.error('Ошибка при лайке', error);
+        });
+    },
+    getLikes(postID) {
+      axios.get(`${this.backendURL}/post/${postId}/likes`)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Ошибка при проверке лайков', error);
+        });
+    }
   },
 }
 </script>
