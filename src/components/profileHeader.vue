@@ -54,9 +54,10 @@ export default {
         fetchUserData() {
             // Получение токена доступа из локального хранилища
             const accessToken = localStorage.getItem('accessToken');
+            const backendURL = localStorage.getItem('backendURL')
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`${this.backendURL}/me`, {
+            axios.get(`http://158.160.80.94:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -75,8 +76,9 @@ export default {
 
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
+            const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`${this.backendURL}/me/goals`, {
+            axios.get(`http://158.160.80.94:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -95,8 +97,9 @@ export default {
 
         fetchUserSubscribers() {
             const accessToken = localStorage.getItem('accessToken');
+            const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`${this.backendURL}/me/subscribers`, {
+            axios.get(`http://158.160.80.94:8000/me/subscribers`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -115,8 +118,9 @@ export default {
 
         fetchUserSubscriptions() {
             const accessToken = localStorage.getItem('accessToken');
+            const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`${this.backendURL}/me/subscriptions`, {
+            axios.get(`http://158.160.80.94:8000/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

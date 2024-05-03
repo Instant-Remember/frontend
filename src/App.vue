@@ -1,6 +1,6 @@
 <template>
 
-  <body>
+  <body :backendURL="backendURL">
     <header>
       <component :is="headerComponent" :backendURL="backendURL"></component>
     </header>
@@ -62,13 +62,24 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: 'http://158.160.18.182:8000'
+      backendURL: `http://158.160.80.94:8000`
     };
   },
   computed: {
     headerComponent() {
       return this.isAuthenticated ? 'headerPc' : 'headerPcAuth';
     },
+  },
+  mounted() {
+    // Проверяем, есть ли уже значение backendURL в локальном хранилище
+    const storedBackendURL = localStorage.getItem('backendURL');
+    // Если значение уже есть, используем его
+    if (storedBackendURL) {
+      this.backendURL = storedBackendURL;
+    } else {
+      // Если нет, сохраняем значение по умолчанию в локальное хранилище
+      localStorage.setItem('backendURL', this.backendURL);
+    }
   },
   methods: {
     changePage(page, data) {

@@ -80,7 +80,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`${this.backendURL}/me`, {
+            axios.get(`http://158.160.80.94:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -99,7 +99,7 @@ export default {
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.patch(`${this.backendURL}/me`, {
+            axios.patch(`http://158.160.80.94:8000/me`, {
                 username: this.newUsername || this.user.username,
                 first_name: this.newFirstName || this.user.first_name,
                 last_name: this.newLastName || this.user.last_name,
