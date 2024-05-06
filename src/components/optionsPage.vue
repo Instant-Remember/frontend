@@ -1,16 +1,14 @@
 <template>
     <div class="options">
         <div class="profileHeader">
-            <photo>
-                <img src="/src/assets/img/avatarEdit.svg" alt="">
+            <photo @click="openFileInput">
+                <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
             </photo>
-
+            <input type="file" id="avatarInput" style="display: none" @change="handleFileChange">
             <bgEditor>
                 <img src="/src/assets/img/pencil.svg" alt="">
                 <p>Изменить</p>
             </bgEditor>
-
-
             <name>
                 <input type="text" placeholder="Иван Глобиков" class="username" v-model="newFirstName">
                 <input type="text" placeholder="@ivang" class="nametag" v-model="newUsername">
@@ -54,47 +52,66 @@
 import axios from 'axios';
 
 export default {
-    props: {
-        backendURL: String
-    },
-
     data() {
         return {
-            user: {}, // данные пользователя
-            selectedLanguage: 'ru', // значение по умолчанию
+            user: {}, // Данные о пользователе
+            selectedLanguage: 'ru', // Значение по умолчанию
             selectedType: 'no',
-            newUsername: '', // добавляемые данные о пользователе
+            newUsername: '', // Добавляемые данные о пользователе
             newFirstName: '',
             newLastName: '',
             newAbout: '',
             newStatus: 0
         };
     },
-    created() {
-        this.fetchUserData(); // загрузка данных пользователя при создании компонента
+    mounted() {
+        this.fetchUserData(); // Получаем данные о пользователе при создании компонента
     },
     methods: {
+        // Получение данных о пользователе
         fetchUserData() {
-            // Получение токена доступа из локального хранилища
             const accessToken = localStorage.getItem('accessToken');
 
-            // Выполнение запроса к серверу с токеном доступа
             axios.get(`http://130.193.34.79:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    // Обработка успешного ответа
                     console.log('Информация о пользователе:', response.data);
                     this.user = response.data;
                 })
                 .catch(error => {
-                    // Обработка ошибки
-                    console.error('Ошибка:', error);
-                    this.error = error.message;
+                    console.error('Ошибка при получении данных пользователя:', error);
                 });
         },
+        // Открытие окна выбора файла
+        openFileInput() {
+            const fileInput = document.getElementById('avatarInput');
+            fileInput.click();
+        },
+        // Обработка выбора файла
+        handleFileChange(event) {
+            const formData = new FormData();
+            formData.append('file', event.target.files[0]); // Добавляем выбранное фото в FormData
+
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.post(`http://130.193.34.79:8000/me/photo`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    console.log('Фото успешно загружено:', response.data);
+                    // Можно выполнить дополнительные действия после успешной загрузки фото
+                })
+                .catch(error => {
+                    console.error('Ошибка при загрузке фото:', error);
+                });
+        },
+        // Обновление данных пользователя
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
@@ -120,10 +137,17 @@ export default {
                 });
         }
     }
-};
+}
 </script>
 
+
 <style scoped>
+.avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 65px;
+}
+
 .options {
     width: 757px;
 

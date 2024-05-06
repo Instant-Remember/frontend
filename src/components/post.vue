@@ -3,7 +3,7 @@
         <div class="post" v-for="(post, index) in posts" :key="index">
 
             <user class="userpost">
-                <img src="/src/assets/img/avatar.svg" alt="">
+                <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
                 <div class="username">{{ user.first_name }} {{ user.last_name }}</div>
             </user>
 
@@ -290,9 +290,10 @@ export default {
 
 }
 
-user img {
+.avatar {
     width: 42px;
     height: 42px;
+    border-radius: 65px;
 
     margin: 16px 16px;
 }

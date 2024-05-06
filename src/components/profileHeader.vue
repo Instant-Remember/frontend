@@ -1,8 +1,8 @@
 <template>
     <div class="profileHeader">
 
-        <photo>
-            <img src="/src/assets/img/avatar.svg" alt="">
+        <photo @click="openFileInput">
+            <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
         </photo>
 
         <description>
@@ -150,6 +150,12 @@ export default {
     border-radius: 20px;
 
     display: flex;
+}
+
+.avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 65px;
 }
 
 description {
