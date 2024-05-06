@@ -46,10 +46,28 @@
       <society>
         <button class="likes" @click="likePost(post.id)">
           <img src="/src/assets/img/likes.svg" alt="">
-          <div class="like">{{ post.id }}</div>
+          <div class="like">{{ getLikesCount(post.id) }}</div>
         </button>
-        <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
+        <button class="comments_img"><img src="/src/assets/img/comments.svg" alt=""></button>
       </society>
+
+      <div class="comments">
+        <div class="line"></div>
+        <div class="container">
+          <div class="comment" v-for="comment in post.comments" :key="comment.id">
+            <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
+            <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
+            <div class="main_comment">{{ comment.text }}</div>
+          </div>
+        </div>
+
+        <div class="my_comment">
+          <input type="text" class="write_comment" placeholder="Напишите свой комментарий" v-model="newCommentText">
+          <button type="button" @click="addComment(post.id)" class="send"><img src="/src/assets/img/send.svg"
+              alt=""></button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -74,6 +92,9 @@ export default {
       friendSubscriptions: [],
       posts: [], // Массив для хранения постов пользователя
       isSubscribed: false, // Начальное состояние: пользователь не подписан
+      users: {},
+      likes: {},
+      newCommentText: ''
     };
   },
   created() {
@@ -144,6 +165,11 @@ export default {
         .then(response => {
           console.log('Посты друга:', response.data);
           this.posts = response.data; // Заполнение массива постами из ответа сервера
+
+          this.posts.forEach(post => {
+            this.getComments(post.id);
+            this.getLikes(post.id);
+          });
         })
         .catch(error => {
           console.error('Ошибка при получении постов:', error);
@@ -194,34 +220,99 @@ export default {
         });
     },
     likePost(postId) {
-      // Получаем access token из localStorage
-      const accessToken = localStorage.getItem('accessToken');
-      // Формируем заголовок авторизации
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      };
+            const accessToken = localStorage.getItem('accessToken');
 
-      // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
-      axios.get(`http://130.193.34.79:8000/post/${postId}/like`)
+            axios.get(`http://130.193.34.79:8000/post/${postId}/like`, {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+                .then(response => {
+                    this.getLikes(postId);
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке лайка:', error);
+                });
+        },
+    getLikes(postId) {
+      axios.get(`http://130.193.34.79:8000/post/${postId}/likes`, {
+        headers: {
+          'accept': 'application/json'
+        }
+      })
         .then(response => {
-          console.log('Поставлен лайк', response.data);
+          this.likes[postId] = response.data;
         })
         .catch(error => {
-          console.error('Ошибка при лайке', error);
+          console.error('Ошибка при получении данных о лайках поста:', error);
         });
     },
-    getLikes(postID) {
-      axios.get(`http://130.193.34.79:8000/post/${postId}/likes`)
+    getLikesCount(postId) {
+            const likes = this.likes[postId];
+            return likes ? likes.length : 0;
+        },
+    getComments(postId) {
+      axios.get(`http://130.193.34.79:8000/post/${postId}/comments`, {
+        headers: {
+          'accept': 'application/json'
+        }
+      })
         .then(response => {
-          likes = response.data
-          console.log('Kfqrb:', response.data);
+          this.posts.find(post => post.id === postId).comments = response.data;
+
+          // Для каждого комментария получаем данные о пользователе
+          response.data.forEach(comment => {
+            this.getUser(comment.user_id);
+          });
         })
         .catch(error => {
-          console.error('Ошибка при проверке лайков', error);
+          console.error('Ошибка при получении данных о комментариях поста:', error);
         });
-    }
+    },
+    getUser(userId) {
+      axios.get(`http://130.193.34.79:8000/profile/${userId}`, {
+        headers: {
+          'accept': 'application/json'
+        }
+      })
+        .then(response => {
+          this.users[userId] = response.data;
+        })
+        .catch(error => {
+          console.error('Ошибка при получении данных о пользователе:', error);
+        });
+    },
+    getCommentUserName(userId) {
+      const user = this.users[userId];
+      return user ? `${user.first_name} ${user.last_name}` : '';
+    },
+    addComment(postId) {
+      const accessToken = localStorage.getItem('accessToken');
+      const newCommentText = this.newCommentText.trim();
+
+      if (newCommentText) {
+        axios.post(`http://130.193.34.79:8000/comment/create`, {
+          text: newCommentText,
+          post_id: postId
+        }, {
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => {
+            // Опционально: обновление списка комментариев
+            this.getComments(postId);
+            // Очистка поля ввода после успешной отправки
+            this.newCommentText = '';
+          })
+          .catch(error => {
+            console.error('Ошибка при добавлении комментария:', error);
+          });
+      }
+    },
   },
 }
 </script>
@@ -394,6 +485,18 @@ button {
 }
 
 
+.container {
+  max-height: 170px;
+  width: 757px;
+  overflow-y: auto;
+  /* Добавляем вертикальную прокрутку */
+  scrollbar-width: none;
+}
+
+.posts {
+  margin-top: -15px;
+}
+
 .post {
   width: 757px;
   height: auto;
@@ -405,7 +508,11 @@ button {
 
   display: grid;
   grid-template-columns: 69px 555px 133px;
-  grid-template-rows: 62px 53px 40px;
+  grid-template-rows: 62px 53px 40px auto;
+}
+
+.comments {
+  grid-row: 4;
 }
 
 .userpost {
@@ -427,7 +534,7 @@ user img {
 
 .username {
   margin-top: 27px;
-  width: 118px;
+
   height: 19px;
 
 
@@ -565,7 +672,7 @@ society {
 
 }
 
-.comments {
+.comments_img {
   width: 18px;
   height: 18px;
   margin-left: 24px;
@@ -573,5 +680,101 @@ society {
   background-color: #fff;
   border: none;
   cursor: pointer;
+}
+
+.line {
+  height: 5px;
+  width: 757px;
+
+  grid-row: 1;
+  grid-column: 1 / 2;
+  background-color: #E8ECF2;
+}
+
+.comment {
+  grid-row: 1;
+  grid-column: 1;
+
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 41px 645px;
+  grid-template-rows: 40px auto;
+
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  grid-row: 1;
+  grid-column: 1;
+  margin-top: 12px;
+  margin-left: 11px;
+}
+
+.comment_username {
+  grid-row: 1;
+  grid-column: 2;
+
+  margin-top: 12px;
+  margin-left: 5px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+
+  color: #444444;
+}
+
+.main_comment {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  margin-left: 4px;
+
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #444444;
+}
+
+.my_comment {
+  grid-row: 2;
+  grid-column: 1;
+
+  width: 687px;
+  display: flex;
+  margin-left: 19px;
+
+  margin-top: 5px;
+}
+
+.write_comment {
+
+
+  display: flex;
+
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+
+  color: #8C8C8C;
+}
+
+.send {
+  border: none;
+  background-color: #fff;
 }
 </style>

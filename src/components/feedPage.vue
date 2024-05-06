@@ -45,7 +45,6 @@
 <script>
 import progressBar from './progressBar.vue'
 import axios from 'axios';
-import { ref } from 'vue';
 
 export default {
     components: { progressBar },
@@ -507,7 +506,7 @@ society {
 }
 
 .send {
-
+    border: none;
     background-color: #fff;
 }
 </style>

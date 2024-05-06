@@ -75,8 +75,6 @@ export default {
 
   align-items: center;
 
-  width: 1440px;
-
 }
 
 .logo {
