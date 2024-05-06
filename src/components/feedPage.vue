@@ -25,18 +25,19 @@
 
             <div class="comments">
                 <div class="line"></div>
-                <div class="comment" v-for="comment in post.comments" :key="comment.id">
-                    <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
-                    <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
-                    <div class="main_comment">{{ comment.text }}</div>
+                <div class="container">
+                    <div class="comment" v-for="comment in post.comments" :key="comment.id">
+                        <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
+                        <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
+                        <div class="main_comment">{{ comment.text }}</div>
+                    </div>
                 </div>
 
                 <div class="my_comment">
-                    <input type="text" class="write_comment" placeholder="Напишите свой комментарий">
-                    <button class="send"><img src="/src/assets/img/send.svg" alt=""></button>
+                    <input type="text" class="write_comment" placeholder="Напишите свой комментарий" v-model="newCommentText">
+                    <button type="button" @click="addComment(post.id)" class="send"><img src="/src/assets/img/send.svg" alt=""></button>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -44,22 +45,24 @@
 <script>
 import progressBar from './progressBar.vue'
 import axios from 'axios';
-import { reactive, toRefs } from 'vue';
+import { ref } from 'vue';
 
 export default {
     components: { progressBar },
     props: {
         backendURL: String
     },
-    setup() {
-        const state = reactive({
+    data() {
+        return {
             posts: [],
             users: {},
             goals: {},
-            likes: {}
-        });
-
-        const getFeed = () => {
+            likes: {},
+            newCommentText: ''
+        };
+    },
+    methods: {
+        getFeed() {
             const accessToken = localStorage.getItem('accessToken');
 
             axios.get(`http://130.193.34.79:8000/feed?count=5&offset=1`, {
@@ -69,83 +72,77 @@ export default {
                 }
             })
                 .then(response => {
-                    state.posts = response.data;
+                    this.posts = response.data;
 
-                    state.posts.forEach(post => {
-                        getUser(post.owner_id);
-                        getGoal(post.goal_id);
-                        getLikes(post.id);
-                        getComments(post.id);
+                    this.posts.forEach(post => {
+                        this.getUser(post.owner_id);
+                        this.getGoal(post.goal_id);
+                        this.getLikes(post.id);
+                        this.getComments(post.id);
                     });
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных:', error);
                 });
-        };
-
-        const getUser = (userId) => {
+        },
+        getUser(userId) {
             axios.get(`http://130.193.34.79:8000/profile/${userId}`, {
                 headers: {
                     'accept': 'application/json'
                 }
             })
                 .then(response => {
-                    state.users[userId] = response.data;
+                    this.users[userId] = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных о пользователе:', error);
                 });
-        };
-
-        const getGoal = (goalId) => {
+        },
+        getGoal(goalId) {
             axios.get(`http://130.193.34.79:8000/goal/${goalId}`, {
                 headers: {
                     'accept': 'application/json'
                 }
             })
                 .then(response => {
-                    state.goals[goalId] = response.data;
+                    this.goals[goalId] = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных о цели:', error);
                 });
-        };
-
-        const getLikes = (postId) => {
+        },
+        getLikes(postId) {
             axios.get(`http://130.193.34.79:8000/post/${postId}/likes`, {
                 headers: {
                     'accept': 'application/json'
                 }
             })
                 .then(response => {
-                    state.likes[postId] = response.data;
+                    this.likes[postId] = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных о лайках поста:', error);
                 });
-        };
-
-        const getComments = (postId) => {
+        },
+        getComments(postId) {
             axios.get(`http://130.193.34.79:8000/post/${postId}/comments`, {
                 headers: {
                     'accept': 'application/json'
                 }
             })
                 .then(response => {
-                    // Добавляем комментарии к посту
-                    state.posts.find(post => post.id === postId).comments = response.data;
+                    this.posts.find(post => post.id === postId).comments = response.data;
                     
                     // Для каждого комментария получаем данные о пользователе
                     response.data.forEach(comment => {
-                        getUser(comment.user_id);
+                        this.getUser(comment.user_id);
                     });
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных о комментариях поста:', error);
                 });
-        };
-
-        const likePost = (postId) => {
+        },
+        likePost(postId) {
             const accessToken = localStorage.getItem('accessToken');
 
             axios.get(`http://130.193.34.79:8000/post/${postId}/like`, {
@@ -155,66 +152,80 @@ export default {
                 }
             })
                 .then(response => {
-                    getLikes(postId);
+                    this.getLikes(postId);
                 })
                 .catch(error => {
                     console.error('Ошибка при отправке лайка:', error);
                 });
-        };
-
-        const getUserFirstName = (userId) => {
-            const user = state.users[userId];
+        },
+        getUserFirstName(userId) {
+            const user = this.users[userId];
             return user ? user.first_name : '';
-        };
-
-        const getUserLastName = (userId) => {
-            const user = state.users[userId];
+        },
+        getUserLastName(userId) {
+            const user = this.users[userId];
             return user ? user.last_name : '';
-        };
-
-        const getGoalName = (goalId) => {
-            const goal = state.goals[goalId];
+        },
+        getGoalName(goalId) {
+            const goal = this.goals[goalId];
             return goal ? goal.name : '';
-        };
-
-        const getLikesCount = (postId) => {
-            const likes = state.likes[postId];
+        },
+        getLikesCount(postId) {
+            const likes = this.likes[postId];
             return likes ? likes.length : 0;
-        };
-
-        const getUserAvatar = (userId) => {
-            const user = state.users[userId];
+        },
+        getUserAvatar(userId) {
+            const user = this.users[userId];
             return user ? user.avatar : '';
-        };
-
-        const getCommentUserName = (userId) => {
-            const user = state.users[userId];
+        },
+        getCommentUserName(userId) {
+            const user = this.users[userId];
             return user ? `${user.first_name} ${user.last_name}` : '';
-        };
+        },
+        addComment(postId) {
+            const accessToken = localStorage.getItem('accessToken');
+            const newCommentText = this.newCommentText.trim();
 
-        return {
-            ...toRefs(state),
-            getFeed,
-            getUser,
-            getGoal,
-            getLikes,
-            getComments,
-            likePost,
-            getUserFirstName,
-            getUserLastName,
-            getGoalName,
-            getLikesCount,
-            getUserAvatar,
-            getCommentUserName
-        };
+            if (newCommentText) {
+                axios.post(`http://130.193.34.79:8000/comment/create`, {
+                    text: newCommentText,
+                    post_id: postId
+                }, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    // Опционально: обновление списка комментариев
+                    this.getComments(postId);
+                    // Очистка поля ввода после успешной отправки
+                    this.newCommentText = '';
+                })
+                .catch(error => {
+                    console.error('Ошибка при добавлении комментария:', error);
+                });
+            }
+        }
     },
     mounted() {
         this.getFeed();
     }
 };
+
 </script>
 
+
 <style scoped>
+.container {
+    max-height: 170px;
+    width: 757px;
+    overflow-y: auto;
+    /* Добавляем вертикальную прокрутку */
+    scrollbar-width: none;
+}
+
 .posts {
     margin-top: -15px;
 }
@@ -233,7 +244,7 @@ export default {
     grid-template-rows: 62px 53px 40px auto;
 }
 
-.comments{
+.comments {
     grid-row: 4;
 }
 
@@ -404,9 +415,8 @@ society {
     cursor: pointer;
 }
 
-.line{
-    margin-left: -17px;
-    height: 10px;
+.line {
+    height: 5px;
     width: 757px;
 
     grid-row: 1;
@@ -422,7 +432,7 @@ society {
     display: grid;
     grid-template-columns: 41px 645px;
     grid-template-rows: 40px auto;
-    
+
 }
 
 .avatar {
@@ -468,7 +478,7 @@ society {
     color: #444444;
 }
 
-.my_comment{
+.my_comment {
     grid-row: 2;
     grid-column: 1;
 
@@ -480,8 +490,8 @@ society {
 }
 
 .write_comment {
-   
-   
+
+
     display: flex;
 
 
@@ -496,9 +506,8 @@ society {
     color: #8C8C8C;
 }
 
-.send{
-    border: none;
+.send {
+
     background-color: #fff;
 }
-
 </style>

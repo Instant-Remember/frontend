@@ -47,19 +47,6 @@
 
             <button @click="updateUserData">Редактировать</button>
         </div>
-
-        <div class="comments">
-        <div class="comment">
-            <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
-            <div class="comment_username">Родион</div>
-            <div class="main_comment">Блин дружище, ты большой молодец, все получится!</div>
-        </div>
-        <div class="my_comment">
-            <input type="text" class="write_comment">Ты молодец, у тебя круто получается!
-            <button class="send"><img src="/src/assets/img/send.svg" alt=""></button>
-        </div>
-    </div>
-
     </div>
 </template>
 
