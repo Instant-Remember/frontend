@@ -48,6 +48,18 @@
             <button @click="updateUserData">Редактировать</button>
         </div>
 
+        <div class="comments">
+        <div class="comment">
+            <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
+            <div class="comment_username">Родион</div>
+            <div class="main_comment">Блин дружище, ты большой молодец, все получится!</div>
+        </div>
+        <div class="my_comment">
+            <input type="text" class="write_comment">Ты молодец, у тебя круто получается!
+            <button class="send"><img src="/src/assets/img/send.svg" alt=""></button>
+        </div>
+    </div>
+
     </div>
 </template>
 
@@ -80,7 +92,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`http://158.160.80.94:8000/me`, {
+            axios.get(`http://130.193.34.79:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -99,7 +111,7 @@ export default {
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.patch(`http://158.160.80.94:8000/me`, {
+            axios.patch(`http://130.193.34.79:8000/me`, {
                 username: this.newUsername || this.user.username,
                 first_name: this.newFirstName || this.user.first_name,
                 last_name: this.newLastName || this.user.last_name,

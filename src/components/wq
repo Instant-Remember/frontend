@@ -4,7 +4,7 @@
 
             <user class="userpost">
                 <img src="/src/assets/img/avatar.svg" alt="">
-                <div class="username">{{ users.first_name }} {{ users.last_name }}</div>
+                <div class="username">{{ getUserFirstName(post.owner_id) }} {{ getUserLastName(post.owner_id) }}</div>
             </user>
 
             <div class="mainpost">
@@ -16,40 +16,51 @@
 
             <date>Неделю назад</date>
             <society>
-                <button class="likes">
+                <button class="likes" @click="likePost(post.id)">
                     <img src="/src/assets/img/likes.svg" alt="">
-                    <div class="like">{{ likes.length }}</div>
+                    <div class="like">{{ getLikesCount(post.id) }}</div>
                 </button>
-                <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
+                <button class="comments_img"><img src="/src/assets/img/comments.svg" alt=""></button>
             </society>
+
+            <div class="comments">
+                <div class="comment">
+                    <user class="usercomment">
+                        <img src="/src/assets/img/avatar.svg" alt="" class="usercomment_img">
+                        <div class="username_comment">Вася пупкин</div>
+                    </user>
+                    <div class="maincomment">Красаучик васссяяяя</div>
+                </div>
+                <div class="writecomment">
+                    <input type="text">
+                    <button class="send"><img src="/src/assets/img/send.svg" alt="Отправить"></button>
+                </div>
+                
+            </div>
         </div>
+
     </div>
 </template>
 
 <script>
-import axios from 'axios';
 import progressBar from './progressBar.vue'
+import axios from 'axios';
+import { reactive, toRefs } from 'vue';
 
 export default {
+    components: { progressBar },
     props: {
         backendURL: String
     },
+    setup() {
+        const state = reactive({
+            posts: [],
+            users: {},
+            goals: {},
+            likes: {}
+        });
 
-    components: { progressBar },
-
-    data() {
-        return {
-            posts: [], // Массив для хранения постов
-            users: [], // Объект для хранения данных о пользователях
-            goals: [], // Объект для хранения данных о целях
-            likes: []
-        };
-    },
-    mounted() {
-        this.getFeed();
-    },
-    methods: {
-        getFeed() {
+        const getFeed = () => {
             const accessToken = localStorage.getItem('accessToken');
 
             axios.get(`http://158.160.80.94:8000/feed?count=5&offset=1`, {
@@ -59,81 +70,125 @@ export default {
                 }
             })
                 .then(response => {
-                    this.posts = response.data;
-                    this.getUserInfo();
-                    this.getGoals();
-                    this.getLikes();
+                    state.posts = response.data;
+
+                    state.posts.forEach(post => {
+                        getUser(post.owner_id);
+                        getGoal(post.goal_id);
+                        getLikes(post.id);
+                    });
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных:', error);
                 });
-        },
-        getUserInfo() {
-            // Получение данных о пользователе для каждого поста
-            this.posts.forEach(post => {
-                axios.get(`http://158.160.80.94:8000/profile/${post.owner_id}`, {
-                    headers: {
-                        'accept': 'application/json'
-                    }
+        };
+
+        const getUser = (userId) => {
+            axios.get(`http://158.160.80.94:8000/profile/${userId}`, {
+                headers: {
+                    'accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    state.users[userId] = response.data;
                 })
-                    .then(response => {
-                        // Обновление данных о пользователе в каждом посте
-                        this.users = response.data;
-                        console.log('Польхователь:', response.data);
-                    })
-                    .catch(error => {
-                        // Обработка ошибки
-                        console.error('Ошибка при получении данных о пользователе:', error);
-                    });
-            });
-        },
+                .catch(error => {
+                    console.error('Ошибка при получении данных о пользователе:', error);
+                });
+        };
 
-        getGoals() {
-            this.posts.forEach(post => {
-                const id = `${post.goal_id}`
-
-                axios.get(`http://158.160.80.94:8000/goal/${id}`, {
-                    headers: {
-                        'accept': 'application/json'
-                    }
+        const getGoal = (goalId) => {
+            axios.get(`http://158.160.80.94:8000/goal/${goalId}`, {
+                headers: {
+                    'accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    state.goals[goalId] = response.data;
                 })
-                    .then(response => {
-                        this.goals = response.data;
-                        console.log('Цели друга:', response.data);
-                    })
-                    .catch(error => {
-                        console.error('Ошибка при получении данных о цели:', error);
-                    });
-            });
-        },
+                .catch(error => {
+                    console.error('Ошибка при получении данных о цели:', error);
+                });
+        };
 
-        getGoalName(goalId) { // Новый метод для получения имени цели по её id
-            const goal = this.goals.find(goal => goal.id === goalId);
-            return goal ? goal.name : 'Цель не найдена';
-        },
-
-        getLikes() {
-            this.posts.forEach(post => {
-                axios.get(`http://158.160.80.94:8000/post/${post.id}/likes`, {
-                    headers: {
-                        'accept': 'application/json'
-                    }
+        const getLikes = (postId) => {
+            axios.get(`http://158.160.80.94:8000/post/${postId}/likes`, {
+                headers: {
+                    'accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    state.likes[postId] = response.data;
                 })
-                    .then(response => {
-                        this.likes = response.data;
-                        console.log('Лайки:', response.data);
-                    })
-                    .catch(error => {
-                        console.error('Ошибка при получении лайков:', error);
-                    });
-            });
-        }
+                .catch(error => {
+                    console.error('Ошибка при получении данных о лайках поста:', error);
+                });
+        };
+
+        const likePost = (postId) => {
+            const accessToken = localStorage.getItem('accessToken');
+
+            axios.get(`http://158.160.80.94:8000/post/${postId}/like`, {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${accessToken}` // Добавляем заголовок с токеном доступа
+                }
+            })
+                .then(response => {
+                    // Обновляем количество лайков для данного поста
+                    getLikes(postId);
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке лайка:', error);
+                });
+        };
+
+
+        const getUserFirstName = (userId) => {
+            const user = state.users[userId];
+            return user ? user.first_name : '';
+        };
+
+        const getUserLastName = (userId) => {
+            const user = state.users[userId];
+            return user ? user.last_name : '';
+        };
+
+        const getGoalName = (goalId) => {
+            const goal = state.goals[goalId];
+            return goal ? goal.name : '';
+        };
+
+        const getLikesCount = (postId) => {
+            const likes = state.likes[postId];
+            return likes ? likes.length : 0;
+        };
+
+        return {
+            ...toRefs(state),
+            getFeed,
+            getUser,
+            getGoal,
+            getLikes,
+            likePost,
+            getUserFirstName,
+            getUserLastName,
+            getGoalName,
+            getLikesCount
+        };
+    },
+    mounted() {
+        this.getFeed();
     }
-}
+};
 </script>
 
-
 <style scoped>
+
+.posts {
+    margin-top: -15px;
+}
+
 .post {
     width: 757px;
     height: auto;
@@ -305,7 +360,7 @@ society {
 
 }
 
-.comments {
+.comments_img {
     width: 18px;
     height: 18px;
     margin-left: 24px;

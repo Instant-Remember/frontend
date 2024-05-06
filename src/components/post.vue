@@ -20,14 +20,17 @@
                     <img src="/src/assets/img/likes.svg" alt="">
                     <div class="like">1K</div>
                 </button>
-                <button class="comments"><img src="/src/assets/img/comments.svg" alt=""></button>
+                <button class="comments_img"><img src="/src/assets/img/comments.svg" alt=""></button>
             </society>
+
+            <comments class="comments"></comments>
         </div>
     </div>
 </template>
 
 <script>
 import progressBar from './progressBar.vue'
+import comments from './comments.vue'
 import axios from 'axios'
 
 export default {
@@ -35,7 +38,7 @@ export default {
         backendURL: String
     },
 
-    components: { progressBar },
+    components: { progressBar, comments },
 
     data() {
         return {
@@ -56,7 +59,7 @@ export default {
         fetchUserPosts() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.80.94:8000/me/posts`, {
+            axios.get(`http://130.193.34.79:8000/me/posts`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -73,7 +76,7 @@ export default {
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.80.94:8000/me/goals`, {
+            axios.get(`http://130.193.34.79:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -97,7 +100,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`http://158.160.80.94:8000/me`, {
+            axios.get(`http://130.193.34.79:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -129,7 +132,11 @@ export default {
 
     display: grid;
     grid-template-columns: 69px 555px 133px;
-    grid-template-rows: 62px 53px 40px;
+    grid-template-rows: 62px 53px 40px auto;
+}
+
+.comments{
+    grid-row: 4;
 }
 
 user {
@@ -289,7 +296,7 @@ society {
 
 }
 
-.comments {
+.comments_img {
     width: 18px;
     height: 18px;
     margin-left: 24px;

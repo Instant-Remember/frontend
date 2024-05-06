@@ -21,6 +21,7 @@ import './components/RegisterPage.vue'
 import './components/PasswordRecoveryPage.vue'
 import './components/navMenuOptions.vue'
 import './components/FriendPage.vue'
+import './components/comments.vue'
 
 import { createApp } from 'vue'
 import App from './App.vue'

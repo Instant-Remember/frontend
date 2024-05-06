@@ -44,7 +44,7 @@ export default {
     },
     login() {
       const backendURL = localStorage.getItem('backendURL')
-      axios.post(`http://158.160.80.94:8000/login`, {
+      axios.post(`http://130.193.34.79:8000/login`, {
         grant_type: '',
         username: this.username,
         password: this.password,
