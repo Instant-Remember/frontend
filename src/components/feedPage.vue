@@ -14,7 +14,7 @@
 
             <progressBar class="progres"></progressBar>
 
-            <date>Неделю назад</date>
+            <date>{{ formatDate(post.date_create) }}</date>
             <society>
                 <button class="likes" @click="likePost(post.id)">
                     <img src="/src/assets/img/likes.svg" alt="">
@@ -61,6 +61,19 @@ export default {
         };
     },
     methods: {
+        formatDate(dateString) {
+        const months = [
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        ];
+
+        const dateObj = new Date(dateString);
+        const day = dateObj.getDate();
+        const monthIndex = dateObj.getMonth();
+        const year = dateObj.getFullYear();
+
+        return `${day} ${months[monthIndex]} ${year}`;
+    },
         getFeed() {
             const accessToken = localStorage.getItem('accessToken');
 

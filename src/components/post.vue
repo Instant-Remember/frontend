@@ -14,7 +14,7 @@
 
             <progressBar class="progres"></progressBar>
 
-            <date>Неделю назад</date>
+            <date>{{ formatDate(post.date_create) }}</date>
             <society>
                 <button class="likes" @click="likePost(post.id)">
                     <img src="/src/assets/img/likes.svg" alt="">
@@ -75,6 +75,19 @@ export default {
     },
 
     methods: {
+        formatDate(dateString) {
+        const months = [
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        ];
+
+        const dateObj = new Date(dateString);
+        const day = dateObj.getDate();
+        const monthIndex = dateObj.getMonth();
+        const year = dateObj.getFullYear();
+
+        return `${day} ${months[monthIndex]} ${year}`;
+    },
         getUser(userId) {
             axios.get(`http://130.193.34.79:8000/profile/${userId}`, {
                 headers: {
@@ -101,7 +114,7 @@ export default {
                     console.log('Посты пользователя:', response.data);
                     this.posts = response.data; // Заполнение массива постами из ответа сервера
 
-                    this.posts.forEach(post =>{
+                    this.posts.forEach(post => {
                         this.getComments(post.id);
                         this.getUser(post.owner_id);
                         this.getLikes(post.id);
@@ -163,7 +176,7 @@ export default {
             })
                 .then(response => {
                     this.posts.find(post => post.id === postId).comments = response.data;
-                    
+
                     // Для каждого комментария получаем данные о пользователе
                     response.data.forEach(comment => {
                         this.fetchUserData(comment.user_id);
@@ -192,15 +205,15 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => {
-                    // Опционально: обновление списка комментариев
-                    this.getComments(postId);
-                    // Очистка поля ввода после успешной отправки
-                    this.newCommentText = '';
-                })
-                .catch(error => {
-                    console.error('Ошибка при добавлении комментария:', error);
-                });
+                    .then(response => {
+                        // Опционально: обновление списка комментариев
+                        this.getComments(postId);
+                        // Очистка поля ввода после успешной отправки
+                        this.newCommentText = '';
+                    })
+                    .catch(error => {
+                        console.error('Ошибка при добавлении комментария:', error);
+                    });
             }
         },
         getLikes(postId) {
