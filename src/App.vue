@@ -2,7 +2,7 @@
 
   <body :backendURL="backendURL">
     <header>
-      <component :is="headerComponent" :backendURL="backendURL"></component>
+      <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected" @changePage="changePage"></component>
     </header>
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }" :backendURL="backendURL">
       <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>

@@ -40,6 +40,12 @@ export default {
   created() {
     this.fetchUserData();
   },
+  mounted() {
+    document.addEventListener('click', this.hideResultsOnClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.hideResultsOnClickOutside);
+  },
   methods: {
     fetchUserData() {
       // Получение токена доступа из локального хранилища
@@ -74,7 +80,8 @@ export default {
           // Маппим массив пользователей и формируем объекты с именем, фамилией и фотографией профиля
           this.searchResults = response.data.map(user => ({
             name: `${user.first_name} ${user.last_name}`,
-            profilePhoto: user.profile_photo
+            profilePhoto: user.profile_photo,
+            id: `${user.id}`
           }));
         })
         .catch(error => {
@@ -85,19 +92,28 @@ export default {
       // Если клик был вне меню результатов, скрываем меню
       if (!event.target.closest('.searchLine')) {
         this.searchResults = [];
+        this.searchQuery = '';
       }
     },
     selectResult(result) {
       // Действие при выборе результата
-      console.log('Выбран результат:', result);
-      // Здесь можно добавить действие при выборе результата, например, заполнить строку поиска выбранным результатом
+      console.log('Выбран результат:', result.id);
+      this.$emit('changePage', 'FriendPage');
+      this.$emit('friendSelected', result.id);
+      this.searchResults = [];
+      this.searchQuery = '';
+    },
+    hideResultsOnClickOutside(event) {
+      // Если клик был вне компонента поиска, скрываем меню
+      if (!this.$el.contains(event.target)) {
+        this.searchResults = [];
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-
 .searchResults {
   margin-top: 43px;
   width: 300px;

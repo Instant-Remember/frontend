@@ -97,4 +97,8 @@ img {
 span {
   margin-left: 24px;
 }
+
+.avatar{
+  border-radius: 20px;
+}
 </style>
