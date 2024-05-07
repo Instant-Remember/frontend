@@ -27,7 +27,7 @@
                 <div class="line"></div>
                 <div class="container">
                     <div class="comment" v-for="comment in post.comments" :key="comment.id">
-                        <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
+                        <img :src="getUserAvatar(comment.user_id)" alt="" class="avatar">
                         <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
                         <div class="main_comment">{{ comment.text }}</div>
                     </div>
@@ -89,7 +89,7 @@ export default {
         return `${day} ${months[monthIndex]} ${year}`;
     },
         getUser(userId) {
-            axios.get(`http://130.193.34.79:8000/profile/${userId}`, {
+            axios.get(`http://158.160.11.10:8000/profile/${userId}`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -105,7 +105,7 @@ export default {
         fetchUserPosts() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://130.193.34.79:8000/me/posts`, {
+            axios.get(`http://158.160.11.10:8000/me/posts`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -128,7 +128,7 @@ export default {
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://130.193.34.79:8000/me/goals`, {
+            axios.get(`http://158.160.11.10:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -152,7 +152,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`http://130.193.34.79:8000/me`, {
+            axios.get(`http://158.160.11.10:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -169,7 +169,7 @@ export default {
                 });
         },
         getComments(postId) {
-            axios.get(`http://130.193.34.79:8000/post/${postId}/comments`, {
+            axios.get(`http://158.160.11.10:8000/post/${postId}/comments`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -186,6 +186,10 @@ export default {
                     console.error('Ошибка при получении данных о комментариях поста:', error);
                 });
         },
+        getUserAvatar(userId) {
+            const user = this.users[userId];
+            return user ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
+        },
         getCommentUserName(userId) {
             const user = this.users[userId];
             return user ? `${user.first_name} ${user.last_name}` : '';
@@ -195,7 +199,7 @@ export default {
             const newCommentText = this.newCommentText.trim();
 
             if (newCommentText) {
-                axios.post(`http://130.193.34.79:8000/comment/create`, {
+                axios.post(`http://158.160.11.10:8000/comment/create`, {
                     text: newCommentText,
                     post_id: postId
                 }, {
@@ -217,7 +221,7 @@ export default {
             }
         },
         getLikes(postId) {
-            axios.get(`http://130.193.34.79:8000/post/${postId}/likes`, {
+            axios.get(`http://158.160.11.10:8000/post/${postId}/likes`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -236,7 +240,7 @@ export default {
         likePost(postId) {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://130.193.34.79:8000/post/${postId}/like`, {
+            axios.get(`http://158.160.11.10:8000/post/${postId}/like`, {
                 headers: {
                     'accept': 'application/json',
                     'Authorization': `Bearer ${accessToken}`

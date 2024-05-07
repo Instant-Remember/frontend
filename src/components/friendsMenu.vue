@@ -2,7 +2,7 @@
   <div class="friendsMenu">
     <div class="friend1" v-for="(subscription, index) in subscriptions" :key="index"
       @click="showFriendName(subscription)">
-      <img src="/src/assets/img/friends/andreyK.svg" alt="">
+      <img :src="subscription.user_info.profile_photo" alt="Photo" v-if="subscription.user_info" class="avatar">
       <span>{{ subscription.user_info ? subscription.user_info.first_name : 'Пользователь' }}</span>
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
     };
   },
 
-  created() {
+  mounted() {
     this.fetchUserSubscriptions()
   },
 
@@ -30,7 +30,7 @@ export default {
     fetchUserSubscriptions() {
       const accessToken = localStorage.getItem('accessToken');
 
-      axios.get(`http://130.193.34.79:8000/me/subscriptions`, {
+      axios.get(`http://158.160.11.10:8000/me/subscriptions`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -41,7 +41,7 @@ export default {
 
           // Получаем информацию о каждом пользователе, на которого мы подписаны
           this.subscriptions.forEach(subscription => {
-            axios.get(`http://130.193.34.79:8000/profile/${subscription.publisher_id}`, {
+            axios.get(`http://158.160.11.10:8000/profile/${subscription.publisher_id}`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }

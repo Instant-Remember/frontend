@@ -57,7 +57,7 @@ export default {
             const backendURL = localStorage.getItem('backendURL')
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`http://130.193.34.79:8000/me`, {
+            axios.get(`http://158.160.11.10:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -78,7 +78,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://130.193.34.79:8000/me/goals`, {
+            axios.get(`http://158.160.11.10:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -99,7 +99,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://130.193.34.79:8000/me/subscribers`, {
+            axios.get(`http://158.160.11.10:8000/me/subscribers`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -120,7 +120,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://130.193.34.79:8000/me/subscriptions`, {
+            axios.get(`http://158.160.11.10:8000/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

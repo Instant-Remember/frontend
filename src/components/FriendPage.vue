@@ -2,7 +2,7 @@
   <div class="profileHeader">
 
     <photo>
-      <img src="/src/assets/img/avatar.svg" alt="">
+      <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar">
     </photo>
 
     <description>
@@ -31,7 +31,7 @@
     <div class="post" v-for="(post, index) in posts" :key="index">
 
       <user class="userpost">
-        <img src="/src/assets/img/avatar.svg" alt="">
+        <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar_post">
         <div class="username">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
       </user>
 
@@ -55,7 +55,7 @@
         <div class="line"></div>
         <div class="container">
           <div class="comment" v-for="comment in post.comments" :key="comment.id">
-            <img src="/src/assets/img/friends/rodion.svg" alt="" class="avatar">
+            <img :src="getUserAvatar(comment.user_id)" alt="" class="avatar_comment">
             <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
             <div class="main_comment">{{ comment.text }}</div>
           </div>
@@ -121,7 +121,7 @@ export default {
     },
     fetchFriendInfo() {
       // Отправляем запрос на бэкенд для получения данных о друге по его ID
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}`)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}`)
         .then(response => {
           this.friendInfo = response.data;
         })
@@ -131,7 +131,7 @@ export default {
     },
     fetchFriendGoals() {
       // Отправляем запрос на бэкенд для получения целей друга
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/goals?user_id=${this.friendName}`)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/goals?user_id=${this.friendName}`)
         .then(response => {
           console.log('Цели друга:', response.data);
           this.friendGoals = response.data;
@@ -148,7 +148,7 @@ export default {
       return goal ? goal.name : 'Цель не найдена';
     },
     fetchFriendSubscribers() {
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/subscribers`)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/subscribers`)
         .then(response => {
           console.log('Подписчики:', response.data);
           this.friendSubscribers = response.data; // Заполнение массива целей из ответа сервера
@@ -161,7 +161,7 @@ export default {
       return this.friendSubscribers.length;
     },
     fetchFriendSubscriptions() {
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/subscriptions`)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/subscriptions`)
         .then(response => {
           console.log('Подписки:', response.data);
           this.friendSubscriptions = response.data; // Заполнение массива целей из ответа сервера
@@ -174,7 +174,7 @@ export default {
       return this.friendSubscriptions.length;
     },
     fetchUserPosts() {
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/posts`)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/posts`)
         .then(response => {
           console.log('Посты друга:', response.data);
           this.posts = response.data; // Заполнение массива постами из ответа сервера
@@ -199,7 +199,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту подписки на пользователя
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/follow`, config)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/follow`, config)
         .then(response => {
           console.log('Пользователь успешно подписан:', response.data);
           this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
@@ -220,7 +220,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
-      axios.get(`http://130.193.34.79:8000/profile/${this.friendName}/is_subscription`, config)
+      axios.get(`http://158.160.11.10:8000/profile/${this.friendName}/is_subscription`, config)
         .then(response => {
           if (response.data.status === 'ok') {
             this.isSubscribed = response.data.result; // Обновляем состояние подписки в соответствии с результатом
@@ -235,7 +235,7 @@ export default {
     likePost(postId) {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://130.193.34.79:8000/post/${postId}/like`, {
+            axios.get(`http://158.160.11.10:8000/post/${postId}/like`, {
                 headers: {
                     'accept': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -249,7 +249,7 @@ export default {
                 });
         },
     getLikes(postId) {
-      axios.get(`http://130.193.34.79:8000/post/${postId}/likes`, {
+      axios.get(`http://158.160.11.10:8000/post/${postId}/likes`, {
         headers: {
           'accept': 'application/json'
         }
@@ -266,7 +266,7 @@ export default {
             return likes ? likes.length : 0;
         },
     getComments(postId) {
-      axios.get(`http://130.193.34.79:8000/post/${postId}/comments`, {
+      axios.get(`http://158.160.11.10:8000/post/${postId}/comments`, {
         headers: {
           'accept': 'application/json'
         }
@@ -284,7 +284,7 @@ export default {
         });
     },
     getUser(userId) {
-      axios.get(`http://130.193.34.79:8000/profile/${userId}`, {
+      axios.get(`http://158.160.11.10:8000/profile/${userId}`, {
         headers: {
           'accept': 'application/json'
         }
@@ -300,12 +300,16 @@ export default {
       const user = this.users[userId];
       return user ? `${user.first_name} ${user.last_name}` : '';
     },
+    getUserAvatar(userId) {
+            const user = this.users[userId];
+            return user ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
+        },
     addComment(postId) {
       const accessToken = localStorage.getItem('accessToken');
       const newCommentText = this.newCommentText.trim();
 
       if (newCommentText) {
-        axios.post(`http://130.193.34.79:8000/comment/create`, {
+        axios.post(`http://158.160.11.10:8000/comment/create`, {
           text: newCommentText,
           post_id: postId
         }, {
@@ -388,6 +392,14 @@ photo {
   width: 550px;
 
   margin-top: 10px;
+}
+
+.avatar_post {
+    width: 42px;
+    height: 42px;
+    border-radius: 65px;
+
+    margin: 16px 16px;
 }
 
 .test2 {
@@ -716,6 +728,12 @@ society {
 }
 
 .avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 65px;
+}
+
+.avatar_comment {
   width: 28px;
   height: 28px;
   grid-row: 1;

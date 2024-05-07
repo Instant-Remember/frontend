@@ -10,7 +10,7 @@
       <p id="p2">Для тебя</p>
     </div>
     <div class="user">
-      <img src="/src/assets/img/avatar.svg" alt="Me">
+      <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
       <p>{{ user.first_name }} {{ user.last_name }}</p>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get(`http://130.193.34.79:8000/me`, {
+      axios.get(`http://158.160.11.10:8000/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
