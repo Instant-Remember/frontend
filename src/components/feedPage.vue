@@ -116,7 +116,7 @@ export default {
         },
         getUserAvatar(userId) {
             const user = this.users[userId];
-            return user ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
+            return user && user.profile_photo ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
         },
         getGoal(goalId) {
             axios.get(`http://158.160.11.10:8000/goal/${goalId}`, {
@@ -193,10 +193,6 @@ export default {
         getLikesCount(postId) {
             const likes = this.likes[postId];
             return likes ? likes.length : 0;
-        },
-        getUserAvatar(userId) {
-            const user = this.users[userId];
-            return user ? user.avatar : '';
         },
         getCommentUserName(userId) {
             const user = this.users[userId];
@@ -462,6 +458,7 @@ society {
     grid-column: 1;
     margin-top: 12px;
     margin-left: 11px;
+    border-radius: 20px;
 }
 
 .comment_username {

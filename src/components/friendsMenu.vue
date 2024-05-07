@@ -2,7 +2,7 @@
   <div class="friendsMenu">
     <div class="friend1" v-for="(subscription, index) in subscriptions" :key="index"
       @click="showFriendName(subscription)">
-      <img :src="subscription.user_info.profile_photo" alt="Photo" v-if="subscription.user_info" class="avatar">
+      <img :src="subscription.user_info && subscription.user_info.profile_photo ? subscription.user_info.profile_photo : '/src/assets/img/avatar.svg'" alt="Photo" class="avatar">
       <span>{{ subscription.user_info ? subscription.user_info.first_name : 'Пользователь' }}</span>
     </div>
   </div>

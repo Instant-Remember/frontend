@@ -3,7 +3,7 @@
     <profileHeader></profileHeader>
 
     <search>
-      <searchLine></searchLine>
+      <input type="text" v-model="postText" placeholder="Поделитесь своей целью">
       <button @click="showPopup = true">Создать</button>
     </search>
 

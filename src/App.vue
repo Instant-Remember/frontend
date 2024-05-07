@@ -62,7 +62,7 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://158.160.80.94:8000`
+      backendURL: `http://158.160.11.10:8000`
     };
   },
   computed: {
