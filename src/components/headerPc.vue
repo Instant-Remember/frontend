@@ -1,6 +1,6 @@
 <template>
   <div class="headerPc" @click="hideResultsOnClick">
-    <img src="/src/assets/img/logo.svg" alt="Лого" class="logo">
+    <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
     <div class="searchLine">
       <img src="/src/assets/img/search.svg" alt="" class="search_img">
       <input type="text" placeholder="Поиск" v-model="searchQuery" @input="searchUsers">
@@ -47,6 +47,9 @@ export default {
     document.removeEventListener('click', this.hideResultsOnClickOutside);
   },
   methods: {
+    userPage(){
+      this.$emit('changePage', 'userPage');
+    },
     fetchUserData() {
       // Получение токена доступа из локального хранилища
       const accessToken = localStorage.getItem('accessToken');

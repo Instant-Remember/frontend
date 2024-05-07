@@ -3,6 +3,7 @@
         <div class="profileHeader">
             <photo @click="openFileInput">
                 <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
+                <img src="/src/assets/img/edit.svg" alt="" class="edit">
             </photo>
             <input type="file" id="avatarInput" style="display: none" @change="handleFileChange">
             <bgEditor>
@@ -130,6 +131,7 @@ export default {
                 .then(response => {
                     console.log('Данные пользователя обновлены:', response.data);
                     // Можно выполнить дополнительные действия после успешного обновления данных
+                    this.$emit('changePage', 'userPage');
                 })
                 .catch(error => {
                     console.error('Ошибка при обновлении данных пользователя:', error);
@@ -142,6 +144,12 @@ export default {
 
 
 <style scoped>
+.edit{
+   position: absolute;
+    top: 242px;
+    left: 638px;
+}
+
 .avatar {
     width: 130px;
     height: 130px;

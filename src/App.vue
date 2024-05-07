@@ -13,7 +13,7 @@
     <section class="main">
       <component :is="currentPage" :friendName="friendName" :backendURL="backendURL" @loginSuccess="loginSuccess"
         @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
-        @openPasswordRecovery="openPasswordRecovery" />
+        @openPasswordRecovery="openPasswordRecovery" @changePage="changePage"/>
     </section>
   </body>
 </template>
