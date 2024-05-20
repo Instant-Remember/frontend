@@ -33,4 +33,9 @@ export default {
     margin-left: 64px;
 }
 
+@media (max-width: 375px){
+    .headerPcAuth{
+        display: none;
+    }
+}
 </style>

@@ -80,7 +80,6 @@ export default {
       axios.get(`http://158.160.11.10:8000/search/users/${query}`)
         .then(response => {
           console.log('Результаты поиска:', response.data);
-          // Маппим массив пользователей и формируем объекты с именем, фамилией и фотографией профиля
           this.searchResults = response.data.map(user => ({
             name: `${user.first_name} ${user.last_name}`,
             profilePhoto: user.profile_photo,

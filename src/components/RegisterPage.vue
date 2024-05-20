@@ -274,4 +274,64 @@ button {
 
   cursor: pointer;
 }
+
+@media (max-width: 375px) {
+  .RegisterPage {
+    width: 375px;
+  }
+
+  .background {
+    display: none;
+  }
+
+  .container {
+    margin-left: 16px;
+    margin-top: 96px;
+  }
+
+  .steps {
+    width: 343px;
+    height: 419px;
+    background-color: #fff;
+    border-radius: 20px;
+  }
+
+  input {
+    width: 312px;
+    height: 50px;
+    margin-left: 17px;
+  }
+
+  .logo {
+    margin-top: 24px;
+    margin-left: 140px;
+  }
+
+  .registr {
+    margin-left: 100px;
+  }
+
+  button {
+    margin-left: 17px;
+    margin-top: 24px;
+  }
+
+  .circles {
+    display: flex;
+    width: 312px;
+    height: 8px;
+
+    margin-top: 24px;
+    margin-left: 15px;
+  }
+
+  .enter {
+    width: 343px;
+  }
+
+
+  .enter p {
+    margin-left: 18px;
+  }
+}
 </style>

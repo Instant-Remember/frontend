@@ -69,6 +69,7 @@ export default {
         this.fetchUserData(); // Получаем данные о пользователе при создании компонента
     },
     methods: {
+
         // Получение данных о пользователе
         fetchUserData() {
             const accessToken = localStorage.getItem('accessToken');
@@ -130,7 +131,6 @@ export default {
             })
                 .then(response => {
                     console.log('Данные пользователя обновлены:', response.data);
-                    // Можно выполнить дополнительные действия после успешного обновления данных
                     this.$emit('changePage', 'userPage');
                 })
                 .catch(error => {

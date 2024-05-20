@@ -189,9 +189,7 @@ export default {
         });
     },
     followUser() {
-      // Получаем access token из localStorage
       const accessToken = localStorage.getItem('accessToken');
-      // Формируем заголовок авторизации
       const config = {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -203,7 +201,6 @@ export default {
         .then(response => {
           console.log('Пользователь успешно подписан:', response.data);
           this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
-          // Дополнительные действия при успешной подписке, если необходимо
         })
         .catch(error => {
           console.error('Ошибка при подписке на пользователя:', error);

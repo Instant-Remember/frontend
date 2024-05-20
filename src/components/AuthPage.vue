@@ -44,7 +44,7 @@ export default {
     },
     login() {
       const backendURL = localStorage.getItem('backendURL')
-      axios.post(`http://158.160.11.10:8000/login`, {
+      axios.post(`http://158.160.91.87:8000/login`, {
         grant_type: '',
         username: this.username,
         password: this.password,
@@ -225,5 +225,60 @@ button {
   text-align: center;
 
   color: #8C8C8C;
+}
+
+@media (max-width: 375px) {
+  .AuthPage {
+    width: 375px;
+  }
+
+  .background {
+   display: none;
+  }
+
+  .container{
+    margin-left: 16px;
+    margin-top: 96px;
+  }
+
+  .auth {
+    width: 343px;
+    height: 419px;
+    background-color: #fff;
+    border-radius: 20px;
+  }
+
+  .logo {
+    width: 62px;
+    height: 47px;
+
+    margin-left: 148px;
+  }
+
+  .enter {
+    margin-left: 150px;
+  }
+
+  input {
+    margin-left: 16px;
+  }
+
+  button {
+    margin-left: 17px;
+    margin-top: 24px;
+  }
+
+  .forgetPassword {
+    margin-left: 122px;
+  }
+
+  .registration {
+    width: 343px;
+  }
+
+  .registration p {
+    margin-left: 18px;
+  }
+
 }
 </style>

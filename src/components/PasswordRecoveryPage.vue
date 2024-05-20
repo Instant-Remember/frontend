@@ -17,7 +17,7 @@
     </section>
   </div>
 </template>
-  
+
 <script>
 export default {
   methods: {
@@ -31,7 +31,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 .PasswordRecoveryPage {
   display: flex;
@@ -162,5 +162,48 @@ button {
 
   cursor: pointer;
 }
+
+@media (max-width: 375px) {
+  .PasswordRecoveryPage {
+    width: 375px;
+  }
+
+  .background {
+    display: none;
+  }
+
+  .container {
+    margin-left: 16px;
+    margin-top: 96px;
+  }
+
+  input {
+    width: 312px;
+    height: 50px;
+    margin-left: 17px;
+  }
+
+  .logo {
+    margin-top: 24px;
+    margin-left: 140px;
+  }
+
+  .recover{
+    margin-left: 17px;
+    margin-top: 24px;
+  }
+
+  button {
+    margin-left: 17px;
+    margin-top: 24px;
+  }
+
+  .enter {
+    width: 343px;
+  }
+
+  .enter p {
+    margin-left: 18px;
+  }
+}
 </style>
-  

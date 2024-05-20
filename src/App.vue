@@ -1,5 +1,4 @@
 <template>
-
   <body :backendURL="backendURL">
     <header>
       <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected" @changePage="changePage"></component>
@@ -135,6 +134,16 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 375px){
+  body{
+    width: 375px;
+  }
+
+  .main{
+    padding-top: 0px !important;
+  }
+}
+
 body {
   margin: auto;
   width: 1440px;
@@ -149,7 +158,7 @@ header {
 }
 
 .main {
-  padding-top: 94px;
+ padding-top: 94px;
 }
 
 aside {
