@@ -1,6 +1,8 @@
 <template>
   <div class="headerPc" @click="hideResultsOnClick">
+
     <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
+
     <div class="searchLine">
       <img src="/src/assets/img/search.svg" alt="" class="search_img">
       <input type="text" placeholder="Поиск" v-model="searchQuery" @input="searchUsers">
@@ -10,14 +12,16 @@
           <span>{{ result.name }}</span>
         </div>
       </div>
+
     </div>
     <div class="menu_buttons">
       <p id="p1">Популярное</p>
       <p id="p2">Для тебя</p>
+
     </div>
     <div class="user">
       <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
-      <p>{{ user.first_name }} {{ user.last_name }}</p>
+      <p class="username">{{ user.first_name }} {{ user.last_name }}</p>
     </div>
   </div>
 </template>
@@ -47,7 +51,7 @@ export default {
     document.removeEventListener('click', this.hideResultsOnClickOutside);
   },
   methods: {
-    userPage(){
+    userPage() {
       this.$emit('changePage', 'userPage');
     },
     fetchUserData() {
@@ -55,7 +59,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get(`http://158.160.11.10:8000/me`, {
+      axios.get(`http://158.160.92.119:8000/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -77,7 +81,7 @@ export default {
         this.searchResults = []; // Очищаем результаты поиска, если запрос пустой
         return;
       }
-      axios.get(`http://158.160.11.10:8000/search/users/${query}`)
+      axios.get(`http://158.160.92.119:8000/search/users/${query}`)
         .then(response => {
           console.log('Результаты поиска:', response.data);
           this.searchResults = response.data.map(user => ({
@@ -267,5 +271,64 @@ p {
   background-color: #E0E6EF;
 
   border-radius: 20px;
+}
+
+@media (max-width: 375px) {
+  .headerPc {
+    width: 375px;
+    height: 111px;
+
+    display: grid;
+    grid-template-columns: 187px 188px;
+    grid-template-rows: 74px 37px;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .searchLine {
+    grid-column: 2;
+    grid-row: 1;
+
+    margin-top: 39px;
+    margin-left: 135px;
+
+    background-color: #fff9f9;
+
+    width: 24px;
+  }
+
+  .searchLine input{
+    display: none;
+  }
+
+  .menu_buttons {
+    grid-column: 1 2;
+    grid-row: 2;
+  }
+
+  .user {
+    grid-column: 1;
+    grid-row: 1;
+
+    width: 76px;
+    height: 24px;
+
+    margin-top: 39px;
+    margin-left: 16px;
+
+    padding: 0;
+  }
+
+  .user img{
+    width: 24px;
+    height: 24px;
+  }
+
+  .user p{
+    margin-top: 3px;
+    margin-left: 12px;
+  }
 }
 </style>

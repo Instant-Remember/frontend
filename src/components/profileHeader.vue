@@ -10,6 +10,7 @@
                 <div class="test1">{{ user.first_name }} {{ user.last_name }}</div>
                 <div class="test2">{{ user.about }}</div>
             </user>
+
             <target>
                 <div>{{ countGoals() }}</div>
                 <img src="/src/assets/img/navMenu/targetV.svg" alt="">
@@ -57,7 +58,7 @@ export default {
             const backendURL = localStorage.getItem('backendURL')
 
             // Выполнение запроса к серверу с токеном доступа
-            axios.get(`http://158.160.11.10:8000/me`, {
+            axios.get(`http://158.160.92.119:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -78,7 +79,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://158.160.11.10:8000/me/goals`, {
+            axios.get(`http://158.160.92.119:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -99,7 +100,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://158.160.11.10:8000/me/subscribers`, {
+            axios.get(`http://158.160.92.119:8000/me/subscribers`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -120,7 +121,7 @@ export default {
             const accessToken = localStorage.getItem('accessToken');
             const backendURL = localStorage.getItem('backendURL')
 
-            axios.get(`http://158.160.11.10:8000/me/subscriptions`, {
+            axios.get(`http://158.160.92.119:8000/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -311,5 +312,70 @@ button {
 
     margin-top: 14px;
     cursor: pointer;
+}
+
+@media (max-width: 375px) {
+    .profileHeader {
+        width: 375px;
+        height: 319px;
+
+        margin-left: 0px;
+        margin-top: 135px;
+
+        background-image: url("/src/assets/img/profileHeaderMob.svg");
+    }
+
+    .avatar {
+        display: none;
+    }
+
+
+    photo {
+       display: none;
+    }
+
+    user {
+        display: none;
+    }
+
+    .test1 {
+        display: none;
+    }
+
+    .test2 {
+        display: none;
+    }
+
+    target {
+display: none;
+    }
+
+    target div {
+display: none;
+    }
+
+    target img {
+       display: none;
+    }
+
+    .nametag {
+        display: none;
+    }
+
+    description button {
+       display: none;
+    }
+
+    subs {
+        display: none;
+    }
+
+    .subscribe {
+       display: none;
+    }
+
+    button {
+       display: none;
+    }
 }
 </style>

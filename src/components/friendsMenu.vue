@@ -30,7 +30,7 @@ export default {
     fetchUserSubscriptions() {
       const accessToken = localStorage.getItem('accessToken');
 
-      axios.get(`http://158.160.11.10:8000/me/subscriptions`, {
+      axios.get(`http://158.160.92.119:8000/me/subscriptions`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -41,7 +41,7 @@ export default {
 
           // Получаем информацию о каждом пользователе, на которого мы подписаны
           this.subscriptions.forEach(subscription => {
-            axios.get(`http://158.160.11.10:8000/profile/${subscription.publisher_id}`, {
+            axios.get(`http://158.160.92.119:8000/profile/${subscription.publisher_id}`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }

@@ -61,7 +61,7 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://158.160.11.10:8000`
+      backendURL: `http://158.160.92.119:8000`
     };
   },
   computed: {
@@ -136,12 +136,20 @@ export default {
 <style scoped>
 @media (max-width: 375px){
   body{
-    width: 375px;
+    width: 375px !important;
   }
 
   .main{
     padding-top: 0px !important;
+
+    background-color: aqua;
   }
+
+  aside{
+    margin: 0 !important;
+    bottom: 0px !important;
+  }
+
 }
 
 body {
