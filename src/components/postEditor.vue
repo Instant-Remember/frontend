@@ -1,6 +1,6 @@
 <template>
   <div class="postEditor">
-    <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?">
+    <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?" class="inp">
     <button class="tbutton" @click="showPopup = true">Добавить пост</button>
 
     <popup v-if="showPopup" @close="showPopup = false" class="popupPost">
@@ -12,7 +12,7 @@
       </div>
 
       <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?" class="postDescription">
-      <progressBar></progressBar>
+      <progressBar class="pb"></progressBar>
       <button @click="createPost" class="createPost">Создать</button>
     </popup>
   </div>
@@ -147,6 +147,10 @@ input {
   cursor: text;
 }
 
+.inp{
+  display: none;
+}
+
 .tbutton {
   width: 135px;
   height: 41px;
@@ -261,15 +265,38 @@ button:active {
     margin-left: 16px;
   }
 
-  input {
-    display: none;
-  }
-
   .tbutton {
     width: 310px;
     height: 39px;
     margin-top: 5px;
     margin-left: 16px;
+  }
+
+  .postDescription {
+    width: 370px;
+    height: 253px;
+    margin-left: 0px;
+  }
+
+  input::placeholder {
+    position: relative;
+    top: -110px;
+    /* Смещение вниз */
+    /* или */
+    left: 24px;
+    /* Смещение вверх */
+  }
+
+  .createPost {
+    margin-top: 26px;
+    margin-left: 32px;
+    width: 310px;
+  }
+
+  .pb {
+    position: fixed;
+    left: 0px;
+    width: 343px;
   }
 }
 </style>

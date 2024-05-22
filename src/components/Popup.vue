@@ -1,5 +1,6 @@
 <template>
   <popup-container @click="$emit('close')">
+    <button @click="$emit('close')">Х</button>
     <div class="popup" @click.stop>
       <slot>
       </slot>
@@ -15,6 +16,10 @@ export default {
 </script>
 
 <style scoped>
+button {
+  background: rgba(44, 44, 44, 0.5);
+}
+
 /* Стили для всплывающего окна (scoped, чтобы избежать конфликтов стилей) */
 .popup {
   position: fixed;
@@ -44,5 +49,40 @@ popup-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 375px) {
+  .popup {
+    position: fixed;
+    left: 0px;
+    top: 56px;
+
+    background-color: #fff;
+    backdrop-filter: blur(12px);
+
+    border-radius: 20px;
+
+    width: 375px;
+    height: 419px;
+
+    padding-bottom: 16px;
+  }
+
+  popup-container {
+    width: 375px;
+    top: 58px;
+    border-radius: 20px;
+  }
+
+  button {
+    width: 24px;
+    height: 24px;
+
+    position: fixed;
+    top: 16px;
+    left: 335px;
+    border-radius: 20px;
+    background: none;
+  }
 }
 </style>
