@@ -137,8 +137,8 @@ export default {
 @media (max-width: 375px){
   body{
     width: 375px !important;
-    /*position: fixed;
-    left: 0;*/
+    position: absolute;
+    left: 0px;
   }
 
   .main{
@@ -148,6 +148,8 @@ export default {
   aside{
     margin: 0 !important;
     bottom: 0px !important;
+
+    position: fixed !important;
   }
 
 }

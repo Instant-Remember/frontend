@@ -76,18 +76,18 @@ export default {
 
     methods: {
         formatDate(dateString) {
-        const months = [
-            "января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря"
-        ];
+            const months = [
+                "января", "февраля", "марта", "апреля", "мая", "июня",
+                "июля", "августа", "сентября", "октября", "ноября", "декабря"
+            ];
 
-        const dateObj = new Date(dateString);
-        const day = dateObj.getDate();
-        const monthIndex = dateObj.getMonth();
-        const year = dateObj.getFullYear();
+            const dateObj = new Date(dateString);
+            const day = dateObj.getDate();
+            const monthIndex = dateObj.getMonth();
+            const year = dateObj.getFullYear();
 
-        return `${day} ${months[monthIndex]} ${year}`;
-    },
+            return `${day} ${months[monthIndex]} ${year}`;
+        },
         getUser(userId) {
             axios.get(`http://158.160.92.119:8000/profile/${userId}`, {
                 headers: {
@@ -367,6 +367,7 @@ export default {
     color: #444444;
 
     margin-top: 4px;
+    word-wrap: break-word;
 }
 
 .progres {
@@ -543,8 +544,174 @@ society {
     color: #8C8C8C;
 }
 
+
+
 .send {
     border: none;
     background-color: #fff;
+}
+
+@media (max-width: 375px) {
+    .posts {
+        width: 375px;
+
+        margin-left: 0px;
+    }
+
+    .post {
+        width: 343px;
+        margin-left: 16px;
+
+        display: grid;
+        grid-template-columns: 223px 120px;
+        grid-template-rows: 62px auto 33px auto;
+    }
+
+    .userpost {
+        grid-row: 1;
+        grid-column: 1;
+
+        display: flex;
+
+        width: fit-content;
+
+    }
+
+    .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 65px;
+    }
+
+    .username {
+        margin-top: 27px;
+
+        height: 19px;
+
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+
+        color: #444444;
+        width: fit-content;
+
+    }
+
+    .mainpost {
+        grid-row: 2;
+        grid-column: 1 / 2;
+
+        margin-left: 16px;
+    }
+
+
+    .description {
+        width: 311px;
+        height: auto;
+        margin-top: 4px;
+        word-wrap: break-word;
+    }
+
+    .progres {
+        grid-row: 3;
+        grid-column: 1;
+
+        width: 250px;
+        margin-top: 0px;
+        margin-left: -15px;
+    }
+
+
+    date {
+        grid-row: 1;
+        grid-column: 2;
+
+        margin-top: 27px;
+    }
+
+    society {
+        grid-row: 3;
+        grid-column: 2;
+        
+    }
+
+.container {
+    max-height: 120px;
+    width: 343px;
+
+    scrollbar-width: none !important;
+    
+    
+}
+.comments {
+    grid-row: 4;
+}
+.comments_img {
+    width: 18px;
+    height: 18px;
+    margin-left: 24px;
+    padding: 0;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.line {
+    width: 343px;
+
+    grid-row: 1;
+    grid-column: 1 / 2;
+}
+
+
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    grid-row: 1;
+    grid-column: 1;
+    margin-top: 12px;
+    margin-left: 11px;
+}
+
+.my_comment {
+    grid-row: 2;
+    grid-column: 1;
+
+    width: 343px;
+    display: flex;
+    margin-left: 19px;
+
+    margin-top: 5px;
+
+    margin-left: 0px;
+}
+
+.write_comment {
+    display: flex;
+
+    width: 250px;
+
+    margin-left: 0;
+}
+
+.send {
+    border: none;
+    background-color: #fff;
+}
+
+
+.comment_username {
+    width: fit-content;
+}
+
+.main_comment {
+    width: fit-content
+}
 }
 </style>

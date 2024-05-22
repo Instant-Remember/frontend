@@ -281,7 +281,7 @@ p {
     display: grid;
     grid-template-columns: 187px 188px;
     grid-template-rows: 55px 37px;
-
+    
   }
 
   .logo {

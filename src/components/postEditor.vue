@@ -278,7 +278,7 @@ button:active {
     margin-left: 0px;
   }
 
-  input::placeholder {
+  .postDescription::placeholder {
     position: relative;
     top: -110px;
     /* Смещение вниз */

@@ -323,12 +323,15 @@ button {
         margin-top: 135px;
 
         background-image: url("/src/assets/img/profileHeaderMob.svg");
+
+
     }
 
 
     photo {
         margin-left: 123px;
         margin-top: 50px;
+        
     }
 
     description {
@@ -347,24 +350,27 @@ button {
         grid-column: 2;
         grid-row: 2;
 
-        width: 375px;
+        width: 253px;
         height: 47px;
         display: flex;
         flex-direction: column;
 
-        margin-top: 5px;
+        margin-top: 5px;        
     }
 
     .test1 {
         margin-top: 0;
-        margin-left: 0;
+        margin-left: 0;        
+        width: fit-content;
     }
 
     .test2 {
         margin-top: 2px;
-        margin-left: 0;
-        width: 131px;
+        margin-left: -120px;
+ 
         text-align: center;
+        width: 370px;
+  
     }
 
     target {
