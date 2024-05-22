@@ -325,57 +325,103 @@ button {
         background-image: url("/src/assets/img/profileHeaderMob.svg");
     }
 
-    .avatar {
-        display: none;
-    }
-
 
     photo {
-       display: none;
+        margin-left: 123px;
+        margin-top: 50px;
+    }
+
+    description {
+        width: 375px;
+        height: 207px;
+
+        margin-left: -253px;
+        margin-top: 111px;
+
+        display: grid;
+        grid-template-columns: 122px 131px 122px;
+        grid-template-rows: 71px 47px 35px 54px;
     }
 
     user {
-        display: none;
+        grid-column: 2;
+        grid-row: 2;
+
+        width: 375px;
+        height: 47px;
+        display: flex;
+        flex-direction: column;
+
+        margin-top: 5px;
     }
 
     .test1 {
-        display: none;
+        margin-top: 0;
+        margin-left: 0;
     }
 
     .test2 {
-        display: none;
+        margin-top: 2px;
+        margin-left: 0;
+        width: 131px;
+        text-align: center;
     }
 
     target {
-display: none;
+        grid-column: 1;
+        grid-row: 1;
+
+        width: 122px;
+        height: 49px;
+        margin-top: 9px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     target div {
-display: none;
+        margin-top: 0;
     }
 
     target img {
-       display: none;
+        margin-top: 0;
     }
 
     .nametag {
-        display: none;
+        grid-column: 3;
+        grid-row: 1;
+
+        margin-top: 22px;
+        margin-left: 22px;
     }
 
     description button {
-       display: none;
+        grid-column: 1  2  3;
+        grid-row: 4;
+
+        margin-left: -340px;
+        width: 310px;
+        margin-top: 0px;
     }
 
     subs {
-        display: none;
+        grid-column: 1 2 3;
+        grid-row: 3;
+
+        margin-top: 4px;
+
+        width: 375px;
+        margin-left: -120px;
+    }
+
+    .subscribers{
+        margin-left: 16px;
     }
 
     .subscribe {
-       display: none;
+        margin-left: 190px;
     }
 
-    button {
-       display: none;
-    }
 }
 </style>

@@ -137,12 +137,12 @@ export default {
 @media (max-width: 375px){
   body{
     width: 375px !important;
+    /*position: fixed;
+    left: 0;*/
   }
 
   .main{
     padding-top: 0px !important;
-
-    background-color: aqua;
   }
 
   aside{
@@ -163,6 +163,7 @@ header {
   position: fixed;
   opacity: 0.8;
   top: 0;
+
 }
 
 .main {

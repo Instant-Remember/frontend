@@ -253,4 +253,23 @@ button:active {
   line-height: 17px;
   cursor: pointer;
 }
+
+@media (max-width: 375px) {
+  .postEditor {
+    width: 343px;
+    height: 52px;
+    margin-left: 16px;
+  }
+
+  input {
+    display: none;
+  }
+
+  .tbutton {
+    width: 310px;
+    height: 39px;
+    margin-top: 5px;
+    margin-left: 16px;
+  }
+}
 </style>

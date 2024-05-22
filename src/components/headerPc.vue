@@ -276,11 +276,12 @@ p {
 @media (max-width: 375px) {
   .headerPc {
     width: 375px;
-    height: 111px;
+    height: 92px;
 
     display: grid;
     grid-template-columns: 187px 188px;
-    grid-template-rows: 74px 37px;
+    grid-template-rows: 55px 37px;
+
   }
 
   .logo {
@@ -291,7 +292,7 @@ p {
     grid-column: 2;
     grid-row: 1;
 
-    margin-top: 39px;
+    margin-top: 10px;
     margin-left: 135px;
 
     background-color: #fff9f9;
@@ -315,7 +316,7 @@ p {
     width: 76px;
     height: 24px;
 
-    margin-top: 39px;
+    margin-top: 10px;
     margin-left: 16px;
 
     padding: 0;
