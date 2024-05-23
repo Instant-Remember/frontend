@@ -12,6 +12,7 @@
             </bgEditor>
             <name>
                 <input type="text" placeholder="Иван Глобиков" class="username" v-model="newFirstName">
+                <div class="linee"></div>
                 <input type="text" placeholder="@ivang" class="nametag" v-model="newUsername">
             </name>
         </div>
@@ -144,8 +145,8 @@ export default {
 
 
 <style scoped>
-.edit{
-   position: absolute;
+.edit {
+    position: absolute;
     top: 242px;
     left: 638px;
 }
@@ -172,6 +173,7 @@ export default {
     display: grid;
     grid-template-columns: 185px 461px;
     grid-template-rows: 105px 87px;
+    
 }
 
 photo {
@@ -188,6 +190,7 @@ photo {
 
     margin-top: 46px;
     margin-left: 31px;
+    
 }
 
 bgEditor {
@@ -234,7 +237,7 @@ name {
     height: 41px;
 
     color: #444444;
-    margin-left: 0;
+    margin-left: 0; 
 }
 
 .editor {
@@ -244,7 +247,7 @@ name {
     border-radius: 20px;
 
     width: 646px;
-    height: 296px;
+    height: 296px; 
 }
 
 description {
@@ -259,7 +262,7 @@ description {
     font-size: 14px;
     line-height: 19px;
 
-    color: #8C8C8C;
+    color: #8C8C8C; 
 }
 
 description input {
@@ -274,8 +277,6 @@ description input {
     align-items: center;
 
     color: #444444;
-
-
 }
 
 profile {
@@ -403,5 +404,109 @@ button {
 
 button:active {
     background-color: #0056b3;
+}
+
+@media (max-width: 375px) {
+    .options {
+        width: 375px;
+
+        margin-left: 0px;
+        margin-top: 80px;
+    }
+
+    .profileHeader {
+        width: 375px;
+        height: 319px;
+
+        margin-left: 0px;
+        margin-top: 100px;
+
+        background-image: url("/src/assets/img/profileHeaderMob.svg");
+
+
+    }
+
+    photo {
+        margin-left: 123px;
+        margin-top: 50px;
+
+    }
+
+    name {
+        margin-left: -180px;
+        margin-top: 100px;
+
+        width: fit-content;
+    }
+
+    .username {
+        width: 360px;
+        height: 41px;
+
+        color: #444444;
+        margin-left: 0;
+        background-color: #F6F1F1;
+    }
+
+    .nametag {
+        width: 360px;
+        height: 41px;
+
+        color: #444444;
+        margin-left: 0;
+
+        background-color: #F6F1F1;
+    }
+
+    .linee {
+
+        width: 375px;
+        height: 2px;
+
+        margin-top: 0;
+        margin-left: -20px;
+        background: #E0E6EF;
+
+    }
+
+    .editor {
+        width: 375px;
+
+        margin-top: -10px;
+    }
+
+    .line {
+        width: 357px;
+        margin-left: 9px;
+    }
+
+    button {
+        margin-left: 31px;
+    }
+
+    description input {
+        margin-left: 60px;
+        width: fit-content;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        display: flex;
+        align-items: center;
+
+        color: #444444;
+    }
+
+    .edit {
+        position: absolute;
+        top: 245px;
+        left: 130px;
+    }
+
+    bgEditor {
+        display: none;
+    }
 }
 </style>
