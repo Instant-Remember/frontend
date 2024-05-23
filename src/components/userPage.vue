@@ -18,5 +18,9 @@ export default {
 </script>
   
 <style scoped>
-
+    @media(max-width: 375px){
+        .userPage{
+            height: calc(100vh + 550px);
+        }
+    }
 </style>

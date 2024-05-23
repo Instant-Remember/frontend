@@ -139,8 +139,6 @@ export default {
     width: 375px !important;
     position: absolute;
     left: 0px;
-
-    height: 100% + 50px;
   }
 
   .main{
