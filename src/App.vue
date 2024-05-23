@@ -139,6 +139,8 @@ export default {
     width: 375px !important;
     position: absolute;
     left: 0px;
+
+    height: 100% + 50px;
   }
 
   .main{
@@ -150,6 +152,10 @@ export default {
     bottom: 0px !important;
 
     position: fixed !important;
+  }
+
+  .friendsMenu{
+    display: none;
   }
 
 }

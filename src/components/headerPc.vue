@@ -21,7 +21,7 @@
     </div>
     <div class="user">
       <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
-      <p class="username">{{ user.first_name }} {{ user.last_name }}</p>
+      <p class="username">{{ user.first_name }}</p>
     </div>
   </div>
 </template>
