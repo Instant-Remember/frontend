@@ -74,7 +74,7 @@ export default {
         fetchUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.92.119:8000/me`, {
+            axios.get(`http://158.160.29.132:8000/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -99,7 +99,7 @@ export default {
 
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.post(`http://158.160.92.119:8000/me/photo`, formData, {
+            axios.post(`http://158.160.29.132:8000/me/photo`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data'
@@ -117,7 +117,7 @@ export default {
         updateUserData() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.patch(`http://158.160.92.119:8000/me`, {
+            axios.patch(`http://158.160.29.132:8000/me`, {
                 username: this.newUsername || this.user.username,
                 first_name: this.newFirstName || this.user.first_name,
                 last_name: this.newLastName || this.user.last_name,

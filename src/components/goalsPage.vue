@@ -3,7 +3,7 @@
     <profileHeader></profileHeader>
 
     <search>
-      <input type="text" v-model="postText" placeholder="Поделитесь своей целью">
+      <input type="text" v-model="postText" placeholder="Поделитесь своей целью" class="searchline">
       <button @click="showPopup = true">Создать</button>
     </search>
 
@@ -55,7 +55,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get(`http://158.160.92.119:8000/me`, {
+      axios.get(`http://158.160.29.132:8000/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -82,7 +82,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса на создание цели
-      axios.post(`http://158.160.92.119:8000/goal/`, goalData, {
+      axios.post(`http://158.160.29.132:8000/goal/`, goalData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
@@ -211,5 +211,63 @@ goalCreate button {
   line-height: 17px;
 
   cursor: pointer;
+}
+
+@media (max-width: 375px) {
+  .goalsPage {
+    width: 375px;
+  }
+
+  search {
+    margin-left: 16px;
+
+    width: 343px;
+  }
+
+  search button {
+    width: 310px;
+    height: 39px;
+    margin-left: 16px;
+  }
+
+  .searchline {
+    display: none;
+  }
+
+  section {
+    width: 375px;
+
+    border-radius: 20px;
+
+    padding-top: 1px;
+    padding-bottom: 16px;
+
+    margin-top: 16px;
+    margin-left: 0;
+
+    background-color: #E8ECF2;
+  }
+
+  .goalName {
+
+    width: 609px;
+    height: 36px;
+    margin-top: 15px;
+    margin-left: 36px;
+  }
+
+  .goalDescription {
+
+    width: 609px;
+    height: 253px;
+    margin-left: 36px;
+
+  }
+
+  goalCreate button {
+    margin-top: 26px;
+    margin-left: 32px;
+    width: 310px;
+  }
 }
 </style>

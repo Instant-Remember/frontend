@@ -33,7 +33,7 @@ export default {
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.92.119:8000/me/goals`, {
+            axios.get(`http://158.160.29.132:8000/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -126,5 +126,48 @@ export default {
     height: 7px;
 
     margin-left: 8px;
+}
+
+@media (max-width: 375px) {
+    .goals {
+        width: 375px;
+        background-color: none;
+    }
+
+    .goal {
+        width: 311px;
+        height: 81px;
+
+        display: grid;
+        grid-template-columns: 132px 211px;
+        grid-template-rows: 42px 39px;
+    }
+
+    .targetname {
+        margin-top: 0px;
+        margin-left: 0px;
+
+    }
+
+    .description {
+        margin-top: 0px;
+    }
+
+    .progres {
+        grid-row: 1;
+        grid-column: 2;
+
+        display: flex;
+        align-items: center;
+        width: 189px;
+        height: 17px;
+    }
+
+    .progres img {
+        width: 410px;
+        height: 7px;
+
+        margin-left: 8px;
+    }
 }
 </style>

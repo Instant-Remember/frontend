@@ -59,7 +59,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get(`http://158.160.92.119:8000/me`, {
+      axios.get(`http://158.160.29.132:8000/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -81,7 +81,7 @@ export default {
         this.searchResults = []; // Очищаем результаты поиска, если запрос пустой
         return;
       }
-      axios.get(`http://158.160.92.119:8000/search/users/${query}`)
+      axios.get(`http://158.160.29.132:8000/search/users/${query}`)
         .then(response => {
           console.log('Результаты поиска:', response.data);
           this.searchResults = response.data.map(user => ({
