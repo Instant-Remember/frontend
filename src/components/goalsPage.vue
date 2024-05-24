@@ -1,6 +1,6 @@
 <template>
   <div class="goalsPage">
-    <profileHeader></profileHeader>
+    <profileHeader :backendURL="backendURL"></profileHeader>
 
     <search>
       <input type="text" v-model="postText" placeholder="Поделитесь своей целью" class="searchline">
@@ -19,7 +19,7 @@
     </popup>
 
     <section>
-      <goal></goal>
+      <goal :backendURL="backendURL"></goal>
     </section>
   </div>
 </template>
@@ -35,8 +35,11 @@ import axios from 'axios';
 
 export default {
   props: {
-    backendURL: String
-  },
+        backendURL: {
+            type: String,
+            required: true
+        }
+    },
 
   components: { searchLine, goal, Popup, profileHeader, progressBar },
 
@@ -55,7 +58,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса к серверу с токеном доступа
-      axios.get(`http://158.160.29.132:8000/me`, {
+      axios.get(`${this.backendURL}/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -82,7 +85,7 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
 
       // Выполнение запроса на создание цели
-      axios.post(`http://158.160.29.132:8000/goal/`, goalData, {
+      axios.post(`${this.backendURL}/goal/`, goalData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json'

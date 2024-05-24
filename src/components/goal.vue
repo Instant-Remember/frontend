@@ -33,7 +33,7 @@ export default {
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.29.132:8000/me/goals`, {
+            axios.get(`${this.backendURL}/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

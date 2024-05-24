@@ -80,11 +80,7 @@ export default {
       this.$emit('goToAuthPage');
     },
     signup() {
-      // URL для отправки POST-запроса
-      const url = `http://158.160.29.132:8000/signup`;
-
-      // Отправляем POST-запрос
-      axios.post(url, this.userData)
+      axios.post(`${this.backendURL}/signup`, this.userData)
         .then(response => {
           // Обработка успешного ответа от сервера
           console.log('Успешная регистрация:', response.data);

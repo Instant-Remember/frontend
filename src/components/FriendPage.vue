@@ -121,7 +121,7 @@ export default {
     },
     fetchFriendInfo() {
       // Отправляем запрос на бэкенд для получения данных о друге по его ID
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}`)
         .then(response => {
           this.friendInfo = response.data;
         })
@@ -131,7 +131,7 @@ export default {
     },
     fetchFriendGoals() {
       // Отправляем запрос на бэкенд для получения целей друга
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/goals?user_id=${this.friendName}`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/goals?user_id=${this.friendName}`)
         .then(response => {
           console.log('Цели друга:', response.data);
           this.friendGoals = response.data;
@@ -148,7 +148,7 @@ export default {
       return goal ? goal.name : 'Цель не найдена';
     },
     fetchFriendSubscribers() {
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/subscribers`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/subscribers`)
         .then(response => {
           console.log('Подписчики:', response.data);
           this.friendSubscribers = response.data; // Заполнение массива целей из ответа сервера
@@ -161,7 +161,7 @@ export default {
       return this.friendSubscribers.length;
     },
     fetchFriendSubscriptions() {
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/subscriptions`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/subscriptions`)
         .then(response => {
           console.log('Подписки:', response.data);
           this.friendSubscriptions = response.data; // Заполнение массива целей из ответа сервера
@@ -174,7 +174,7 @@ export default {
       return this.friendSubscriptions.length;
     },
     fetchUserPosts() {
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/posts`)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/posts`)
         .then(response => {
           console.log('Посты друга:', response.data);
           this.posts = response.data; // Заполнение массива постами из ответа сервера
@@ -197,7 +197,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту подписки на пользователя
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/follow`, config)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/follow`, config)
         .then(response => {
           console.log('Пользователь успешно подписан:', response.data);
           this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
@@ -217,7 +217,7 @@ export default {
       };
 
       // Выполняем GET запрос к эндпоинту проверки подписки на пользователя
-      axios.get(`http://158.160.29.132:8000/profile/${this.friendName}/is_subscription`, config)
+      axios.get(`${this.backendURL}/profile/${this.friendName}/is_subscription`, config)
         .then(response => {
           if (response.data.status === 'ok') {
             this.isSubscribed = response.data.result; // Обновляем состояние подписки в соответствии с результатом
@@ -232,7 +232,7 @@ export default {
     likePost(postId) {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.29.132:8000/post/${postId}/like`, {
+            axios.get(`${this.backendURL}/post/${postId}/like`, {
                 headers: {
                     'accept': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -246,7 +246,7 @@ export default {
                 });
         },
     getLikes(postId) {
-      axios.get(`http://158.160.29.132:8000/post/${postId}/likes`, {
+      axios.get(`${this.backendURL}/post/${postId}/likes`, {
         headers: {
           'accept': 'application/json'
         }
@@ -263,7 +263,7 @@ export default {
             return likes ? likes.length : 0;
         },
     getComments(postId) {
-      axios.get(`http://158.160.29.132:8000/post/${postId}/comments`, {
+      axios.get(`${this.backendURL}/post/${postId}/comments`, {
         headers: {
           'accept': 'application/json'
         }
@@ -281,7 +281,7 @@ export default {
         });
     },
     getUser(userId) {
-      axios.get(`http://158.160.29.132:8000/profile/${userId}`, {
+      axios.get(`${this.backendURL}/profile/${userId}`, {
         headers: {
           'accept': 'application/json'
         }
@@ -306,7 +306,7 @@ export default {
       const newCommentText = this.newCommentText.trim();
 
       if (newCommentText) {
-        axios.post(`http://158.160.29.132:8000/comment/create`, {
+        axios.post(`${this.backendURL}/comment/create`, {
           text: newCommentText,
           post_id: postId
         }, {

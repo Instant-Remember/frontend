@@ -61,24 +61,13 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://158.160.29.132:8000`
+      backendURL: `http://84.201.167.118:8000`
     };
   },
   computed: {
     headerComponent() {
       return this.isAuthenticated ? 'headerPc' : 'headerPcAuth';
     },
-  },
-  mounted() {
-    // Проверяем, есть ли уже значение backendURL в локальном хранилище
-    const storedBackendURL = localStorage.getItem('backendURL');
-    // Если значение уже есть, используем его
-    if (storedBackendURL) {
-      this.backendURL = storedBackendURL;
-    } else {
-      // Если нет, сохраняем значение по умолчанию в локальное хранилище
-      localStorage.setItem('backendURL', this.backendURL);
-    }
   },
   methods: {
     changePage(page, data) {

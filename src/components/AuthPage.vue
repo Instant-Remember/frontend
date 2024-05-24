@@ -43,8 +43,7 @@ export default {
       this.$emit('openPasswordRecovery');
     },
     login() {
-      const backendURL = localStorage.getItem('backendURL')
-      axios.post(`http://158.160.29.132:8000/login`, {
+      axios.post(`${this.backendURL}/login`, {
         grant_type: '',
         username: this.username,
         password: this.password,

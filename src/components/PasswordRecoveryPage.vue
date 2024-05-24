@@ -20,6 +20,10 @@
 
 <script>
 export default {
+  props: {
+        backendURL: String
+    },
+
   methods: {
     recoverPassword() {
       // Логика восстановления пароля

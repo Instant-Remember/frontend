@@ -79,7 +79,7 @@ export default {
         getFeed() {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.29.132:8000/feed?count=5&offset=1`, {
+            axios.get(`${this.backendURL}/feed?count=5&offset=1`, {
                 headers: {
                     'accept': 'application/json',
                     Authorization: `Bearer ${accessToken}`
@@ -100,7 +100,7 @@ export default {
                 });
         },
         getUser(userId) {
-            axios.get(`http://158.160.29.132:8000/profile/${userId}`, {
+            axios.get(`${this.backendURL}/profile/${userId}`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -119,7 +119,7 @@ export default {
             return user && user.profile_photo ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
         },
         getGoal(goalId) {
-            axios.get(`http://158.160.29.132:8000/goal/${goalId}`, {
+            axios.get(`${this.backendURL}/goal/${goalId}`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -132,7 +132,7 @@ export default {
                 });
         },
         getLikes(postId) {
-            axios.get(`http://158.160.29.132:8000/post/${postId}/likes`, {
+            axios.get(`${this.backendURL}/post/${postId}/likes`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -145,7 +145,7 @@ export default {
                 });
         },
         getComments(postId) {
-            axios.get(`http://158.160.29.132:8000/post/${postId}/comments`, {
+            axios.get(`${this.backendURL}/post/${postId}/comments`, {
                 headers: {
                     'accept': 'application/json'
                 }
@@ -165,7 +165,7 @@ export default {
         likePost(postId) {
             const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`http://158.160.29.132:8000/post/${postId}/like`, {
+            axios.get(`${this.backendURL}/post/${postId}/like`, {
                 headers: {
                     'accept': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -203,7 +203,7 @@ export default {
             const newCommentText = this.newCommentText.trim();
 
             if (newCommentText) {
-                axios.post(`http://158.160.29.132:8000/comment/create`, {
+                axios.post(`${this.backendURL}/comment/create`, {
                     text: newCommentText,
                     post_id: postId
                 }, {
@@ -535,7 +535,7 @@ society {
         margin-left: 0px;
         margin-top: 100px;
 
-        height: calc(100vh + 550px);
+        height: calc(100vh + 650px);
     }
 
     .post {

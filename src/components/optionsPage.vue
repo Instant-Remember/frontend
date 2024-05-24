@@ -148,7 +148,7 @@ export default {
 .edit {
     position: absolute;
     top: 242px;
-    left: 638px;
+    left: 740px;
 }
 
 .avatar {
