@@ -1,6 +1,5 @@
 <template>
   <div class="headerPc" @click="hideResultsOnClick">
-
     <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
 
     <div class="searchLine" @input="searchUsers">
@@ -17,14 +16,19 @@
     <div class="menu_buttons">
       <p id="p1">Популярное</p>
       <p id="p2">Для тебя</p>
-
     </div>
-    <div class="user">
+
+    <div class="user" @click="toggleUserMenu">
       <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
       <p class="username">{{ user.first_name }}</p>
+      <div v-if="showUserMenu" class="user-menu">
+        <p @click="openSettings">Настройки</p>
+        <p @click="logout">Выйти</p>
+      </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -33,12 +37,12 @@ export default {
   props: {
     backendURL: String
   },
-
   data() {
     return {
       user: {},
       searchQuery: '',
-      searchResults: [] // Добавляем массив для хранения результатов поиска
+      searchResults: [],
+      showUserMenu: false // Состояние для управления видимостью меню
     };
   },
   created() {
@@ -55,22 +59,17 @@ export default {
       this.$emit('changePage', 'userPage');
     },
     fetchUserData() {
-      // Получение токена доступа из локального хранилища
       const accessToken = localStorage.getItem('accessToken');
-
-      // Выполнение запроса к серверу с токеном доступа
       axios.get(`${this.backendURL}/me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
         .then(response => {
-          // Обработка успешного ответа
           console.log('Информация о пользователе:', response.data);
           this.user = response.data;
         })
         .catch(error => {
-          // Обработка ошибки
           console.error('Ошибка:', error);
           this.error = error.message;
         });
@@ -78,7 +77,7 @@ export default {
     searchUsers() {
       const query = this.searchQuery.trim();
       if (query === '') {
-        this.searchResults = []; // Очищаем результаты поиска, если запрос пустой
+        this.searchResults = [];
         return;
       }
       axios.get(`${this.backendURL}/search/users/${query}`)
@@ -95,14 +94,12 @@ export default {
         });
     },
     hideResultsOnClick(event) {
-      // Если клик был вне меню результатов, скрываем меню
       if (!event.target.closest('.searchLine')) {
         this.searchResults = [];
         this.searchQuery = '';
       }
     },
     selectResult(result) {
-      // Действие при выборе результата
       console.log('Выбран результат:', result.id);
       this.$emit('changePage', 'FriendPage');
       this.$emit('friendSelected', result.id);
@@ -110,16 +107,49 @@ export default {
       this.searchQuery = '';
     },
     hideResultsOnClickOutside(event) {
-      // Если клик был вне компонента поиска, скрываем меню
       if (!this.$el.contains(event.target)) {
         this.searchResults = [];
+        this.showUserMenu = false; // Скрыть меню пользователя при клике вне компонента
       }
+    },
+    toggleUserMenu() {
+      this.showUserMenu = !this.showUserMenu;
+    },
+    openSettings() {
+      this.$emit('changePage', 'optionsPage');
+    },
+    logout() {
+      /*localStorage.removeItem('accessToken');*/
+      this.$emit('logout')
     }
   }
 };
 </script>
 
+
 <style scoped>
+.user-menu {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  top: 60px;
+  /* Подстройте значение для правильного расположения меню */
+  right: 50px;
+  /* Подстройте значение для правильного расположения меню */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  width: 200px;
+  height: 120px;
+}
+
+.user-menu p {
+  margin: 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
 .searchResults {
   margin-top: 43px;
   width: 300px;
@@ -337,7 +367,7 @@ p {
     background: none;
   }
 
-  input::placeholder{
+  input::placeholder {
     color: #fff9f9;
   }
 
@@ -367,6 +397,28 @@ p {
   .user p {
     margin-top: 3px;
     margin-left: 12px;
+  }
+
+  .user-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    top: 60px;
+    /* Подстройте значение для правильного расположения меню */
+    left: 10px;
+    /* Подстройте значение для правильного расположения меню */
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    width: 150px;
+    height: 77px;
+  }
+
+  .user-menu p {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
   }
 }
 </style>

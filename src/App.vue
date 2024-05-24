@@ -3,7 +3,7 @@
   <body :backendURL="backendURL">
     <header>
       <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected"
-        @changePage="changePage"></component>
+        @changePage="changePage" @logout="logout"></component>
     </header>
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }" :backendURL="backendURL">
       <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>
@@ -72,6 +72,11 @@ export default {
     },
   },
   methods: {
+    logout(){
+      localStorage.removeItem('accessToken');
+      this.goToAuthPage();
+      this.isAuthenticated = false;
+    },
     changePage(page, data) {
       if (this.isAuthWindowOpen) return;
       if (!this.isAuthenticated && !this.isRegisterMode) {
@@ -160,7 +165,7 @@ header {
   position: fixed;
   opacity: 0.8;
   top: 0;
-
+  z-index: 1000;
 }
 
 .main {
@@ -177,6 +182,7 @@ aside {
   position: fixed;
   margin-top: 94px;
   margin-left: 1174px;
+  z-index: 100;
 }
 
 .navMenuOptions {
