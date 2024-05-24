@@ -12,7 +12,7 @@ import postEditor from './postEditor.vue'
 import profileHeader from './profileHeader.vue'
 
 export default {
-    components: {postEditor, post, profileHeader},
+    components: { postEditor, post, profileHeader },
 
     props: {
         backendURL: {
@@ -24,9 +24,9 @@ export default {
 </script>
 
 <style scoped>
-    @media(max-width: 375px){
-        .userPage{
-            height: calc(100vh + 550px);
-        }
+@media(max-width: 375px) {
+    .userPage {
+        height: calc(100vh + 550px);
     }
+}
 </style>

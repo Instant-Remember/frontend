@@ -1,7 +1,9 @@
 <template>
+
   <body :backendURL="backendURL">
     <header>
-      <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected" @changePage="changePage"></component>
+      <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected"
+        @changePage="changePage"></component>
     </header>
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }" :backendURL="backendURL">
       <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>
@@ -12,7 +14,7 @@
     <section class="main">
       <component :is="currentPage" :friendName="friendName" :backendURL="backendURL" @loginSuccess="loginSuccess"
         @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
-        @openPasswordRecovery="openPasswordRecovery" @changePage="changePage"/>
+        @openPasswordRecovery="openPasswordRecovery" @changePage="changePage" />
     </section>
   </body>
 </template>
@@ -123,25 +125,25 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 375px){
-  body{
+@media (max-width: 375px) {
+  body {
     width: 375px !important;
     position: absolute;
     left: 0px;
   }
 
-  .main{
+  .main {
     padding-top: 0px !important;
   }
 
-  aside{
+  aside {
     margin: 0 !important;
     bottom: 0px !important;
 
     position: fixed !important;
   }
 
-  .friendsMenu{
+  .friendsMenu {
     display: none;
   }
 
@@ -162,7 +164,7 @@ header {
 }
 
 .main {
- padding-top: 94px;
+  padding-top: 94px;
 }
 
 aside {

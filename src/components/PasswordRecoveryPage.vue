@@ -79,7 +79,7 @@ export default {
 input {
   background: #E8ECF2;
   border-radius: 20px;
-  width: 312px;
+  width: 292px;
   height: 50px;
   font-family: 'Inter';
   font-style: normal;
@@ -182,7 +182,7 @@ button {
   }
 
   input {
-    width: 312px;
+    width: 292px;
     height: 50px;
     margin-left: 17px;
   }

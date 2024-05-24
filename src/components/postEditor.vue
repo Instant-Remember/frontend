@@ -147,10 +147,6 @@ input {
   cursor: text;
 }
 
-.inp{
-  display: none;
-}
-
 .tbutton {
   width: 135px;
   height: 41px;
@@ -263,6 +259,10 @@ button:active {
     width: 343px;
     height: 52px;
     margin-left: 16px;
+  }
+
+  .inp {
+    display: none;
   }
 
   .tbutton {

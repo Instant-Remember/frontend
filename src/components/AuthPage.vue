@@ -34,7 +34,28 @@ export default {
       password: ''
     };
   },
+
+  mounted() {
+    this.checkData()
+  },
   methods: {
+    checkData() {
+      // Получение токена доступа из локального хранилища
+      const accessToken = localStorage.getItem('accessToken');
+
+      // Выполнение запроса к серверу с токеном доступа
+      axios.get(`${this.backendURL}/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then(response => {
+          this.$emit('loginSuccess');
+
+        })
+        .catch(error => {
+        });
+    },
     // Новый метод для перехода к странице регистрации
     goToRegisterPage() {
       this.$emit('goToRegisterPage');
@@ -124,7 +145,7 @@ input {
   background: #E8ECF2;
   border-radius: 20px;
 
-  width: 312px;
+  width: 292px;
   height: 50px;
 
   font-family: 'Inter';
@@ -141,9 +162,7 @@ input {
 
 }
 
-input::placeholder {
-  text-indent: 20px;
-}
+
 
 .email {
   margin-top: 24px;
@@ -232,10 +251,10 @@ button {
   }
 
   .background {
-   display: none;
+    display: none;
   }
 
-  .container{
+  .container {
     margin-left: 16px;
     margin-top: 96px;
   }
