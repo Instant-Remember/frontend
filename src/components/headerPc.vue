@@ -3,7 +3,7 @@
 
     <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
 
-    <div class="searchLine">
+    <div class="searchLine" @input="searchUsers">
       <img src="/src/assets/img/search.svg" alt="" class="search_img">
       <input type="text" placeholder="Поиск" v-model="searchQuery" @input="searchUsers">
       <div v-if="searchResults.length" class="searchResults">
@@ -12,8 +12,8 @@
           <span>{{ result.name }}</span>
         </div>
       </div>
-
     </div>
+
     <div class="menu_buttons">
       <p id="p1">Популярное</p>
       <p id="p2">Для тебя</p>
@@ -274,6 +274,37 @@ p {
 }
 
 @media (max-width: 375px) {
+  .searchResults {
+    margin-top: 43px;
+    margin-left: -300px;
+    width: 300px;
+    position: absolute;
+
+    border: 1px solid #ccc;
+    padding-left: 32px;
+    padding-bottom: 24px;
+    overflow-y: auto;
+    /* добавление полосы прокрутки, если результаты слишком длинные */
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    background-color: #fff9f9;
+
+    border-radius: 20px;
+
+
+  }
+
+  .searchResult {
+    cursor: pointer;
+    width: 327px;
+
+    align-items: center;
+
+    margin-top: 24px;
+
+  }
+
   .headerPc {
     width: 375px;
     height: 92px;
@@ -281,7 +312,7 @@ p {
     display: grid;
     grid-template-columns: 187px 188px;
     grid-template-rows: 55px 37px;
-    
+
   }
 
   .logo {
@@ -295,13 +326,19 @@ p {
     margin-top: 10px;
     margin-left: 135px;
 
+    width: 40px;
     background-color: #fff9f9;
-
-    width: 24px;
   }
 
-  .searchLine input{
-    display: none;
+  .searchLine input {
+    margin-left: -200px;
+    width: 200px;
+
+    background: none;
+  }
+
+  input::placeholder{
+    color: #fff9f9;
   }
 
   .menu_buttons {
@@ -322,12 +359,12 @@ p {
     padding: 0;
   }
 
-  .user img{
+  .user img {
     width: 24px;
     height: 24px;
   }
 
-  .user p{
+  .user p {
     margin-top: 3px;
     margin-left: 12px;
   }
