@@ -79,7 +79,7 @@ export default {
       })
         .then(response => {
           // Обработка успешного ответа
-          console.log('Успешный ответ от сервера:', response.data);
+         
           localStorage.setItem('accessToken', response.data.access_token);
 
           this.$emit('loginSuccess');

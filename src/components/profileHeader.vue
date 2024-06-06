@@ -1,6 +1,5 @@
 <template>
     <div class="profileHeader">
-
         <photo @click="openFileInput">
             <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
         </photo>
@@ -20,11 +19,10 @@
 
             <subs>
                 <div class="subscribers">{{ countSubscribers() }} подписчиков</div>
-                <div class="subscribe">{{ countSubscriptions() }} Подписок</div>
+                <div class="subscribe" @click="handleSubscribeClick">{{ countSubscriptions() }} подписок</div>
             </subs>
 
             <button>Редактировать</button>
-
         </description>
     </div>
 </template>
@@ -53,22 +51,16 @@ export default {
     },
     methods: {
         fetchUserData() {
-            // Получение токена доступа из локального хранилища
             const accessToken = localStorage.getItem('accessToken');
-
-            // Выполнение запроса к серверу с токеном доступа
             axios.get(`${this.backendURL}/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    // Обработка успешного ответа
-                    console.log('Информация о пользователе:', response.data);
                     this.user = response.data;
                 })
                 .catch(error => {
-                    // Обработка ошибки
                     console.error('Ошибка:', error);
                     this.error = error.message;
                 });
@@ -76,65 +68,64 @@ export default {
 
         fetchUserGoals() {
             const accessToken = localStorage.getItem('accessToken');
-            const backendURL = localStorage.getItem('backendURL')
-
             axios.get(`${this.backendURL}/me/goals`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    console.log('Цели пользователя:', response.data);
-                    this.goals = response.data; // Заполнение массива целей из ответа сервера
+                    this.goals = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении целей:', error);
                 });
         },
-        countGoals() { // Метод для подсчета количества целей пользователя
+        countGoals() {
             return this.goals.length;
         },
 
         fetchUserSubscribers() {
             const accessToken = localStorage.getItem('accessToken');
-            const backendURL = localStorage.getItem('backendURL')
-
             axios.get(`${this.backendURL}/me/subscribers`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    console.log('Подписчики:', response.data);
-                    this.subscribers = response.data; // Заполнение массива целей из ответа сервера
+                    this.subscribers = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении подписчиков:', error);
                 });
         },
-        countSubscribers() { // Метод для подсчета количества целей пользователя
+        countSubscribers() {
             return this.subscribers.length;
         },
 
         fetchUserSubscriptions() {
             const accessToken = localStorage.getItem('accessToken');
-            const backendURL = localStorage.getItem('backendURL')
-
             axios.get(`${this.backendURL}/me/subscriptions`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
                 .then(response => {
-                    console.log('Подписки:', response.data);
-                    this.subscriptions = response.data; // Заполнение массива целей из ответа сервера
+                    this.subscriptions = response.data;
                 })
                 .catch(error => {
                     console.error('Ошибка при получении подписок:', error);
                 });
         },
-        countSubscriptions() { // Метод для подсчета количества целей пользователя
+        countSubscriptions() {
             return this.subscriptions.length;
+        },
+
+        handleSubscribeClick() {
+            this.$emit('toggleFriendsMenu');
+        },
+        toggleFriendsMenu() {
+            console.log('Subscribe button clicked');
+            this.$emit('toggleFriendsMenu');
         },
     }
 };
@@ -330,7 +321,7 @@ button {
     photo {
         margin-left: 123px;
         margin-top: 50px;
-        
+
     }
 
     description {
@@ -354,22 +345,22 @@ button {
         display: flex;
         flex-direction: column;
 
-        margin-top: 5px;        
+        margin-top: 5px;
     }
 
     .test1 {
         margin-top: 0;
-        margin-left: 0;        
+        margin-left: 0;
         width: fit-content;
     }
 
     .test2 {
         margin-top: 2px;
         margin-left: -120px;
- 
+
         text-align: center;
         width: 370px;
-  
+
     }
 
     target {
@@ -402,7 +393,7 @@ button {
     }
 
     description button {
-        grid-column: 1  2  3;
+        grid-column: 1 2 3;
         grid-row: 4;
 
         margin-left: -340px;
@@ -420,7 +411,7 @@ button {
         margin-left: -120px;
     }
 
-    .subscribers{
+    .subscribers {
         margin-left: 16px;
     }
 

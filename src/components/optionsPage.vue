@@ -84,7 +84,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Информация о пользователе:', response.data);
                     this.user = response.data;
                 })
                 .catch(error => {
@@ -110,8 +109,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Фото успешно загружено:', response.data);
-                    // Можно выполнить дополнительные действия после успешной загрузки фото
                 })
                 .catch(error => {
                     console.error('Ошибка при загрузке фото:', error);
@@ -134,7 +131,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Данные пользователя обновлены:', response.data);
                     this.$emit('changePage', 'userPage');
                 })
                 .catch(error => {

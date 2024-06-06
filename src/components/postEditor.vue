@@ -66,7 +66,6 @@ export default {
         }
       })
         .then(response => {
-          console.log('Цели пользователя:', response.data);
           this.goals = response.data;
         })
         .catch(error => {
@@ -104,9 +103,6 @@ export default {
         }
       })
         .then(response => {
-          console.log('Пост успешно создан:', response.data);
-          // Дополнительные действия при необходимости, например, обновление списка постов
-          // или закрытие всплывающего окна
         })
         .catch(error => {
           console.error('Ошибка при создании поста:', error);

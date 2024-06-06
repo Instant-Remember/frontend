@@ -98,7 +98,6 @@
       changeToLanguage() {
         this.activeMenuItem = 'language';
       },
-      // Остальные методы остаются без изменений
     },
     data() {
       return {

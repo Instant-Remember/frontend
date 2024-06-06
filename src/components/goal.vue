@@ -39,7 +39,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Цели пользователя:', response.data);
                     this.goals = response.data; // Заполнение массива целями из ответа сервера
                 })
                 .catch(error => {

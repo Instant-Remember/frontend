@@ -66,7 +66,6 @@ export default {
         }
       })
         .then(response => {
-          console.log('Информация о пользователе:', response.data);
           this.user = response.data;
         })
         .catch(error => {
@@ -82,7 +81,6 @@ export default {
       }
       axios.get(`${this.backendURL}/search/users/${query}`)
         .then(response => {
-          console.log('Результаты поиска:', response.data);
           this.searchResults = response.data.map(user => ({
             name: `${user.first_name} ${user.last_name}`,
             profilePhoto: user.profile_photo,
@@ -100,7 +98,6 @@ export default {
       }
     },
     selectResult(result) {
-      console.log('Выбран результат:', result.id);
       this.$emit('changePage', 'FriendPage');
       this.$emit('friendSelected', result.id);
       this.searchResults = [];

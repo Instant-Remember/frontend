@@ -133,7 +133,6 @@ export default {
       // Отправляем запрос на бэкенд для получения целей друга
       axios.get(`${this.backendURL}/profile/${this.friendName}/goals?user_id=${this.friendName}`)
         .then(response => {
-          console.log('Цели друга:', response.data);
           this.friendGoals = response.data;
         })
         .catch(error => {
@@ -150,7 +149,6 @@ export default {
     fetchFriendSubscribers() {
       axios.get(`${this.backendURL}/profile/${this.friendName}/subscribers`)
         .then(response => {
-          console.log('Подписчики:', response.data);
           this.friendSubscribers = response.data; // Заполнение массива целей из ответа сервера
         })
         .catch(error => {
@@ -163,7 +161,6 @@ export default {
     fetchFriendSubscriptions() {
       axios.get(`${this.backendURL}/profile/${this.friendName}/subscriptions`)
         .then(response => {
-          console.log('Подписки:', response.data);
           this.friendSubscriptions = response.data; // Заполнение массива целей из ответа сервера
         })
         .catch(error => {
@@ -176,7 +173,6 @@ export default {
     fetchUserPosts() {
       axios.get(`${this.backendURL}/profile/${this.friendName}/posts`)
         .then(response => {
-          console.log('Посты друга:', response.data);
           this.posts = response.data; // Заполнение массива постами из ответа сервера
 
           this.posts.forEach(post => {
@@ -199,7 +195,6 @@ export default {
       // Выполняем GET запрос к эндпоинту подписки на пользователя
       axios.get(`${this.backendURL}/profile/${this.friendName}/follow`, config)
         .then(response => {
-          console.log('Пользователь успешно подписан:', response.data);
           this.isSubscribed = true; // Устанавливаем состояние подписки в true после успешной подписки
         })
         .catch(error => {

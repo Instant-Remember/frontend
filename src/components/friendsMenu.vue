@@ -36,7 +36,6 @@ export default {
         }
       })
         .then(response => {
-          console.log('Подписки:', response.data);
           this.subscriptions = response.data; // Заполнение массива целей из ответа сервера
 
           // Получаем информацию о каждом пользователе, на которого мы подписаны
@@ -47,7 +46,6 @@ export default {
               }
             })
               .then(userResponse => {
-                console.log('Информация о подписке:', userResponse.data);
                 // Добавляем информацию о пользователе к объекту подписки
                 subscription.user_info = userResponse.data;
               })
@@ -61,7 +59,6 @@ export default {
         });
     },
     showFriendName(subscription) {
-      console.log('Имя друга:', subscription.user_info.first_name);
       this.$emit('changePage', 'FriendPage');
       this.$emit('friendSelected', subscription.user_info.id);
     }

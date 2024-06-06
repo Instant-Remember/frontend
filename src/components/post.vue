@@ -96,7 +96,6 @@ export default {
             })
                 .then(response => {
                     this.users[userId] = response.data;
-                    console.log('Получилось', response.data)
                 })
                 .catch(error => {
                     console.error('Ошибка при получении данных о пользователе:', error);
@@ -111,7 +110,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Посты пользователя:', response.data);
                     this.posts = response.data; // Заполнение массива постами из ответа сервера
 
                     this.posts.forEach(post => {
@@ -134,7 +132,6 @@ export default {
                 }
             })
                 .then(response => {
-                    console.log('Цели пользователя:', response.data);
                     this.goals = response.data; // Заполнение массива целей из ответа сервера
                 })
                 .catch(error => {
@@ -158,8 +155,6 @@ export default {
                 }
             })
                 .then(response => {
-                    // Обработка успешного ответа
-                    console.log('Информация о пользователе:', response.data);
                     this.user = response.data;
                 })
                 .catch(error => {

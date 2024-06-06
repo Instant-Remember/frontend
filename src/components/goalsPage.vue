@@ -65,7 +65,6 @@ export default {
       })
         .then(response => {
           // Обработка успешного ответа
-          console.log('Информация о пользователе:', response.data);
           this.user = response.data;
         })
         .catch(error => {
@@ -93,7 +92,6 @@ export default {
       })
         .then(response => {
           // Обработка успешного ответа
-          console.log('Цель успешно создана:', response.data);
           this.showPopup = false;
         })
         .catch(error => {

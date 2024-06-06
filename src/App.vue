@@ -1,20 +1,32 @@
 <template>
-
   <body :backendURL="backendURL">
     <header>
-      <component :is="headerComponent" :backendURL="backendURL" @friendSelected="friendSelected"
-        @changePage="changePage" @logout="logout"></component>
+      <component :is="headerComponent" :backendURL="backendURL" @toggleFriendsMenu="toggleFriendsMenu" @friendSelected="friendSelected" @changePage="changePage" @logout="logout"></component>
     </header>
     <aside v-if="!isAuthWindowOpen" :class="{ 'isOptionsPage': isOptionsPage }" :backendURL="backendURL">
       <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>
     </aside>
-    <friendsMenu :backendURL="backendURL" @friendSelected="friendSelected" v-if="!isAuthWindowOpen && !isOptionsPage"
-      @changePage="changePage" class="friendsMenu"></friendsMenu>
+    <friendsMenu
+      v-if="!isAuthWindowOpen && !isOptionsPage && showFriendsMenu"
+      :backendURL="backendURL"
+      @friendSelected="friendSelected"
+      @changePage="changePage"
+      class="friendsMenu"
+    ></friendsMenu>
     <navMenuOptions v-else-if="isOptionsPage" :is="navMenuOptions"></navMenuOptions>
     <section class="main">
-      <component :is="currentPage" :friendName="friendName" :backendURL="backendURL" @loginSuccess="loginSuccess"
-        @registerSuccess="registerSuccess" @goToRegisterPage="goToRegisterPage" @goToAuthPage="goToAuthPage"
-        @openPasswordRecovery="openPasswordRecovery" @changePage="changePage" />
+      <component
+        :is="currentPage"
+        :friendName="friendName"
+        :backendURL="backendURL"
+        @friendSelected="friendSelected"
+        @loginSuccess="loginSuccess"
+        @registerSuccess="registerSuccess"
+        @goToRegisterPage="goToRegisterPage"
+        @goToAuthPage="goToAuthPage"
+        @openPasswordRecovery="openPasswordRecovery"
+        @changePage="changePage"
+      />
     </section>
   </body>
 </template>
@@ -54,7 +66,6 @@ export default {
     NavMenuOptions,
     FriendPage,
   },
-
   data() {
     return {
       currentPage: 'AuthPage',
@@ -63,16 +74,17 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://84.201.167.118:8000`
+      backendURL: `http://158.160.85.224:8000`,
+      showFriendsMenu: false
     };
   },
   computed: {
     headerComponent() {
       return this.isAuthenticated ? 'headerPc' : 'headerPcAuth';
-    },
+    }
   },
   methods: {
-    logout(){
+    logout() {
       localStorage.removeItem('accessToken');
       this.goToAuthPage();
       this.isAuthenticated = false;
@@ -123,9 +135,11 @@ export default {
       this.friendName = name;
     },
     testFriendName() {
-      console.log(this.friendName);
     },
-  },
+    toggleFriendsMenu() {
+      this.showFriendsMenu = !this.showFriendsMenu;
+    }
+  }
 };
 </script>
 
@@ -151,7 +165,6 @@ export default {
   .friendsMenu {
     display: none;
   }
-
 }
 
 body {
