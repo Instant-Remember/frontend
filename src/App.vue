@@ -74,7 +74,7 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://158.160.85.224:8000`,
+      backendURL: `http://130.193.42.185:8000`,
       showFriendsMenu: false
     };
   },
@@ -178,7 +178,7 @@ header {
   position: fixed;
   opacity: 0.8;
   top: 0;
-  z-index: 1000;
+  
 }
 
 .main {
