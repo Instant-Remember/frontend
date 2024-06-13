@@ -179,7 +179,7 @@ img {
     /* Цвет текста для активного состояния */
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
 
     .navMenu {
         height: 80px;

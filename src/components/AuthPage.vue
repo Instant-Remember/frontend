@@ -245,7 +245,7 @@ button {
   color: #8C8C8C;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   .AuthPage {
     width: 375px;
   }

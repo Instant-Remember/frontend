@@ -51,7 +51,7 @@ popup-container {
   align-items: center;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   .popup {
     position: fixed;
     left: 0px;

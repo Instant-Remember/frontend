@@ -214,7 +214,7 @@ goalCreate button {
   cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   .goalsPage {
     width: 375px;
   }

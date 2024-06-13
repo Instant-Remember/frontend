@@ -304,7 +304,7 @@ button {
     cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
     .profileHeader {
         width: 375px;
         height: 319px;

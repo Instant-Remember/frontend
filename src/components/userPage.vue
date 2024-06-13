@@ -46,7 +46,7 @@
     }
 }
 
-@media(max-width: 375px) {
+@media(max-width: 425px) {
     .userPage {
         height: calc(100vh + 550px);
     }

@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   body {
     width: 375px !important;
     position: absolute;

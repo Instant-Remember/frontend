@@ -300,7 +300,7 @@ p {
   border-radius: 20px;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   .searchResults {
     margin-top: 43px;
     margin-left: -300px;

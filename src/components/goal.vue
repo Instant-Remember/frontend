@@ -127,7 +127,7 @@ export default {
     margin-left: 8px;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
     .goals {
         width: 375px;
         background-color: none;

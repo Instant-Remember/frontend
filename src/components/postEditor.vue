@@ -250,7 +250,7 @@ button:active {
   cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
   .postEditor {
     width: 343px;
     height: 52px;

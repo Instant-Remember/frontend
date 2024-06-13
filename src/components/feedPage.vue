@@ -528,7 +528,7 @@ society {
     background-color: #fff;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
     .posts {
         width: 375px;
 
