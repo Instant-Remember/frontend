@@ -334,7 +334,6 @@ p {
   }
 
   .headerPc {
-    width: 375px;
     height: 92px;
 
     display: grid;

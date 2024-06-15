@@ -183,7 +183,7 @@ img {
 
     .navMenu {
         height: 80px;
-        width: 375px;
+        width: 100vh;
         border-radius: 0;
     }
 
@@ -194,9 +194,6 @@ img {
         display: grid;
         grid-template-columns: 70px 90px 88px 77px;
         grid-template-rows: 35px;
-
-        margin-left: 28px;
-
     }
 
     .profile {

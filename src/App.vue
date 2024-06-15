@@ -145,11 +145,19 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 375px){
+  body{
+    left: 0px !important;
+  }
+}
+
 @media (max-width: 425px) {
   body {
     width: 375px !important;
+    
     position: absolute;
-  
+
+    left: 25px;
   }
 
   .main {
@@ -160,12 +168,20 @@ export default {
     margin: 0 !important;
     bottom: 0px !important;
 
+    left: 0;
+
     position: fixed !important;
   }
 
   .friendsMenu {
     display: none;
   }
+
+  header{
+    left: 0;
+  }
+
+ 
 }
 
 body {
