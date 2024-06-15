@@ -257,7 +257,7 @@ export default {
 
     display: grid;
     grid-template-columns: 69px 555px 133px;
-    grid-template-rows: 62px 53px 40px auto;
+    grid-template-rows: 62px auto 40px auto;
 }
 
 .comments {
@@ -346,6 +346,8 @@ user img {
     color: #444444;
 
     margin-top: 4px;
+
+    word-wrap: break-word;
 }
 
 .progres {
@@ -482,7 +484,7 @@ society {
 .main_comment {
     grid-row: 2;
     grid-column: 2;
-    display: flex;
+
     margin-left: 4px;
 
 
@@ -493,6 +495,7 @@ society {
     line-height: 22px;
 
     color: #444444;
+    word-wrap: break-word;
 }
 
 .my_comment {
@@ -693,7 +696,7 @@ society {
     }
 
     .main_comment {
-        width: fit-content
+        width: 280px;
     }
 }
 </style>

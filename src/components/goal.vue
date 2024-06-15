@@ -62,10 +62,11 @@ export default {
 
 .goal {
     width: 724px;
+    height: auto;
 
     display: grid;
     grid-template-columns: 275px 449px;
-    grid-template-rows: 26px 39px;
+    grid-template-rows: 26px auto;
 
     margin-left: 16px;
     margin-top: 16px;
@@ -94,20 +95,22 @@ export default {
     grid-row: 2;
     grid-column: 1 / 2;
 
-
+    width: 724px;
+    height: auto;
 
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
-    display: flex;
+  
     align-items: center;
 
-    /* Диплом/Текс */
     color: #444444;
 
     margin-top: 25px;
+
+    word-wrap: break-word;
 }
 
 .progres {
@@ -149,6 +152,7 @@ export default {
     }
 
     .description {
+        width: 311px;
         margin-top: 0px;
     }
 

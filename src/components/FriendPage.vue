@@ -525,7 +525,7 @@ button {
 
   display: grid;
   grid-template-columns: 69px 555px 133px;
-  grid-template-rows: 62px 53px 40px auto;
+  grid-template-rows: 62px auto 40px auto;
 }
 
 .comments {
@@ -614,6 +614,8 @@ user img {
   color: #444444;
 
   margin-top: 4px;
+
+  word-wrap: break-word;
 }
 
 .progres {

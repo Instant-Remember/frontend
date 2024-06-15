@@ -107,6 +107,7 @@ export default {
       if (!this.$el.contains(event.target)) {
         this.searchResults = [];
         this.showUserMenu = false; // Скрыть меню пользователя при клике вне компонента
+        this.searchQuery = '';
       }
     },
     toggleUserMenu() {

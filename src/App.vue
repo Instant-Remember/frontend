@@ -74,7 +74,7 @@ export default {
       isAuthWindowOpen: true,
       isOptionsPage: false,
       friendName: '',
-      backendURL: `http://130.193.42.185:8000`,
+      backendURL: `http://51.250.24.121:8000`,
       showFriendsMenu: false
     };
   },

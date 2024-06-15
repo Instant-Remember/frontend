@@ -3,7 +3,6 @@
         <div class="profileHeader">
             <photo @click="openFileInput">
                 <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
-                <img src="/src/assets/img/edit.svg" alt="" class="edit">
             </photo>
             <input type="file" id="avatarInput" style="display: none" @change="handleFileChange">
             <bgEditor>
