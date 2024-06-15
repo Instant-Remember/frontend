@@ -7,7 +7,7 @@
       <navMenu :backendURL="backendURL" @changePage="changePage"></navMenu>
     </aside>
     <friendsMenu
-      v-if="!isAuthWindowOpen && !isOptionsPage && showFriendsMenu"
+      v-if="!isAuthWindowOpen && !isOptionsPage"
       :backendURL="backendURL"
       @friendSelected="friendSelected"
       @changePage="changePage"
@@ -88,6 +88,7 @@ export default {
       localStorage.removeItem('accessToken');
       this.goToAuthPage();
       this.isAuthenticated = false;
+      this.isAuthWindowOpen = true;
     },
     changePage(page, data) {
       if (this.isAuthWindowOpen) return;
@@ -148,7 +149,7 @@ export default {
   body {
     width: 375px !important;
     position: absolute;
-    left: 0px;
+  
   }
 
   .main {
@@ -179,6 +180,7 @@ header {
   opacity: 0.8;
   top: 0;
   
+  z-index: 100;
 }
 
 .main {
@@ -195,7 +197,7 @@ aside {
   position: fixed;
   margin-top: 94px;
   margin-left: 1174px;
-  z-index: 100;
+  z-index: 10;
 }
 
 .navMenuOptions {
