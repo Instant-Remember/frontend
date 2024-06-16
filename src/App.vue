@@ -196,11 +196,13 @@ header {
   opacity: 0.8;
   top: 0;
   
-  z-index: 100;
+ 
 }
 
 .main {
   padding-top: 94px;
+  
+  z-index: 100;
 }
 
 aside {
@@ -213,7 +215,6 @@ aside {
   position: fixed;
   margin-top: 94px;
   margin-left: 1174px;
-  z-index: 10;
 }
 
 .navMenuOptions {

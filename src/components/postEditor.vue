@@ -103,6 +103,7 @@ export default {
         }
       })
         .then(response => {
+          this.showPopup = false
         })
         .catch(error => {
           console.error('Ошибка при создании поста:', error);
@@ -178,6 +179,7 @@ button:active {
 
 .dropdown-container {
   position: relative;
+
 }
 
 .chooseGoal {
@@ -196,6 +198,8 @@ button:active {
   font-size: 14px;
   line-height: 17px;
   cursor: pointer;
+
+
 }
 
 .dropdown-menu {
@@ -207,8 +211,9 @@ button:active {
   /* Расположим меню над кнопкой */
   left: 32px;
   width: inherit;
-  box-shadow: 0px 4px 20px rgba(224, 230, 239, 0.8);
-  backdrop-filter: blur(8px);
+
+  height: 70px;
+
   border-radius: 20px 20px 10px 10px;
   padding: 8px;
   background-color: #FFF9F9;
@@ -216,10 +221,14 @@ button:active {
   /* Уберем верхний отступ */
   margin-bottom: 36px;
   /* Оставим нижний отступ для пункта выбора */
+
+  overflow-y: auto;
+  /* Добавляем вертикальную прокрутку */
+  scrollbar-width: none;
 }
 
 .dropdown-item {
-  margin-top: 36px;
+  margin-top: 6px;
   margin-bottom: 36px;
   font-family: 'Inter';
   font-style: normal;
@@ -255,6 +264,7 @@ button:active {
     width: 343px;
     height: 52px;
     margin-left: 16px;
+
   }
 
   .inp {
@@ -269,9 +279,11 @@ button:active {
   }
 
   .postDescription {
-    width: 370px;
+    width: 350px;
     height: 253px;
     margin-left: 0px;
+
+    word-wrap: break-word;
   }
 
   .postDescription::placeholder {

@@ -25,7 +25,7 @@ button {
   position: fixed;
 
   margin-left: auto;
-  margin-top: auto;
+  margin-top: 10px;
 
   background-color: #fff;
   backdrop-filter: blur(12px);
@@ -51,10 +51,10 @@ popup-container {
   align-items: center;
 }
 
-@media (max-width: 425px) {
+@media  (max-width: 425px){
   .popup {
     position: fixed;
-    left: 0px;
+    left: 3%;
     top: 56px;
 
     background-color: #fff;
@@ -69,7 +69,42 @@ popup-container {
   }
 
   popup-container {
+    width: 100vh;
+    top: 58px;
+    border-radius: 20px;
+  }
+
+  button {
+    width: 24px;
+    height: 24px;
+
+    position: fixed;
+    top: 16px;
+    left: 335px;
+    border-radius: 20px;
+    background: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .popup {
+    position: fixed;
+    left: 0%;
+    top: 56px;
+
+    background-color: #fff;
+    backdrop-filter: blur(12px);
+
+    border-radius: 20px;
+
     width: 375px;
+    height: 419px;
+
+    padding-bottom: 16px;
+  }
+
+  popup-container {
+    width: 100vh;
     top: 58px;
     border-radius: 20px;
   }

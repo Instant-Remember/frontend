@@ -4,7 +4,7 @@
 
         <div class="progress-bar" @mousedown="startDrag" ref="progressBar">
             <div class="progress" :style="{ width: progressBarWidth }"></div>
-            <div class="handle" :style="{ left: handlePosition }" ref="handle"></div>
+            <!--<div class="handle" :style="{ left: handlePosition }" ref="handle"></div>--> 
         </div>
     </div>
 </template>

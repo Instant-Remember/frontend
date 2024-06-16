@@ -251,7 +251,7 @@ goalCreate button {
 
   .goalName {
 
-    width: 609px;
+    width: 300px;
     height: 36px;
     margin-top: 15px;
     margin-left: 36px;
@@ -259,7 +259,7 @@ goalCreate button {
 
   .goalDescription {
 
-    width: 609px;
+    width: 300px;
     height: 253px;
     margin-left: 36px;
 
