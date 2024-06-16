@@ -1,75 +1,78 @@
 <template>
-  <div class="profileHeader">
+  <div class="friendPage">
+    <div class="profileHeader">
 
-    <photo>
-      <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar">
-    </photo>
+      <photo>
+        <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar">
+      </photo>
 
-    <description>
-      <user class="userheader">
-        <div class="test1">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
-        <div class="test2" id="test">{{ friendInfo.about }}</div>
-      </user>
-      <target>
-        <div>{{ countGoals() }}</div>
-        <img src="/src/assets/img/navMenu/targetV.svg" alt="">
-      </target>
+      <description>
+        <user class="userheader">
+          <div class="test1">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
+          <div class="test2" id="test">{{ friendInfo.about }}</div>
+        </user>
+        <target>
+          <div>{{ countGoals() }}</div>
+          <img src="/src/assets/img/navMenu/targetV.svg" alt="">
+        </target>
 
-      <div class="nametag">@{{ friendInfo.username }}</div>
+        <div class="nametag">@{{ friendInfo.username }}</div>
 
-      <subs>
-        <div class="subscribers">{{ countSubscribers() }} подписчиков</div>
-        <div class="subscribe">{{ countSubscribtions() }} Подписок</div>
-      </subs>
+        <subs>
+          <div class="subscribers">{{ countSubscribers() }} подписчиков</div>
+          <div class="subscribe">{{ countSubscribtions() }} Подписок</div>
+        </subs>
 
-      <button @click="followUser">{{ isSubscribed ? 'Вы подписаны' : 'Подписаться' }}</button>
+        <button @click="followUser">{{ isSubscribed ? 'Вы подписаны' : 'Подписаться' }}</button>
 
-    </description>
-  </div>
+      </description>
+    </div>
 
-  <div class="posts">
-    <div class="post" v-for="(post, index) in posts" :key="index">
+    <div class="posts">
+      <div class="post" v-for="(post, index) in posts" :key="index">
 
-      <user class="userpost">
-        <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar_post">
-        <div class="username">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
-      </user>
+        <user class="userpost">
+          <img :src="friendInfo.profile_photo" alt="Photo" v-if="friendInfo.profile_photo" class="avatar_post">
+          <div class="username">{{ friendInfo.first_name }} {{ friendInfo.last_name }}</div>
+        </user>
 
-      <div class="mainpost">
-        <div class="targetname">{{ getGoalName(post.goal_id) }}</div>
-        <div class="description">{{ post.text }}</div>
-      </div>
+        <div class="mainpost">
+          <div class="targetname">{{ getGoalName(post.goal_id) }}</div>
+          <div class="description">{{ post.text }}</div>
+        </div>
 
-      <progressBar class="progres"></progressBar>
+        <progressBar class="progres"></progressBar>
 
-      <date>{{ formatDate(post.date_create) }}</date>
-      <society>
-        <button class="likes" @click="likePost(post.id)">
-          <img src="/src/assets/img/likes.svg" alt="">
-          <div class="like">{{ getLikesCount(post.id) }}</div>
-        </button>
-        <button class="comments_img"><img src="/src/assets/img/comments.svg" alt=""></button>
-      </society>
+        <date>{{ formatDate(post.date_create) }}</date>
+        <society>
+          <button class="likes" @click="likePost(post.id)">
+            <img src="/src/assets/img/likes.svg" alt="">
+            <div class="like">{{ getLikesCount(post.id) }}</div>
+          </button>
+          <button class="comments_img"><img src="/src/assets/img/comments.svg" alt=""></button>
+        </society>
 
-      <div class="comments">
-        <div class="line"></div>
-        <div class="container">
-          <div class="comment" v-for="comment in post.comments" :key="comment.id">
-            <img :src="getUserAvatar(comment.user_id)" alt="" class="avatar_comment">
-            <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
-            <div class="main_comment">{{ comment.text }}</div>
+        <div class="comments">
+          <div class="line"></div>
+          <div class="container">
+            <div class="comment" v-for="comment in post.comments" :key="comment.id">
+              <img :src="getUserAvatar(comment.user_id)" alt="" class="avatar_comment">
+              <div class="comment_username">{{ getCommentUserName(comment.user_id) }}</div>
+              <div class="main_comment">{{ comment.text }}</div>
+            </div>
+          </div>
+
+          <div class="my_comment">
+            <input type="text" class="write_comment" placeholder="Напишите свой комментарий" v-model="newCommentText">
+            <button type="button" @click="addComment(post.id)" class="send"><img src="/src/assets/img/send.svg"
+                alt=""></button>
           </div>
         </div>
 
-        <div class="my_comment">
-          <input type="text" class="write_comment" placeholder="Напишите свой комментарий" v-model="newCommentText">
-          <button type="button" @click="addComment(post.id)" class="send"><img src="/src/assets/img/send.svg"
-              alt=""></button>
-        </div>
       </div>
-
     </div>
   </div>
+
 
 </template>
 
@@ -107,17 +110,17 @@ export default {
   },
   methods: {
     formatDate(dateString) {
-        const months = [
-            "января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря"
-        ];
+      const months = [
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+      ];
 
-        const dateObj = new Date(dateString);
-        const day = dateObj.getDate();
-        const monthIndex = dateObj.getMonth();
-        const year = dateObj.getFullYear();
+      const dateObj = new Date(dateString);
+      const day = dateObj.getDate();
+      const monthIndex = dateObj.getMonth();
+      const year = dateObj.getFullYear();
 
-        return `${day} ${months[monthIndex]} ${year}`;
+      return `${day} ${months[monthIndex]} ${year}`;
     },
     fetchFriendInfo() {
       // Отправляем запрос на бэкенд для получения данных о друге по его ID
@@ -225,21 +228,21 @@ export default {
         });
     },
     likePost(postId) {
-            const accessToken = localStorage.getItem('accessToken');
+      const accessToken = localStorage.getItem('accessToken');
 
-            axios.get(`${this.backendURL}/post/${postId}/like`, {
-                headers: {
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            })
-                .then(response => {
-                    this.getLikes(postId);
-                })
-                .catch(error => {
-                    console.error('Ошибка при отправке лайка:', error);
-                });
-        },
+      axios.get(`${this.backendURL}/post/${postId}/like`, {
+        headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+        .then(response => {
+          this.getLikes(postId);
+        })
+        .catch(error => {
+          console.error('Ошибка при отправке лайка:', error);
+        });
+    },
     getLikes(postId) {
       axios.get(`${this.backendURL}/post/${postId}/likes`, {
         headers: {
@@ -254,9 +257,9 @@ export default {
         });
     },
     getLikesCount(postId) {
-            const likes = this.likes[postId];
-            return likes ? likes.length : 0;
-        },
+      const likes = this.likes[postId];
+      return likes ? likes.length : 0;
+    },
     getComments(postId) {
       axios.get(`${this.backendURL}/post/${postId}/comments`, {
         headers: {
@@ -293,9 +296,9 @@ export default {
       return user ? `${user.first_name} ${user.last_name}` : '';
     },
     getUserAvatar(userId) {
-            const user = this.users[userId];
-            return user ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
-        },
+      const user = this.users[userId];
+      return user ? user.profile_photo : '/src/assets/img/avatar.svg'; // Если ссылка на аватар отсутствует, используем заглушку
+    },
     addComment(postId) {
       const accessToken = localStorage.getItem('accessToken');
       const newCommentText = this.newCommentText.trim();
@@ -327,6 +330,271 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 425px) {
+  .profileHeader {
+    width: 375px !important;
+    height: 319px !important;
+
+    margin-left: 0px !important;
+    margin-top: 135px !important;
+
+    background-image: url("/src/assets/img/profileHeaderMob.svg") !important;
+
+
+  }
+
+
+  photo {
+    margin-left: 123px !important;
+    margin-top: 50px !important;
+
+  }
+
+  description {
+    width: 375px !important;
+    height: 207px;
+
+    margin-left: -253px !important;
+    margin-top: 111px !important;
+
+    display: grid !important;
+    grid-template-columns: 122px 131px 122px !important;
+    grid-template-rows: 71px 47px 35px 54px !important;
+  }
+
+  .userheader {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+
+    width: 253px !important;
+    height: 47px !important;
+    display: flex !important;
+    flex-direction: column !important;
+
+    margin-top: 5px !important;
+  }
+
+  .test1 {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: fit-content !important;
+  }
+
+  .test2 {
+    margin-top: 2px !important;
+    margin-left: -120px !important;
+
+    text-align: center !important;
+    width: 370px !important;
+
+  }
+
+  target {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    width: 122px !important;
+    height: 49px !important;
+    margin-top: 9px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  target div {
+    margin-top: 0 !important;
+  }
+
+  target img {
+    margin-top: 0 !important;
+  }
+
+  .nametag {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+
+    margin-top: 22px !important;
+    margin-left: 22px !important;
+    height: auto !important;
+    width: 80px;
+    word-wrap: break-word !important;
+  }
+
+  description button {
+    grid-column: 1 2 3 !important;
+    grid-row: 4 !important;
+
+    margin-left: -340px !important;
+    width: 310px !important;
+    margin-top: 0px !important;
+  }
+
+  subs {
+    grid-column: 1 2 3 !important;
+    grid-row: 3 !important;
+
+    margin-top: 4px !important;
+
+    width: 375px !important;
+    margin-left: -120px !important;
+  }
+
+  .subscribers {
+    margin-left: 16px !important;
+  }
+
+  .subscribe {
+    margin-left: 190px !important;
+  }
+
+  .posts {
+    width: 375px !important;
+
+    margin-left: 0px !important;
+    height: calc(100vh + 550px) !important;
+  }
+
+  .post {
+    width: 343px !important;
+    margin-left: 16px !important;
+
+    display: grid !important;
+    grid-template-columns: 223px 120px !important;
+    grid-template-rows: 62px auto 33px auto !important;
+  }
+
+  .userpost {
+    grid-row: 1 !important;
+    grid-column: 1  !important;
+
+    display: inline;
+    justify-content: center;
+
+    
+  }
+
+
+  .username { 
+   display: flex !important;
+
+   margin-left: -400px;
+ 
+    width: fit-content !important;
+  }
+
+  .avatar_post{
+    margin-left: -400px !important;
+  }
+
+  .mainpost {
+    grid-row: 2 !important;
+    grid-column: 1 / 2 !important;
+
+    margin-left: 16px !important;
+  }
+
+
+  .description {
+    width: 311px !important;
+    height: auto !important;
+    margin-top: 4px !important;
+    word-wrap: break-word !important;
+  }
+
+  .progres {
+    grid-row: 3 !important;
+    grid-column: 1 !important;
+
+    width: 250px !important;
+    margin-top: 0px !important;
+    margin-left: -15px !important;
+  }
+
+
+  date {
+    grid-row: 1 !important;
+    grid-column: 2 !important;
+
+    margin-top: 27px !important;
+  }
+
+  society {
+    grid-row: 3 !important;
+    grid-column: 2 !important;
+
+  }
+
+  .container {
+    max-height: 120px !important;
+    width: 343px !important;
+
+    scrollbar-width: none !important;
+
+
+  }
+
+  .comments {
+    grid-row: 4 !important;
+  }
+
+  .comments_img {
+    width: 18px !important;
+    height: 18px !important;
+    margin-left: 24px !important;
+    padding: 0 !important;
+    background-color: #fff !important;
+    border: none !important;
+    cursor: pointer !important;
+  }
+
+  .line {
+    width: 343px !important;
+
+    grid-row: 1 !important;
+    grid-column: 1 / 2 !important;
+  }
+
+
+
+  
+
+  .my_comment {
+    grid-row: 2 !important;
+    grid-column: 1 !important;
+
+    width: 343px !important;
+    display: flex !important;
+    margin-left: 19px !important;
+
+    margin-top: 5px !important;
+
+    margin-left: 0px !important;
+  }
+
+  .write_comment {
+    display: flex !important;
+
+    width: 250px !important;
+
+    margin-left: 0 !important;
+  }
+
+  .send {
+    border: none !important;
+    background-color: #fff !important;
+  }
+
+
+  .comment_username {
+    width: fit-content !important;
+  }
+
+  .main_comment {
+    width: 280px !important;
+  }
+}
+
 .profileHeader {
   width: 757px;
   height: 193px;
@@ -387,11 +655,11 @@ photo {
 }
 
 .avatar_post {
-    width: 42px;
-    height: 42px;
-    border-radius: 65px;
+  width: 42px;
+  height: 42px;
+  border-radius: 65px;
 
-    margin: 16px 16px;
+  margin: 16px 16px;
 }
 
 .test2 {
@@ -444,7 +712,7 @@ target img {
   font-size: 16px;
   line-height: 18px;
 
-  display: flex;
+
   align-items: center;
 
   color: #004ABA;
@@ -452,7 +720,7 @@ target img {
   grid-row: 1;
   grid-column: 3;
 
-  height: 18px;
+
   margin-top: 16px;
   margin-left: -18px;
 }
@@ -722,9 +990,9 @@ society {
 }
 
 .avatar {
-    width: 130px;
-    height: 130px;
-    border-radius: 65px;
+  width: 130px;
+  height: 130px;
+  border-radius: 65px;
 }
 
 .avatar_comment {
