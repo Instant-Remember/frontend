@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/main.scss'
 import './components/headerPc.vue'
 import './components/headerPcAuth.vue'
 import './components/navMenu.vue'

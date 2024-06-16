@@ -180,6 +180,8 @@ user {
 
     grid-row: 1;
     grid-column: 1;
+
+    margin-left: -25px;
 }
 
 .test1 {
