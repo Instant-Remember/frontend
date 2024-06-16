@@ -138,11 +138,11 @@ export default {
 
     .goal {
         width: 311px;
-        height: 81px;
+        height: auto;
 
         display: grid;
         grid-template-columns: 132px 211px;
-        grid-template-rows: 42px 39px;
+        grid-template-rows: 42px auto;
     }
 
     .targetname {

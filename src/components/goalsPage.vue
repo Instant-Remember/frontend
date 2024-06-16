@@ -217,6 +217,8 @@ goalCreate button {
 @media (max-width: 425px) {
   .goalsPage {
     width: 375px;
+
+    padding-bottom: 100px;
   }
 
   search {

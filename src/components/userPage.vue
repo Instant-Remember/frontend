@@ -48,7 +48,7 @@
 
 @media(max-width: 425px) {
     .userPage {
-        height: calc(100vh + 550px);
+        height: fit-content;
     }
 
     .friendsMenu {

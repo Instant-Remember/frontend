@@ -354,6 +354,7 @@ export default {
     width: 375px !important;
     height: 207px;
 
+
     margin-left: -253px !important;
     margin-top: 111px !important;
 
@@ -451,8 +452,11 @@ export default {
   .posts {
     width: 375px !important;
 
+    margin-top: 20px !important; 
     margin-left: 0px !important;
-    height: calc(100vh + 550px) !important;
+    
+    padding-bottom: 100px;
+
   }
 
   .post {
@@ -471,6 +475,7 @@ export default {
     display: inline;
     justify-content: center;
 
+    margin-left: -35px;
     
   }
 
@@ -478,7 +483,7 @@ export default {
   .username { 
    display: flex !important;
 
-   margin-left: -400px;
+   
  
     width: fit-content !important;
   }
@@ -778,13 +783,9 @@ button {
   scrollbar-width: none;
 }
 
-.posts {
-  margin-top: -15px;
-}
 
 .post {
   width: 757px;
-  height: auto;
   margin-left: 397px;
   margin-top: 16px;
 
@@ -793,11 +794,11 @@ button {
 
   display: grid;
   grid-template-columns: 69px 555px 133px;
-  grid-template-rows: 62px auto 40px auto;
+  grid-template-rows: 62px auto 40px auto; 
 }
 
 .comments {
-  grid-row: 4;
+  grid-row: 4; 
 }
 
 .userpost {
@@ -832,7 +833,7 @@ user img {
   align-items: center;
 
   color: #444444;
-  width: 550px;
+  width: 550px; 
 
 }
 
@@ -883,7 +884,7 @@ user img {
 
   margin-top: 4px;
 
-  word-wrap: break-word;
+  word-wrap: break-word; 
 }
 
 .progres {
@@ -893,7 +894,7 @@ user img {
   display: flex;
 
   width: 533px;
-  margin-top: 15px;
+  margin-top: 15px; 
 }
 
 
@@ -985,14 +986,14 @@ society {
   grid-row: 1;
   display: grid;
   grid-template-columns: 41px 645px;
-  grid-template-rows: 40px auto;
+  grid-template-rows: 40px auto; 
 
 }
 
 .avatar {
   width: 130px;
   height: 130px;
-  border-radius: 65px;
+  border-radius: 65px; 
 }
 
 .avatar_comment {
@@ -1025,7 +1026,7 @@ society {
 .main_comment {
   grid-row: 2;
   grid-column: 2;
-  display: flex;
+  
   margin-left: 4px;
 
 
@@ -1036,6 +1037,8 @@ society {
   line-height: 22px;
 
   color: #444444;
+
+  word-wrap: break-word; 
 }
 
 .my_comment {
@@ -1046,7 +1049,7 @@ society {
   display: flex;
   margin-left: 19px;
 
-  margin-top: 5px;
+  margin-top: 5px; 
 }
 
 .write_comment {

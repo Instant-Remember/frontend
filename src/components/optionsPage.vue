@@ -425,6 +425,8 @@ button:active {
 @media (max-width: 425px) {
     .options {
         width: 375px;
+        background-color: #0056b3;
+        
 
         margin-left: 0px;
         margin-top: 80px;

@@ -538,7 +538,7 @@ society {
         margin-left: 0px;
         margin-top: 100px;
 
-        height: calc(100vh + 650px);
+        padding-bottom: 100px
     }
 
     .post {

@@ -571,7 +571,9 @@ society {
         width: 375px;
 
         margin-left: 0px;
-        height: calc(100vh + 550px);
+        
+
+        padding-bottom: 100px;
     }
 
     .post {

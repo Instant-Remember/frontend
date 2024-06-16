@@ -155,7 +155,6 @@ export default {
   body {
     width: 375px !important;
     
-    position: absolute;
 
     left: 25px;
   }
