@@ -45,6 +45,8 @@
     </div>
 </template>
 
+
+
 <script>
 import progressBar from './progressBar.vue'
 import axios from 'axios'
@@ -64,6 +66,7 @@ export default {
             newCommentText: '',
             users: {},
             likes: {},
+            comments: {},
         };
     },
 
@@ -163,6 +166,21 @@ export default {
                     this.error = error.message;
                 });
         },
+        getUser(userId) {
+            axios.get(`${this.backendURL}/profile/${userId}`, {
+                headers: {
+                    'accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    this.users[userId] = response.data;
+
+                    this.users[userId].avatar = response.data.profile_photo;
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении данных о пользователе:', error);
+                });
+        },
         getComments(postId) {
             axios.get(`${this.backendURL}/post/${postId}/comments`, {
                 headers: {
@@ -174,7 +192,7 @@ export default {
 
                     // Для каждого комментария получаем данные о пользователе
                     response.data.forEach(comment => {
-                        this.fetchUserData(comment.user_id);
+                        this.getUser(comment.user_id);
                     });
                 })
                 .catch(error => {
