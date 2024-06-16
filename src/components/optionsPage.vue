@@ -223,19 +223,37 @@ name {
 }
 
 .username {
-    width: 457px;
+    width: 440px;
     height: 41px;
 
     color: #444444;
     margin-left: 0;
+
+    font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  
+  /* Диплом/Текс */
+  color: #444444;
 }
 
 .nametag {
-    width: 457px;
+    width: 440px;
     height: 41px;
 
     color: #444444;
     margin-left: 0;
+
+    font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  
+  /* Диплом/Текс */
+  color: #444444;
 }
 
 .editor {
