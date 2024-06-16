@@ -190,8 +190,8 @@ body {
 }
 
 header {
-  margin-left: auto;
-  margin-right: auto;
+ 
+  left: 0;
   position: fixed;
   opacity: 0.8;
   top: 0;

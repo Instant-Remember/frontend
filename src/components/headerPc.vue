@@ -1,31 +1,34 @@
 <template>
   <div class="headerPc" @click="hideResultsOnClick">
-    <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
+    <div class="container">
+      <img src="/src/assets/img/logo.svg" alt="Лого" class="logo" @click="userPage">
 
-    <div class="searchLine" @input="searchUsers">
-      <img src="/src/assets/img/search.svg" alt="" class="search_img">
-      <input type="text" placeholder="Поиск" v-model="searchQuery" @input="searchUsers">
-      <div v-if="searchResults.length" class="searchResults">
-        <div v-for="(result, index) in searchResults" :key="index" class="searchResult" @click="selectResult(result)">
-          <img :src="result.profilePhoto" alt="Profile Photo" v-if="result.profilePhoto" class="search_avatar">
-          <span>{{ result.name }}</span>
+      <div class="searchLine" @input="searchUsers">
+        <img src="/src/assets/img/search.svg" alt="" class="search_img">
+        <input type="text" placeholder="Поиск" v-model="searchQuery" @input="searchUsers">
+        <div v-if="searchResults.length" class="searchResults">
+          <div v-for="(result, index) in searchResults" :key="index" class="searchResult" @click="selectResult(result)">
+            <img :src="result.profilePhoto" alt="Profile Photo" v-if="result.profilePhoto" class="search_avatar">
+            <span>{{ result.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu_buttons">
+        <p id="p1">Популярное</p>
+        <p id="p2">Для тебя</p>
+      </div>
+
+      <div class="user" @click="toggleUserMenu">
+        <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
+        <p class="username">{{ user.first_name }}</p>
+        <div v-if="showUserMenu" class="user-menu">
+          <p @click="openSettings">Настройки</p>
+          <p @click="logout">Выйти</p>
         </div>
       </div>
     </div>
 
-    <div class="menu_buttons">
-      <p id="p1">Популярное</p>
-      <p id="p2">Для тебя</p>
-    </div>
-
-    <div class="user" @click="toggleUserMenu">
-      <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
-      <p class="username">{{ user.first_name }}</p>
-      <div v-if="showUserMenu" class="user-menu">
-        <p @click="openSettings">Настройки</p>
-        <p @click="logout">Выйти</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -194,14 +197,22 @@ export default {
   display: flex;
 }
 
+.container{
+
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
 .headerPc {
-  width: 1440px;
+  width: 100vw;
   height: 70px;
   background-color: #fff9f9;
   display: flex;
 
-  margin-left: auto;
-  margin-right: auto;
+
+
 
 
   align-items: center;
