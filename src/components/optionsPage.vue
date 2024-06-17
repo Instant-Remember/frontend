@@ -429,6 +429,7 @@ button:active {
 
         margin-left: 0px;
         margin-top: 80px;
+        padding-bottom: 100px;
     }
 
     .profileHeader {
@@ -436,11 +437,9 @@ button:active {
         height: 319px;
 
         margin-left: 0px;
-        margin-top: 100px;
+        margin-top: 95px;
 
         background-image: url("/src/assets/img/profileHeaderMob.svg");
-
-
     }
 
     photo {
@@ -457,7 +456,7 @@ button:active {
     }
 
     .username {
-        width: 360px;
+        width: 340px;
         height: 41px;
 
         color: #444444;
@@ -466,13 +465,13 @@ button:active {
     }
 
     .nametag {
-        width: 360px;
+        width: 340px;
         height: 41px;
 
         color: #444444;
         margin-left: 0;
 
-        background-color: #F6F1F1;
+        background-color:#F6F1F1;
     }
 
     .linee {
@@ -489,7 +488,7 @@ button:active {
     .editor {
         width: 375px;
 
-        margin-top: -10px;
+        margin-top: -20px;
     }
 
     .line {
@@ -503,7 +502,7 @@ button:active {
 
     description input {
         margin-left: 60px;
-        width: fit-content;
+        width: 180px;
 
         font-family: 'Inter';
         font-style: normal;

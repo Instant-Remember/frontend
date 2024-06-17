@@ -179,12 +179,24 @@ button {
   .container {
     margin-left: 16px;
     margin-top: 96px;
+
+   
+  }
+
+  .recovery{
+    width: 343px !important;
+  }
+
+  .recoveryText{
+    margin-left: 30px;
   }
 
   input {
     width: 292px;
     height: 50px;
     margin-left: 17px;
+
+    margin-top: 40px;
   }
 
   .logo {
