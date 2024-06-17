@@ -12,7 +12,7 @@
                 <div class="description">{{ post.text }}</div>
             </div>
 
-            <progressBar class="progres"></progressBar>
+            <progressBar class="progres" :progress="post.progress"></progressBar>
 
             <date>{{ formatDate(post.date_create) }}</date>
             <society>

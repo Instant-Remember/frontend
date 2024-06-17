@@ -194,6 +194,8 @@ img {
         display: grid;
         grid-template-columns: 70px 90px 88px 77px;
         grid-template-rows: 35px;
+
+        margin-top: 25px;
     }
 
     .profile {
