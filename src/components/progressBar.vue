@@ -1,63 +1,57 @@
 <template>
     <div class="progressBar">
-        <input type="text" v-model="progress" @input="updateProgress" class="percentage-input" /><span class="percentage-sign">%</span>
-
-        <div class="progress-bar" @mousedown="startDrag" ref="progressBar">
-            <div class="progress" :style="{ width: progressBarWidth }"></div>
-            <!--<div class="handle" :style="{ left: handlePosition }" ref="handle"></div>--> 
-        </div>
+      <input type="text" :value="progress" @input="onInput" class="percentage-input" /><span class="percentage-sign">%</span>
+      <div class="progress-bar" ref="progressBar" @mousedown="startDrag">
+        <div class="progress" :style="{ width: progress + '%' }"></div>
+        <div class="progress-thumb" :style="{ left: progress + '%' }"></div>
+      </div>
     </div>
-</template>
+  </template>
   
-<script>
-export default {
-    data() {
-        return {
-            progress: 0,
-            isDragging: false
-        };
+  <script>
+  export default {
+    props: {
+      progress: {
+        type: Number,
+        required: true
+      }
     },
-    computed: {
-        progressBarWidth() {
-            return this.progress + '%';
-        },
-        handlePosition() {
-            return `calc(${this.progress}% - 6.5px)`; // Рассчитываем положение ползунка с учетом его размера
-        }
+    data() {
+      return {
+        isDragging: false
+      };
     },
     methods: {
-        startDrag() {
-            this.isDragging = true;
-            document.addEventListener('mousemove', this.handleDrag);
-            document.addEventListener('mouseup', this.stopDrag);
-        },
-        handleDrag(event) {
-            if (this.isDragging) {
-                const progressBar = this.$refs.progressBar;
-                const handle = this.$refs.handle;
-                const rect = progressBar.getBoundingClientRect();
-                const offsetX = event.clientX - rect.left;
-                const percentage = Math.min(100, Math.max(0, (offsetX / rect.width) * 100));
-                this.progress = Math.round(percentage); // Округляем значение
-            }
-        },
-        stopDrag() {
-            this.isDragging = false;
-            document.removeEventListener('mousemove', this.handleDrag);
-            document.removeEventListener('mouseup', this.stopDrag);
-        },
-        updateProgress() {
-            // Дополнительная проверка, чтобы избежать NaN
-            if (isNaN(this.progress) || this.progress < 0) {
-                this.progress = 0;
-            } else if (this.progress > 100) {
-                this.progress = 100;
-            }
+      startDrag() {
+        document.addEventListener('mousemove', this.onDrag);
+        document.addEventListener('mouseup', this.stopDrag);
+        this.isDragging = true;
+      },
+      onDrag(event) {
+        if (this.isDragging) {
+          const progressBar = this.$refs.progressBar;
+          const rect = progressBar.getBoundingClientRect();
+          const offsetX = event.clientX - rect.left;
+          const newProgress = Math.min(Math.max(offsetX / rect.width * 100, 0), 100);
+          this.updateProgress(newProgress);
         }
+      },
+      stopDrag() {
+        document.removeEventListener('mousemove', this.onDrag);
+        document.removeEventListener('mouseup', this.stopDrag);
+        this.isDragging = false;
+      },
+      updateProgress(newProgress) {
+        this.$emit('update:progress', newProgress);
+      },
+      onInput(event) {
+        const newProgress = Math.min(Math.max(parseFloat(event.target.value), 0), 100);
+        this.updateProgress(newProgress);
+      }
     }
-};
-</script>
-  
+  };
+  </script>
+
 <style scoped>
 .progressBar {
     display: flex;
@@ -68,7 +62,7 @@ export default {
 
 .progress-bar {
     margin-left: 8px;
-    
+
     height: 7px;
     /* Высота шкалы */
     background-color: #E0E6EF;
@@ -80,7 +74,7 @@ export default {
     border-radius: 20px;
 
     align-items: center;
-    justify-content:center;
+    justify-content: center;
 
     width: calc(100% + 13px);
 
@@ -134,4 +128,3 @@ export default {
     color: #444444;
 }
 </style>
-  

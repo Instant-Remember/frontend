@@ -12,7 +12,7 @@
       </div>
 
       <input type="text" v-model="postText" placeholder="Чем вы хотите поделиться?" class="postDescription">
-      <progressBar class="pb"></progressBar>
+      <progressBar class="pb" :progress="progress" @update:progress="updateProgress"></progressBar>
       <button @click="createPost" class="createPost">Создать</button>
     </popup>
   </div>
@@ -38,7 +38,8 @@ export default {
       dropdownWidth: 218,
       goals: [],
       selectedGoalId: null,
-      postText: ''
+      postText: '',
+      progress: 0 // Добавляем свойство для хранения значения прогресса
     };
   },
 
@@ -72,6 +73,9 @@ export default {
           console.error('Ошибка при получении целей:', error);
         });
     },
+    updateProgress(newProgress) {
+      this.progress = newProgress; // Обновляем значение прогресса
+    },
     createPost() {
       // Получаем выбранный goal_id
       const selectedGoalId = this.selectedGoalId;
@@ -88,7 +92,7 @@ export default {
       // Формируем объект данных для отправки на сервер
       const postData = {
         text: postText,
-        progress: 15,
+        progress: this.progress, // Используем значение прогресса, выбранное пользователем
         goal_id: selectedGoalId,
       };
 
