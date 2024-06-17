@@ -1,6 +1,6 @@
 <template>
     <div class="posts">
-        <div class="post" v-for="(post, index) in posts" :key="index">
+        <div class="post" v-for="(post, index) in posts" :key="post.id">
 
             <user class="userpost">
                 <img :src="user.profile_photo" alt="Photo" v-if="user.profile_photo" class="avatar">
@@ -35,7 +35,7 @@
 
                 <div class="my_comment">
                     <input type="text" class="write_comment" placeholder="Напишите свой комментарий"
-                        v-model="newCommentText">
+                        v-model="newCommentTexts[post.id]" :id="post.id">
                     <button type="button" @click="addComment(post.id)" class="send"><img src="/src/assets/img/send.svg"
                             alt=""></button>
                 </div>
@@ -44,8 +44,6 @@
         </div>
     </div>
 </template>
-
-
 
 <script>
 import progressBar from './progressBar.vue'
@@ -63,7 +61,7 @@ export default {
             posts: [], // Массив для хранения постов пользователя
             goals: [], // Массив для хранения целей пользователя
             user: {},
-            newCommentText: '',
+            newCommentTexts: {}, // Объект для хранения текста новых комментариев
             users: {},
             likes: {},
             comments: {},
@@ -73,8 +71,7 @@ export default {
     mounted() {
         this.fetchUserPosts(); // Выполнение запроса на получение постов пользователя при загрузке компонента
         this.fetchUserGoals(); // Выполнение запроса на получение целей пользователя при загрузке компонента
-        this.fetchUserData(); // Выполнение запроса на получение целей пользователя при загрузке компонента
-
+        this.fetchUserData(); // Выполнение запроса на получение данных пользователя при загрузке компонента
     },
 
     methods: {
@@ -119,7 +116,7 @@ export default {
                         this.getComments(post.id);
                         this.getUser(post.owner_id);
                         this.getLikes(post.id);
-                    })
+                    });
                 })
                 .catch(error => {
                     console.error('Ошибка при получении постов:', error);
@@ -209,7 +206,7 @@ export default {
         },
         addComment(postId) {
             const accessToken = localStorage.getItem('accessToken');
-            const newCommentText = this.newCommentText.trim();
+            const newCommentText = this.newCommentTexts[postId].trim();
 
             if (newCommentText) {
                 axios.post(`${this.backendURL}/comment/create`, {
@@ -226,7 +223,7 @@ export default {
                         // Опционально: обновление списка комментариев
                         this.getComments(postId);
                         // Очистка поля ввода после успешной отправки
-                        this.newCommentText = '';
+                        this.newCommentTexts[postId] = '';
                     })
                     .catch(error => {
                         console.error('Ошибка при добавлении комментария:', error);
@@ -263,9 +260,9 @@ export default {
                     this.getLikes(postId);
                 })
                 .catch(error => {
-                    console.error('Ошибка при отправке лайка:', error);
+                    console.error('Ошибка при лайке поста:', error);
                 });
-        },
+        }
     }
 }
 </script>
@@ -516,7 +513,7 @@ society {
 .main_comment {
     grid-row: 2;
     grid-column: 2;
-    
+
     margin-left: 4px;
 
 
@@ -571,7 +568,7 @@ society {
         width: 375px;
 
         margin-left: 0px;
-        
+
 
         padding-bottom: 100px;
     }
@@ -655,81 +652,83 @@ society {
     society {
         grid-row: 3;
         grid-column: 2;
-        
+
     }
 
-.container {
-    max-height: 120px;
-    width: 343px;
+    .container {
+        max-height: 120px;
+        width: 343px;
 
-    scrollbar-width: none !important;
-    
-    
-}
-.comments {
-    grid-row: 4;
-}
-.comments_img {
-    width: 18px;
-    height: 18px;
-    margin-left: 24px;
-    padding: 0;
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.line {
-    width: 343px;
-
-    grid-row: 1;
-    grid-column: 1 / 2;
-}
+        scrollbar-width: none !important;
 
 
+    }
 
-.avatar {
-    width: 28px;
-    height: 28px;
-    grid-row: 1;
-    grid-column: 1;
-    margin-top: 12px;
-    margin-left: 11px;
-}
+    .comments {
+        grid-row: 4;
+    }
 
-.my_comment {
-    grid-row: 2;
-    grid-column: 1;
+    .comments_img {
+        width: 18px;
+        height: 18px;
+        margin-left: 24px;
+        padding: 0;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+    }
 
-    width: 343px;
-    display: flex;
-    margin-left: 19px;
+    .line {
+        width: 343px;
 
-    margin-top: 5px;
-
-    margin-left: 0px;
-}
-
-.write_comment {
-    display: flex;
-
-    width: 250px;
-
-    margin-left: 0;
-}
-
-.send {
-    border: none;
-    background-color: #fff;
-}
+        grid-row: 1;
+        grid-column: 1 / 2;
+    }
 
 
-.comment_username {
-    width: fit-content;
-}
 
-.main_comment {
-    width: 280px;
-}
+    .avatar {
+        width: 28px;
+        height: 28px;
+        grid-row: 1;
+        grid-column: 1;
+        margin-top: 12px;
+        margin-left: 11px;
+    }
+
+    .my_comment {
+        grid-row: 2;
+        grid-column: 1;
+
+        width: 343px;
+        display: flex;
+        margin-left: 19px;
+
+        margin-top: 5px;
+
+        margin-left: 0px;
+    }
+
+    .write_comment {
+        display: flex;
+
+        width: 250px;
+
+        margin-left: 0;
+    }
+
+    .send {
+        border: none;
+        background-color: #fff;
+    }
+
+
+    .comment_username {
+        width: fit-content;
+    }
+
+    .main_comment {
+        width: 280px;
+    }
 }
 </style>

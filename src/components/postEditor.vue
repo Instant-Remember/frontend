@@ -119,6 +119,10 @@ export default {
 
 
 <style>
+.pb{
+  padding-right: 50px;
+}
+
 .postEditor {
   width: 757px;
   height: 52px;
@@ -260,6 +264,10 @@ button:active {
 }
 
 @media (max-width: 425px) {
+  .pb{
+    margin-left: -10px !important;
+  }
+
   .postEditor {
     width: 343px;
     height: 52px;
