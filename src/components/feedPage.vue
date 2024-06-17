@@ -3,7 +3,7 @@
         <div class="post" v-for="post in posts" :key="post.id">
 
             <user class="userpost">
-                <img :src="getUserAvatar(post.owner_id)" alt="">
+                <img :src="getUserAvatar(post.owner_id)" alt="" class="avatar_post">
                 <div class="username">{{ getUserFirstName(post.owner_id) }} {{ getUserLastName(post.owner_id) }}</div>
             </user>
 
@@ -234,6 +234,10 @@ export default {
 
 
 <style scoped>
+.avatar_post{
+    border-radius: 20px;
+}
+
 .container {
     max-height: 170px;
     width: 757px;

@@ -348,6 +348,8 @@ button {
         flex-direction: column;
 
         margin-top: 5px;
+
+        margin-left: 10px;
     }
 
     .test1 {
